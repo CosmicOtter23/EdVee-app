@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Project Wizard - Page 3</h1>
+<h2>Connections</h2>
+
+<div id="los-div" class="form-div" style="display: block;">
+  <div class="row justify-content-between">
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2">Learning Outcomes</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == 1 and element.project_id == project.id %}
+          <tr id="{{ element.id }}|{{ element.element_type }}" class="line-draw">
+            <td>{{ element.name }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2">Learning Activities</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == 3 and element.project_id == project.id %}
+          <tr id="{{ element.id }}|{{ element.element_type }}" class="line-draw">
+            <!-- <td>O</td> -->
+            <td>{{ element.name }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  </div>
+  <button type="button" class="btn" onclick="OpenDiv('las-div'), deleteLines(3, 2)">Next</button>
+</div>
+  
+<div id="las-div" class="form-div" style="display: none;">
+  <div class="row justify-content-between">
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2">Learning Activities</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == 3 and element.project_id == project.id %}
+          <tr id="{{ element.id }}|{{ element.element_type }}" class="line-draw">
+            <td>{{ element.name }}</td>
+            <!-- <td>O</td> -->
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2">Content</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == 2 and element.project_id == project.id %}
+          <tr id="{{ element.id }}|{{ element.element_type }}" class="line-draw">
+            <!-- <td>O</td> -->
+            <td>{{ element.name }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  </div>
+  <button type="button" class="btn" onclick="OpenDiv('los-div'), deleteLines(1, 3)">Previous</button>
+  <button type="button" class="btn" onclick="OpenDiv('con-div'), deleteLines(2, 4)">Next</button>
+  <button type="button" class="btn" onclick="fillLines(2, 4)">Fill</button>
+</div>
+  
+<div id="con-div" class="form-div" style="display: none;">
+  <div class="row justify-content-between">
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2">Content</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == 2 and element.project_id == project.id %}
+          <tr id="{{ element.id }}|{{ element.element_type }}" class="line-draw">
+            <td>{{ element.name }}</td>
+            <!-- <td>O</td> -->
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2">Assessments</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == 4 and element.project_id == project.id %}
+          <tr id="{{ element.id }}|{{ element.element_type }}" class="line-draw">
+            <!-- <td>O</td> -->
+            <td>{{ element.name }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  </div>
+  <button type="button" class="btn" onclick="OpenDiv('las-div'), deleteLines(3, 2)">Previous</button>
+  <button type="button" class="btn" onclick="OpenDiv('asm-div'), deleteLines(4, 1)">Next</button>
+</div>
+
+<div id="asm-div" class="form-div" style="display: none;">
+  <div class="row justify-content-between">
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2">Assessments</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == 4 and element.project_id == project.id %}
+          <tr id="{{ element.id }}|{{ element.element_type }}" class="line-draw">
+            <td>{{ element.name }}</td>
+            <!-- <td>O</td> -->
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2">Learning Outcomes</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == 1 and element.project_id == project.id %}
+          <tr id="{{ element.id }}|{{ element.element_type }}" class="line-draw">
+            <!-- <td>O</td> -->
+            <td>{{ element.name }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  </div>
+  <button type="button" class="btn" onclick="OpenDiv('con-div'), deleteLines(2, 4)">Previous</button>
+</div>
+
+<a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}" type="button" class="btn btn-secondary" style="float: left;">Amend Elements</a>
+<a href="{{ url_for('project_wiz_4', project_id=project.id) }}" type="button" class="btn btn-secondary" style="float: right;">Submit</a>
+
+{% endblock content %}

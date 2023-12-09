@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Project Wizard</h1>
+  <div>
+    <div>
+      <p>1: Project Details</p>
+      <button type="button" class="btn"  data-toggle="modal" data-target="#deleteModal">Enter Details</button>
+    </div>
+    <br>
+    <div>
+      <p>2: Elements</p>
+      <button class="btn">a: LOs</button>
+      <button class="btn">b: Content</button>
+      <button class="btn">c: Learning activities</button>
+      <button class="btn">d: Assessments</button>
+    </div>
+    <br>
+    <div>
+      <p>3: Connections</p>
+      <button class="btn">a: LOs</button>
+      <button class="btn">b: Content</button>
+      <button class="btn">c: Learning activities</button>
+      <button class="btn">d: Assessments</button>
+    </div>
+    <br>
+    <div>
+      <p>4: Overview</p>
+      <button class="btn">View Project</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Enter Project Details</h5>
+        </div>
+        <form method="POST" action="">
+          <div style="margin: 5%;" class="form-group">
+            {{ form.name.label(class="form-control-label") }}
+            {% if form.name.errors %}
+              {{ form.name(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.name.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.name(class="form-control form-control-lg") }}
+            {% endif %}
+          </div>
+          <div style="margin: 5%;" class="form-group">
+            {{ form.desc.label(class="form-control-label") }}
+            {% if form.desc.errors %}
+              {{ form.desc(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.desc.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.desc(class="form-control form-control-lg") }}
+            {% endif %}
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

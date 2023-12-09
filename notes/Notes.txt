@@ -1,0 +1,28 @@
+Creating virtual environment:
+C:\Users\lewis\AppData\Local\Programs\Python\Python311\python.exe -m venv venvName
+
+Entering virtual environment:
+cd "OneDrive - University of Leeds"/"Internship 2023"/Edvee-app
+venvName\Scripts\activate
+
+Running webapp in debug mode (Windows):
+$env:FLASK_APP = "run.py"
+$env:FLASK_DEBUG = "1"
+
+Creating database in python command line (file name = edvee.py):
+from edvee import app, db
+app.app_context().push()
+db.create_all()
+from edvee.models import User, Project, Element, Connection, Type
+
+
+Things to be included on EdVee app:
+Connect lines between elements in tables (https://stackoverflow.com/questions/6278152/draw-a-connecting-line-between-two-elements/35493737#35493737)
+Add a Collection table in database for users to store projects in
+Add all checkbox tables to the create_project page
+Values in update page stop getting mixed around when project is updated
+
+Done:
+Allow user to update their project from the update project page
+Make table rows clickable
+Make checkbox connect to the database (JQuery?) so users can check boxes to make connections

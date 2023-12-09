@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+<header>
+  <h1>{{ project.name }}</h1>
+  {% if element_type == 1 %}
+    <h2>Elements: Learning Outcomes</h2>
+  {% elif element_type == 2 %}
+    <h2>Elements: Content</h2>
+  {% elif element_type == 3 %}
+    <h2>Elements: Learning Activities</h2>
+  {% elif element_type == 4 %}
+    <h2>Elements: Assessments</h2>
+  {% endif %}
+
+  <div>
+    <nav>
+      <ul>
+        <li>
+          <a href="{{ url_for('project_wiz_1', project_id=project.id) }}">
+            <button class="btn">Project Details</button>
+          </a>
+        </li>
+        __
+        <li>
+          <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}">
+            {% if element_type == 1 %}
+              <img src="/static/elements_icon_1.png" style="opacity: 1;" alt="Link to elements (1/4)">
+            {% else %}
+              <img src="/static/elements_icon_1.png" style="opacity: 0.3;" alt="Link to elements (1/4)">
+            {% endif %}
+          </a>
+        </li>
+        __
+          <li>
+            <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=2) }}">
+              {% if element_type == 2 %}
+                <img src="/static/elements_icon_2.png" style="opacity: 1;" alt="Link to elements (2/4)">
+              {% else %}
+                <img src="/static/elements_icon_2.png" style="opacity: 0.3;" alt="Link to elements (2/4)">
+              {% endif %}
+            </a>
+          </li>
+          __
+          <li>
+            <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=3) }}">
+              {% if element_type == 3 %}
+                <img src="/static/elements_icon_3.png" style="opacity: 1;" alt="Link to elements (3/4)">
+              {% else %}
+                <img src="/static/elements_icon_3.png" style="opacity: 0.3;" alt="Link to elements (4/4)">
+              {% endif %}
+            </a>
+          </li>
+          __
+          <li>
+            <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=4) }}">
+              {% if element_type == 4 %}
+                <img src="/static/elements_icon_4.png" style="opacity: 1;" alt="Link to elements (4/4)">
+              {% else %}
+                <img src="/static/elements_icon_4.png" style="opacity: 0.3;" alt="Link to elements (4/4)">
+              {% endif %}
+            </a>
+          </li>
+          __
+          <li>
+            <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}">
+              <button class="btn">Connections</button>
+            </a>
+          </li>
+          __
+          <li>
+            <a href="{{ url_for('project_wiz_4', project_id=project.id) }}">
+              <button class="btn">Overview</button>
+            </a>
+          </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  <!-- <div>
+    <ul class="nav justify-content-center">
+      <button style="background-color: #9c2bf3;" id="btn-1" type="button" class="btn btn-nav" onclick="OpenDiv('los-div')">1</button>
+      <button style="background-color: #64c255;" id="btn-2" type="button" class="btn btn-nav" onclick="OpenDiv('content-div')">2</button>
+      <button style="background-color: #179ce3;" id="btn-3" type="button" class="btn btn-nav" onclick="OpenDiv('las-div')">3</button>
+      <button style="background-color: #ff796f;" id="btn-4" type="button" class="btn btn-nav" onclick="OpenDiv('assessments-div')">4</button>
+    </ul>
+  </div> -->
+
+  {% if elements.count() == 0 %}
+    <div id="element-div" class="rounded p-3 text-white element-box">
+      <h4>No elements of this type</h4>
+    </div>
+  {% else %}
+    {% for element in elements %}
+      <div id="element-div" class="rounded p-3 text-white element-box">
+        <h5 style="display: inline;">{{ element.name }}</h5>
+        <!-- {% if element.desc %}
+          <p class="text-muted desc-text" style="display: inline;">- {{ element.desc }}</p>
+        {% endif %} -->
+        <a href="{{ url_for('delete_element', element_id=element.id) }}">
+          <img src="/static/bin.png" class="click-icon" alt="Delete Button">
+        </a>
+        <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=2) }}">
+          <img src="/static/edit.png" class="click-icon" alt="Edit Button">
+        </a>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div>
+    <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=element_type-1) }}">
+      <button class="btn" >Previous</button>
+    </a>
+
+    <a href="{{ url_for('new_element', project_id=project.id, element_type=element_type) }}" style="margin-left: 35%; margin-right: 35%;">
+      <button class="btn btn-secondary" >New Element</button>
+    </a>
+
+    <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=element_type+1) }}" style="float: right;">
+      <button class="btn" >Next</button>
+    </a>
+  </div>
+
+  <!-- <footer>
+    <div style="float: right; margin: 5%;">
+      <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Freepik - Flaticon</a>
+      <br>
+      <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Pixel perfect - Flaticon</a>
+    </div>
+  </footer> -->
+{% endblock content %}

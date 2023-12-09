@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-section">
+  <form method="POST" action="">
+    <!-- {{ form.csrf_token }} -->
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">{{ legend }}</legend>
+      <!-- Name -->
+      <div class="form-group">
+        {{ form.name.label(class="form-control-label") }}
+        {% if form.name.errors %}
+          {{ form.name(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.name.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.name(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <!-- Description -->
+      <div class="form-group">
+        {{ form.desc.label(class="form-control-label") }}
+        {% if form.desc.errors %}
+        {{ form.desc(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.desc.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %}
+          {{ form.desc(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <!-- Learning Outcomes -->
+      <div class="form-group">
+        {{ form.los.label(class="form-control-label") }}
+        {% if form.los.errors %}
+        {{ form.los(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.los.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %}
+          {{ form.los(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <!-- Content -->
+      <div class="form-group">
+        {{ form.content.label(class="form-control-label") }}
+        {% if form.content.errors %}
+        {{ form.content(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.content.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %}
+          {{ form.content(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <!-- Learning Activities -->
+      <div class="form-group">
+        {{ form.las.label(class="form-control-label") }}
+        {% if form.las.errors %}
+        {{ form.las(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.las.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %}
+          {{ form.las(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <!-- Assessments -->
+      <div class="form-group">
+        {{ form.assessments.label(class="form-control-label") }}
+        {% if form.assessments.errors %}
+        {{ form.assessments(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.assessments.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %}
+          {{ form.assessments(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+    </fieldset>
+    <!-- <div class="form-group">
+      {{ form.submit(class="btn btn-outline-info") }}
+    </div> -->
+    
+    <br>
+
+    {% if project %}
+
+      {% set typeList = [1, 3, 3, 2, 2, 4, 4, 1] %}
+
+      {% for i in range(4) %}
+
+        {% if i == 3 %}
+          {% set j = 0 %}
+        {% else %}
+          {% set j = i + 1 %}
+        {% endif %}
+
+        {% set type1 = typeList[i * 2] %}
+        {% set type2 = typeList[i * 2 + 1] %}
+
+        <!-- <h6>type1: {{ type1 }}</h6>
+        <h6>type2: {{ type2 }}</h6> -->
+        <table id="checkboxTable">
+          <th colspan="100">{{ types[type1-1].name }} -> {{ types[type2-1].name }}</th>
+          <tr>
+            <th></th>
+            {% set count = namespace(value=0) %}
+            {% for element in elements %}
+              {% if element.element_type == type2 and element.project_id == project.id %}
+                <th>{{ element.name }}</th>
+                {% set count.value = count.value + 1 %}
+              {% endif %}
+            {% endfor %}
+            {% for element in elements %}
+              <tr>
+                {% if element.element_type == type1 and element.project_id == project.id %}
+                  <tr>
+                    <th>{{ element.name }}</th>
+                    {% for element2 in elements %}
+                      {% if element2.element_type == type2 and element2.project_id == project.id %}
+                        {% set list = [] %}
+                        {% for connection in connections %}
+                          <!-- Testing if this position has a record in db -->
+                          {% if connection.element1 == element.name and connection.element2 == element2.name %}
+                            {% set checked = true %}
+                            {% set _ = list.append(true) %}
+                          {% endif %}
+                        {% endfor %}
+                        {% set checked = list[-1] if list else None %}
+                        <td>
+                          {% if checked == true %}
+                            <input type="checkbox" name="checkbox" value="{{ element.name }},{{ element2.name }}" checked>
+                          {% else %}
+                            <input type="checkbox" name="checkbox" value="{{ element.name }},{{ element2.name }}">
+                          {% endif %}
+                        </td>
+                      {% endif %}
+                    {% endfor %}
+                  </tr>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tr>
+        </table>
+        <br>
+        <br>
+      {% endfor %}
+
+      <div>
+        {% for connection in connections %}
+          <h1>({{ connection.id }}) Create connection from {{ connection.element1 }} to {{ connection.element2 }}</h1>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <input type="submit" value="Submit">
+
+
+    <!-- <button id="matrix" class="btn btn-success">Matrix</button> -->
+
+  </form>
+</div>
+{% endblock content %}

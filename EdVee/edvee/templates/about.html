@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Home</h1>
+
+<div class="media content-section container py-4">
+  <div class="row">
+    <div class="col-lg-10 offset-lg-1 lead" style="text-align:center;">
+      <p>Welcome to EdVee, a powerful and innovative platform that empowers educators and course designers to create
+        engaging and interactive modules for various educational purposes. Whether you're an experienced educator, a
+        curriculum developer, or a passionate learner, our system is designed to make the process of designing and
+        sharing courses seamless and effective.</p>
+
+      <br>
+
+      <p><strong>Key Features:</strong></p>
+
+      <p><strong>Intuitive Course Design Interface:</strong> Our system offers an intuitive and user-friendly interface,
+        allowing you to easily design modules for your courses. Add new elements, arrange content, and create
+        connections between various components effortlessly.</p>
+
+      <p><strong>Versatile Module Components:</strong> Choose from a wide range of module components to create dynamic
+        and interactive course content. From lectures and quizzes to multimedia presentations and discussions, our
+        system provides diverse tools to enhance the learning experience.</p>
+
+      <p><strong>Collaboration and Sharing:</strong> Collaboration is at the heart of EdVee. Connect and collaborate
+        with other educators, course designers, and subject matter experts. Share your module designs and explore the
+        creations of others, fostering a vibrant community of knowledge exchange.</p>
+
+      <p><strong>Visual Model Generation:</strong> One of our standout features is the ability to generate visual models
+        that display the connections between all elements of the course. This comprehensive visual representation
+        provides a clear overview of the course structure and enables you to optimize content flow and enhance the
+        learning journey.</p>
+
+      <p><strong>Real-time Preview and Feedback:</strong> Get real-time previews of your module designs as you create
+        them. Solicit feedback from peers and students, facilitating continuous improvement and refinement of your
+        courses.</p>
+
+      <p><strong>Security and Privacy:</strong> We understand the importance of data security and privacy. Our system
+        employs advanced security measures to ensure your intellectual property and course content remain safe and
+        confidential.</p>
+
+      <p><strong>Seamless Integration:</strong> Easily integrate the modules created in EdVee with your learning
+        management system (LMS) or educational platform of choice. This ensures a smooth and cohesive learning
+        experience for your students.</p>
+
+      <br>
+
+      <p><strong>Who Can Benefit?</strong></p>
+
+      <p><strong>Educators and Teachers:</strong> Empower your teaching with creative and interactive course modules
+        that resonate with your students, encouraging active participation and comprehension.</p>
+
+      <p><strong>Curriculum Designers:</strong> Streamline the process of developing well-structured and comprehensive
+        course content that aligns with educational goals and standards.</p>
+
+      <p><strong>Instructional Designers:</strong> Enhance the effectiveness of instructional strategies and engage
+        learners through visually appealing and dynamic modules.</p>
+
+      <p><strong>Subject Matter Experts:</strong> Share your expertise by designing modules that showcase your knowledge
+        and offer valuable insights to learners worldwide.</p>
+
+      <p><strong>Lifelong Learners:</strong> Explore and learn from a diverse range of well-designed modules, expand
+        your knowledge, and further your personal and professional growth.</p>
+
+      <p>At EdVee, we believe in the power of education and its ability to shape a brighter future. Join our community
+        today and revolutionize the way courses are designed and experienced. Let's embark on this journey together,
+        where knowledge knows no boundaries.</p>
+
+      <br>
+
+      <p style="font-size:xx-large;">Start designing your educational future with EdVee now!</p>
+
+      {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('register') }}">
+          <button class="btn">Create Account</button>
+        </a>
+      {% else %}
+        <a href="{{ url_for('project_new') }}">
+          <button class="btn">Create Project</button>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

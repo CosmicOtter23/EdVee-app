@@ -3,6 +3,7 @@
 Navigate to the 'EdVee' folder and enter the following commands into the command line in order to run the web application:
  
   ..\venv2\Scripts\activate
+  
   python run.py
 
 Using this method, the user enters the pre-existing virtual environment that has all the dependencies installed.

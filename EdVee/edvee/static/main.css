@@ -388,3 +388,13 @@ footer {
   padding-left: 8%;
   padding-top: 3%;
 }
+
+.legend-table {
+  margin: 0;
+  padding: 0;
+}
+
+.legend-text {
+  font-size: 0.7rem;
+  justify-self: right;
+}

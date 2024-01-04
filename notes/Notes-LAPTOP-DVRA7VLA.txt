@@ -2,7 +2,7 @@ Creating virtual environment:
 C:\Users\lewis\AppData\Local\Programs\Python\Python311\python.exe -m venv venvName
 
 Entering virtual environment (name=venv2):
-cd "OneDrive - University of Leeds"/"Internship 2023"/Edvee-app/EdVee2
+(From EdVee directory)
 ..\venv2\Scripts\activate
 
 Running webapp in debug mode (Windows):
@@ -19,9 +19,10 @@ from edvee.models import User, Project, Element, Connection, Type, Access
 Things to be included on EdVee app:
 7 Export to PDF?
 Add a Collection table in database for users to store projects in
-Legend
-Automatically enter box when adding element
 Error when deleting things
+Fields in the element table are named incorrectly
+Inconsistent buttons
+Side menu doesn't work properly across different screen sizes
 
 Done:
 Allow user to update their project from the update project page
@@ -41,6 +42,8 @@ Add nodes to be clicked instead of the whole box
 Colour the tables
 Only allow update project page to be accessed if the current user is the creator
 Give all permissions to creator of project
+Legend
+Automatically enter box when adding element
 
 Questions:
 Is it better for the boxes to expand to fit the opposite boxes or be the same height? (See access test)

@@ -24,27 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const pdfButton = document.getElementById('pdf-button');
 
   if (pdfButton) {
-    // let makepdf = document.getElementById("element-to-print");
-
-    // pdfButton.addEventListener("click", function () {
-    //     html2pdf().from(makepdf).save();
-    // });
     pdfButton.addEventListener('click', () => { 
       var element = document.getElementById('element-to-print');
-      // const lines = document.querySelectorAll('.leader-line');
-      // const lines2 = Array.from(lines);
-    
-      // console.log(lines2);
-    
-      // lines2.forEach(function(line) {
-      //   element.appendChild(line);
-      //   // line.remove();
-      //   console.log("Line done");
-      // });
+      var name = "";
 
-      // console.log(element.getAttribute("data-value"));
-
-      const name = element.getAttribute("data-value") + ".pdf";
+      // html2pdf
+      name = element.getAttribute("data-value") + " - html2pdf.pdf";
 
       var opt = {
         margin:       0.5,
@@ -55,11 +40,28 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       
       html2pdf().from(element).set(opt).save();
-      // html2pdf(element, opt);
+
+
+      // // jspdf
+      // name = element.getAttribute("data-value") + " - jspdf.pdf";
+
+      // const { jsPDF } = window.jspdf;
+
+      // // Create a jsPDF instance
+      // const pdf = new jsPDF();
+
+      // document.getElementById('element-to-print').color = "red";
+      // console.log(document.getElementById('element-to-print'));
+
+      // // Convert the HTML element to PDF
+      // pdf.html(document.getElementById('element-to-print'), {
+      //   callback: function () {
+      //     // Download the PDF
+      //     pdf.save(name);
+      //   }
+      // });
     });
   }
-
-  // getUnconnectedNodes();
 });
 
 function OpenDiv(divToOpen) {

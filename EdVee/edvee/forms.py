@@ -7,7 +7,7 @@ from edvee.models import User
 
 
 class RegistrationForm(FlaskForm):
-    name = StringField('Name', validators=[
+    name = StringField('Name', render_kw={'autofocus': True}, validators=[
         DataRequired(), Length(min=2, max=50)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email', render_kw={'autofocus': True}, validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Log In')
@@ -44,7 +44,7 @@ class UpdateAccountForm(FlaskForm):
 
 
 class ProjectForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+    name = StringField('Name', render_kw={'autofocus': True}, validators=[DataRequired()])
     desc = TextAreaField('Description')
    #  los = TextAreaField('Learning Outcomes')
    #  content = TextAreaField('Content')
@@ -54,19 +54,19 @@ class ProjectForm(FlaskForm):
 
 
 class ElementForm(FlaskForm):
-    los = TextAreaField('Learning Outcomes')
+    los = TextAreaField('Learning Outcomes', render_kw={'autofocus': True})
     losDesc = TextAreaField('Learning Outcomes Description')
-    content = TextAreaField('Content')
+    content = TextAreaField('Content',  render_kw={'autofocus': True})
     losDesc = TextAreaField('Content Description')
-    las = TextAreaField('Learning Activities')
+    las = TextAreaField('Learning Activities',  render_kw={'autofocus': True})
     losDesc = TextAreaField('Learning Activities Description')
-    assessments = TextAreaField('Assessments')
+    assessments = TextAreaField('Assessments',  render_kw={'autofocus': True})
     losDesc = TextAreaField('Assessments Description')
     submit = SubmitField('Post')
 
 
 class ElementForm2(FlaskForm):
-    name = StringField('Name')
+    name = StringField('Name', render_kw={'autofocus': True})
     desc = TextAreaField('Description')
     id = IntegerField('ID')
     elementNo = HiddenField('Element No')

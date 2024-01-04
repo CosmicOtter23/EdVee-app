@@ -10,13 +10,25 @@
         <div>
           <button id="pdf-button" type="button" class="btn btn-secondary btn-sm m-1">Download PDF</button>
           {% if access_level >= 2 %}
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('project_wiz_4', project_id=project.id) }}">Update</a>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('project_wiz_4', project_id=project.id) }}">Edit</a>
             {% if access_level == 3 %}
               <button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal" data-target="#shareModal">Share</button>
               <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
             {% endif %}
+          {% endif %}
+          <div id="legend" style="float: right">
+            <table class="legend-table">
+              <tr>
+                <th class="legend-text"><svg width="10" height="10"><line x1="0" y1="10" x2="10" y2="0" stroke="black"/></svg></th>
+                <th class="legend-text">Fully connected elements</th>
+              </tr>
+              <tr>
+                <th class="legend-text"><svg width="10" height="10"><line x1="0" y1="10" x2="10" y2="0" stroke="black" stroke-dasharray="3,2"/></svg></th>
+                <th class="legend-text">Disconnected elements</th>
+              </tr>
+            </table>
           </div>
-        {% endif %}
+        </div>
       </div>
       <div id="element-to-print" data-value="{{ project.name }}" style="padding-left: 2%; padding-right: 2%;">
         <h2 class="article-title">{{ project.name }}</h2>

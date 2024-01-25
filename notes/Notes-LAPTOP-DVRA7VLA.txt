@@ -17,7 +17,7 @@ from edvee.models import User, Project, Element, Connection, Type, Access
 
 
 Things to be included on EdVee app:
-7 Export to PDF?
+(7) Export to PDF?
 Add a Collection table in database for users to store projects in
 Error when deleting things
 Fields in the element table are named incorrectly

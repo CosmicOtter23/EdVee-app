@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
   password = db.Column(db.String(50), nullable=False)
   projects = db.relationship('Project', backref='creator')
   project_accesses = db.relationship('Access', foreign_keys='Access.user_id', backref='access_user')
-  # collections = db.relationship('Collection', backref='creator')
+  collections = db.relationship('Collection', backref='creator')
 
   def __repr__(self):
     return f"User({self.id}, '{self.name}', '{self.email}')"
@@ -27,7 +27,7 @@ class Project(db.Model):
   desc = db.Column(db.String(1000), nullable=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-  # collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'))
+  collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'))
   elements = db.relationship('Element', foreign_keys='Element.project_id', backref='parent_project')
   connections = db.relationship('Connection', foreign_keys='Connection.project_id', backref='parent_project')
   project_accesses = db.relationship('Access', foreign_keys='Access.project_id', backref='access_project')
@@ -40,7 +40,7 @@ class Element(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(250), nullable=False)
   desc = db.Column(db.String(1000))
-  # position = db.Column(db.Integer, nullable=False)
+#   position = db.Column(db.Integer, nullable=False)
   element_type = db.Column(db.Integer, db.ForeignKey('type.id'), nullable=False)
   project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
   connections1 = db.relationship('Connection', foreign_keys='Connection.element1', backref="parent_element1")
@@ -81,12 +81,11 @@ class Access(db.Model):
     return f"\n(PROJECT-{self.project_id}, USER-{self.user_id}, ACCESS LEVEL-{self.access_level})"
 
 
-# class Collection(db.Model):
-#   id = db.Column(db.Integer, primary_key=True)
-#   name = db.Column(db.String, nullable=False)
-#   creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-#   projects = db.relationship('Project', foreign_keys='Project.collection_id', backref='collection')
+class Collection(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String, nullable=False)
+  creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+  projects = db.relationship('Project', foreign_keys='Project.collection_id', backref='collection')
 
-#   def __repr__(self):
-#     return f"ElementType('{self.id}', '{self.name}', '{self.creator_id}')"
-
+  def __repr__(self):
+    return f"ElementType('{self.id}', '{self.name}', '{self.creator_id}')"

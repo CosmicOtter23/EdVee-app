@@ -9,11 +9,14 @@ Running webapp in debug mode (Windows):
 $env:FLASK_APP = "run.py"
 $env:FLASK_DEBUG = "1"
 
-Creating database in python command line (file name = edvee.py):
+Creating database in python command line (C:\Users\lewis\OneDrive - University of Leeds\Edvee\EdVee-app\EdVee, file name = edvee.py):
 from edvee import app, db
 app.app_context().push()
 db.create_all()
-from edvee.models import User, Project, Element, Connection, Type, Access
+from edvee.models import User, Project, Element, Connection, Type, Access, Collection
+
+Accessing the db to perform SQLite commands:
+C:\Users\lewis\OneDrive - University of Leeds\Edvee\EdVee-app\EdVee> sqlite3 instance/site.db
 
 
 Things to be included on EdVee app:
@@ -23,6 +26,10 @@ Error when deleting things
 Fields in the element table are named incorrectly
 Inconsistent buttons
 Side menu doesn't work properly across different screen sizes
+X is in the wrong place on delete project popup
+Should see if project is editable from all projects page
+Add back button to project page
+All projects page should not be completely blank when there are no projects, maybe show a message
 
 Done:
 Allow user to update their project from the update project page
@@ -46,23 +53,10 @@ Legend
 Automatically enter box when adding element
 
 Questions:
-Is it better for the boxes to expand to fit the opposite boxes or be the same height? (See access test)
-
-1 - Learning Outcomes
-2 - Content
-3 - Learning Activities
-4 - Assessments
-
-1-3
-3-2
-2-4
-4-1
-
-  - VPS name is: vps-cbc88f14.vps.ovh.net 
-  - Domain name: www.edvee.co.uk
-  - IPv4 address: 51.68.199.20
-  - Username:  ubuntu
-  - Password:  8KDfvthd7gdq
 
 
-
+- VPS name is: vps-cbc88f14.vps.ovh.net 
+- Domain name: www.edvee.co.uk
+- IPv4 address: 51.68.199.20
+- Username:  ubuntu
+- Password:  8KDfvthd7gdq

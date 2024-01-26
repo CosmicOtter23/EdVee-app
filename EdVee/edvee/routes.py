@@ -37,29 +37,7 @@ def home():
 
   projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
 
-  
-  # items_per_page = 5
-  # total_items = query.count()
-  # # total_pages = ceil(total_items / items_per_page)
-  
-  # query = query.limit(items_per_page).offset((page - 1) * items_per_page)
-  
-  # projects = query.all()
-  # result = []
-  # for project in projects:
-  #     result.append({
-  #         'id': project.id,
-  #         'date_created': project.date_created
-  #     })
-  
-  # response = {
-  #     'total_pages': total_pages,
-  #     'current_page': page,
-  #     'projects': result
-  # }
-
   elements = Element.query.all()
-  # print("projects:", projects)
   return render_template('home.html', projects=projects, elements=elements, title='Home')
 
 
@@ -365,7 +343,7 @@ def project_wiz_1(project_id):
 def project_new():
   form = ProjectForm()
   if form.validate_on_submit():
-    project = Project(name=form.name.data, desc=form.desc.data, creator=current_user)
+    project = Project(name=form.name.data, desc=form.desc.data, creator=current_user, collection_id=None)
     db.session.add(project)
     db.session.commit()
     print(project)

@@ -84,6 +84,7 @@ class Access(db.Model):
 class Collection(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String, nullable=False)
+  desc = db.Column(db.String)
   creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
   projects = db.relationship('Project', foreign_keys='Project.collection_id', backref='collection')
 

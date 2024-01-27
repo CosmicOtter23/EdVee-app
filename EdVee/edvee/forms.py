@@ -53,16 +53,16 @@ class ProjectForm(FlaskForm):
     submit = SubmitField('Post')
 
 
-class ElementForm(FlaskForm):
-    los = TextAreaField('Learning Outcomes', render_kw={'autofocus': True})
-    losDesc = TextAreaField('Learning Outcomes Description')
-    content = TextAreaField('Content',  render_kw={'autofocus': True})
-    losDesc = TextAreaField('Content Description')
-    las = TextAreaField('Learning Activities',  render_kw={'autofocus': True})
-    losDesc = TextAreaField('Learning Activities Description')
-    assessments = TextAreaField('Assessments',  render_kw={'autofocus': True})
-    losDesc = TextAreaField('Assessments Description')
-    submit = SubmitField('Post')
+# class ElementForm(FlaskForm):
+#     los = TextAreaField('Learning Outcomes', render_kw={'autofocus': True})
+#     losDesc = TextAreaField('Learning Outcomes Description')
+#     content = TextAreaField('Content',  render_kw={'autofocus': True})
+#     losDesc = TextAreaField('Content Description')
+#     las = TextAreaField('Learning Activities',  render_kw={'autofocus': True})
+#     losDesc = TextAreaField('Learning Activities Description')
+#     assessments = TextAreaField('Assessments',  render_kw={'autofocus': True})
+#     losDesc = TextAreaField('Assessments Description')
+#     submit = SubmitField('Post')
 
 
 class ElementForm2(FlaskForm):
@@ -70,4 +70,9 @@ class ElementForm2(FlaskForm):
     desc = TextAreaField('Description')
     id = IntegerField('ID')
     elementNo = HiddenField('Element No')
+    submit = SubmitField('Submit')
+
+class CollectionForm(FlaskForm):
+    name = StringField('Name', render_kw={'autofocus': True})
+    desc = TextAreaField('Description')
     submit = SubmitField('Submit')

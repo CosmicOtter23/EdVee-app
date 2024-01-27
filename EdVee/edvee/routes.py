@@ -2,8 +2,8 @@ import secrets, os
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from edvee import app, db, bcrypt
-from edvee.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, ElementForm2
-from edvee.models import User, Project, Element, Connection, Type, Access
+from edvee.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, ElementForm2, CollectionForm
+from edvee.models import User, Project, Element, Connection, Type, Access, Collection
 from flask_login import login_user, current_user, logout_user, login_required
 from math import ceil
 
@@ -588,6 +588,27 @@ def project_wiz_4(project_id):
                           connections=connections)
   else:
     return render_template('no_access.html')
+  
+
+@app.route("/collection/<int:collection_id>", methods=['GET', 'POST'])
+@login_required
+def collection(collection_id):
+  collection = Collection.query.filter_by(id=collection_id).first()
+  return render_template('collection.html', collection=collection)
+  
+
+@app.route("/collection/new", methods=['GET', 'POST'])
+@login_required
+def create_collection():
+  form = CollectionForm()
+  if form.validate_on_submit():
+    collection = Collection(name=form.name.data, desc=form.desc.data, creator_id=current_user.id)
+    db.session.add(collection)
+    db.session.commit()
+    print(collection.id)
+    return redirect(url_for('collection', collection_id=collection.id))
+
+  return render_template('create_collection.html', form=form)
 
 
 @app.route("/api/recordLine", methods=['POST'])

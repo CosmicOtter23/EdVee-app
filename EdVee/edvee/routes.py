@@ -343,7 +343,7 @@ def project_wiz_1(project_id):
 def project_new():
   form = ProjectForm()
   if form.validate_on_submit():
-    project = Project(name=form.name.data, desc=form.desc.data, creator=current_user, collection_id=None)
+    project = Project(name=form.name.data, desc=form.desc.data, creator=current_user)
     db.session.add(project)
     db.session.commit()
     print(project)

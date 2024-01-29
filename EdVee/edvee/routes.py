@@ -32,8 +32,8 @@ def home():
   
   query = query.filter(Project.id.in_(project_ids))
 
-  for p in query:
-    print("project:", p)
+#   for p in query:
+#     print("project:", p)
 
   projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
 
@@ -169,11 +169,13 @@ def project(project_id):
       if (access.user_id == current_user.id and access.project_id == project.id):
         access_level = access.access_level
 
+  collections = Collection.query.filter_by(creator_id=current_user.id).all()
+
   project_url = request.url
   print("access_level:", access_level)
   if (access_level > 0):
     return render_template('project.html', name=project.name, project=project, elements=elements, 
-                          project_url=project_url, access_level=access_level)
+                          project_url=project_url, access_level=access_level, collections=collections)
   else:
     return render_template('no_access.html')
 
@@ -302,6 +304,31 @@ def delete_project(project_id):
   flash('Your project has been deleted', 'success')
   return redirect(url_for('home'))
 
+
+@app.route("/add_to_collection/<int:project_id>", methods=['GET', 'POST'])
+@login_required
+def add_to_collection(project_id):
+  collection_id = request.form.get('selected_collection')
+  print("Collection_id:", collection_id)
+  project = Project.query.filter_by(id=project_id).first()
+  collection = Collection.query.filter_by(id=collection_id).first()
+  project.collection_id = collection.id
+  db.session.commit()
+  print("added", project.name, "to", collection.name)
+
+  return redirect(url_for('project', project_id=project_id))
+
+
+@app.route("/remove_from_collection/<int:project_id>", methods=['GET', 'POST'])
+@login_required
+def remove_from_collection(project_id):
+  project = Project.query.filter_by(id=project_id).first()
+  collection_id = project.collection_id
+  project.collection_id = None
+  db.session.commit()
+  print("removed", project.name)
+
+  return redirect(url_for('collection', collection_id=collection_id))
 
 @app.route("/project_wizard")
 @login_required
@@ -594,7 +621,15 @@ def project_wiz_4(project_id):
 @login_required
 def collection(collection_id):
   collection = Collection.query.filter_by(id=collection_id).first()
-  return render_template('collection.html', collection=collection)
+  creator = User.query.filter_by(id=current_user.id).first()
+
+  page = request.args.get('page', 1, type=int)
+  
+  projects = Project.query.filter_by(collection_id=collection.id)\
+    .order_by(Project.date_created.desc())\
+    .paginate(page=page, per_page=5)
+
+  return render_template('collection.html', collection=collection, creator=creator, projects=projects)
   
 
 @app.route("/collection/new", methods=['GET', 'POST'])

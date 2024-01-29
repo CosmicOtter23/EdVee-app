@@ -13,6 +13,7 @@
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('project_wiz_4', project_id=project.id) }}">Edit</a>
             {% if access_level == 3 %}
               <button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal" data-target="#shareModal">Share</button>
+              <button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal" data-target="#collectionModal">Add to collection</button>
               <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
             {% endif %}
           {% endif %}
@@ -116,6 +117,27 @@
           <form action="{{ url_for('delete_project', project_id=project.id) }}" method="POST">
             <input class="btn btn-danger" type="submit" value="Delete">
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="collectionModal" tabindex="-1" role="dialog" aria-labelledby="CollectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="CollectionModalLabel">Add to Collection:</h5>
+        </div>
+        <div class="modal-footer">
+          <form action="{{ url_for('add_to_collection', project_id=project.id) }}" method="post">
+            <select id="dropdown" name="selected_collection">
+              {% for collection in collections %}
+                <option value="{{ collection.id }}">{{ collection.name }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit">Submit</button>
+          </form>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

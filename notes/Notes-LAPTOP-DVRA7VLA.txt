@@ -9,7 +9,7 @@ Running webapp in debug mode (Windows):
 $env:FLASK_APP = "run.py"
 $env:FLASK_DEBUG = "1"
 
-Creating database in python command line (C:\Users\lewis\OneDrive - University of Leeds\Edvee\EdVee-app\EdVee, file name = edvee.py):
+Creating database in python command line (C:\Users\lewis\OneDrive - University of Leeds\Edvee\EdVee-app\EdVee, file name = edvee.py, must be in venv):
 from edvee import app, db
 app.app_context().push()
 db.create_all()
@@ -53,6 +53,7 @@ Legend
 Automatically enter box when adding element
 
 Questions:
+Does a project need to be able to belong to more than one collection?
 
 
 - VPS name is: vps-cbc88f14.vps.ovh.net 

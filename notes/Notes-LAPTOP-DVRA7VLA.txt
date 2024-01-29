@@ -30,6 +30,8 @@ X is in the wrong place on delete project popup
 Should see if project is editable from all projects page
 Add back button to project page
 All projects page should not be completely blank when there are no projects, maybe show a message
+Lines appear on details page
+Reset password functionality
 
 Done:
 Allow user to update their project from the update project page

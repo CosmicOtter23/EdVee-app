@@ -134,7 +134,7 @@ def account(id):
     print("project:", p)
 
   projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
-
+  collections = Collection.query.filter_by(creator_id=id)
   
   elements = Element.query.all()
   connections = Connection.query.all()
@@ -153,7 +153,7 @@ def account(id):
     form.email.data = current_user.email
   image_file = url_for('static', filename='profile_pics/' + user.image_file)
   return render_template('account.html', title='Account', image_file=image_file, form=form, user=user, 
-                         projects=projects, elements=elements, connections=connections)
+                         projects=projects, elements=elements, connections=connections, collections=collections)
 
 
 @app.route("/project/<int:project_id>")

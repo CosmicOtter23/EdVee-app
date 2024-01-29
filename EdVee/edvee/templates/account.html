@@ -26,6 +26,10 @@
   <div id="user-projects" class="tab-content" style="display: block;">
     <legend class="border-bottom mb-4">Projects by {{ user.name }} ({{ projects.total }})</legend>
     <!-- <h1 class="mb-3">Projects by {{ user.name }} ({{ projects.total }})</h1> -->
+    {% if projects.items|length == 0 %}
+      <p>You have no projects.</p>
+      <a href="{{ url_for('project_new') }}">Create a project</a>
+    {% endif %}
     {% for project in projects.items %}
       <article class="media content-section">
         <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.creator.image_file) }}" alt="">
@@ -113,20 +117,25 @@
   </div>
   
   <div id="user-collections" class="tab-content" style="display: none;">
-    <legend>User collections</legend>
-    {% for collection in collections %}
-    <article class="media content-section">
-      <div class="media-body">
-        <div class="article-metadata">
+    <legend>User Collections</legend>
+    {% if collections.items|length == 0 %}
+      <p>You have no collections. </p>
+      <a href="{{ url_for('create_collection') }}">Add collection</a></p>
+    {% else %}
+      {% for collection in collections %}
+      <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+          </div>
+          <div style="padding-left: 2%; padding-right: 2%;">
+              <h2 class="article-title">{{ collection.name }}</h2>
+              <h3 class="article-title">{{ collection.desc }}</h3>
+          </div>
         </div>
-        <div style="padding-left: 2%; padding-right: 2%;">
-            <h2 class="article-title">{{ collection.name }}</h2>
-            <h3 class="article-title">{{ collection.desc }}</h3>
-        </div>
-      </div>
-      <a href="{{ url_for('collection', collection_id=collection.id) }}"><button>View</button></a>
-    </article>
-    {% endfor %}
+        <a href="{{ url_for('collection', collection_id=collection.id) }}"><button>View</button></a>
+      </article>
+      {% endfor %}
+    {% endif %}
   </div>
   
   <div id="user-details" class="tab-content" style="display: none;">

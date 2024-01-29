@@ -29,9 +29,8 @@ Side menu doesn't work properly across different screen sizes
 X is in the wrong place on delete project popup
 Should see if project is editable from all projects page
 Add back button to project page
-All projects page should not be completely blank when there are no projects, maybe show a message
-Lines appear on details page
 Reset password functionality
+Change the way a project is clicked to open the overview (button / whole box)
 
 Done:
 Allow user to update their project from the update project page
@@ -53,6 +52,7 @@ Only allow update project page to be accessed if the current user is the creator
 Give all permissions to creator of project
 Legend
 Automatically enter box when adding element
+All projects page should not be completely blank when there are no projects, maybe show a message
 
 Questions:
 Does a project need to be able to belong to more than one collection?

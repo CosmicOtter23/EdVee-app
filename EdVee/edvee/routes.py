@@ -645,6 +645,19 @@ def create_collection():
 
   return render_template('create_collection.html', form=form)
 
+@app.route("/collection/delete/<int:collection_id>", methods=['GET', 'POST'])
+@login_required
+def delete_collection(collection_id):
+  projects = Project.query.filter_by(collection_id=collection_id)
+  for project in projects:
+    project.collection_id = None
+
+  collection = Collection.query.filter_by(id=collection_id).first()
+  db.session.delete(collection)
+  db.session.commit()
+
+  return redirect(url_for('account', id=collection.creator_id))
+
 
 @app.route("/api/recordLine", methods=['POST'])
 def record_line():

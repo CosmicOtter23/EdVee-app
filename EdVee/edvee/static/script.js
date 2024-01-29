@@ -88,6 +88,13 @@ function openTab(tabName) {
   // Show the selected tab content and add active class to the clicked tab
   document.getElementById(tabName).style.display = 'block';
   event.currentTarget.classList.add('active');
+
+  if (tabName == 'user-projects') {
+    fillAllLines();
+  }
+  else {
+    hideAllLines();
+  }
 }
 
 function OpenElementsNav() {
@@ -199,7 +206,7 @@ boxes.forEach(box => {
           drawLine(clickedBoxes[0], clickedBoxes[1], colour, false);
           recordLine(clickedBoxes[0].id, clickedBoxes[1].id);
           solidifyLines();
-          getUnconnectedNodes();
+          // getUnconnectedNodes();
         }
 
       }
@@ -328,7 +335,6 @@ async function lineExists(box1Id, box2Id) {
 }
 
 // Fills in all lines that exist in the database between the two given types
-
 async function fillLines(type1, type2) {
   const data = await getConnections();
   let nodes = Array.from(document.querySelectorAll('.line-draw'));
@@ -338,14 +344,10 @@ async function fillLines(type1, type2) {
   });
 
   for (const index in data) {
-    // let IDs = [null, null, null, null]
-
     let item = data[index];
 
     let IDs = [document.getElementById(item.element1 + "|" + type1), type1, 
           document.getElementById(item.element2 + "|" + type2), type2];
-
-    // console.log(IDs);
 
     if (IDs[0] && IDs[2]) {
       if (window.location.pathname.includes("project_wiz_3A")) {
@@ -358,8 +360,6 @@ async function fillLines(type1, type2) {
 
     IDs = [document.getElementById(item.element1 + "|" + type2), type2, 
           document.getElementById(item.element2 + "|" + type1), type1];
-          
-    // console.log(IDs);
 
     if (IDs[0] && IDs[2]) {
       if (window.location.pathname.includes("project_wiz_3A")) {
@@ -368,11 +368,18 @@ async function fillLines(type1, type2) {
       else {
         drawLine(IDs[0], IDs[2], colourPicker(IDs[1], IDs[3]), false);
       }
-      // console.log("Success!")
     }
   }
   solidifyLines();
 };
+
+// Fill all lines between all sets of elements
+function fillAllLines() {
+  fillLines(1, 3);
+  fillLines(3, 2);
+  fillLines(2, 4);
+  fillLines(4, 1);
+}
 
 // record line between the two boxes into the database
 async function recordLine(box1Id, box2Id) {

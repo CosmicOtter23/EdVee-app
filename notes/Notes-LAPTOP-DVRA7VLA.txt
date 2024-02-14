@@ -20,39 +20,40 @@ C:\Users\lewis\OneDrive - University of Leeds\Edvee\EdVee-app\EdVee> sqlite3 ins
 
 
 Things to be included on EdVee app:
-(7) Export to PDF?
-Add a Collection table in database for users to store projects in
-Error when deleting things
-Fields in the element table are named incorrectly
-Inconsistent buttons
-Side menu doesn't work properly across different screen sizes
-X is in the wrong place on delete project popup
-Should see if project is editable from all projects page
-Add back button to project page
-Reset password functionality
-Change the way a project is clicked to open the overview (button / whole box)
+  (7) Export to PDF?
+  Add a Collection table in database for users to store projects in
+  Error when deleting things
+  Fields in the element table are named incorrectly
+  Inconsistent buttons
+  Side menu doesn't work properly across different screen sizes
+  X is in the wrong place on delete project popup
+  Should see if project is editable from all projects page
+  Add back button to project page
+  Reset password functionality
+  Clicking update from project gives 'Internal Server Error'
 
 Done:
-Allow user to update their project from the update project page
-Make table rows clickable
-Make checkbox connect to the database (JQuery?) so users can check boxes to make connections
-Add all checkbox tables to the create_project page
-Values in update page stop getting mixed around when project is updated
-Click on an element to make edit box show up
-Connect lines between elements in tables
-1 Navigation - Jump between pairs etc, dashboard 
-2 Editing in dashboard to allow direct editing button e.g next to assessments
-Add nodes to be clicked instead of the whole box
-3 Allow Collaboration – levels of permission, share to edit, share to view
-4 Dotted lines to highlight meaning of linkages.  4 link full line  (dotted for - 3 link, 2 link, 1 link)
-6 Pop up boxes to show expanded text in dashboard – click ‘comment icon’ to show text? Popup covering the below data? If no, modal
-5 Flag  for no line at all – e.g. no connections. Vertical bar on edge of box?
-Colour the tables
-Only allow update project page to be accessed if the current user is the creator
-Give all permissions to creator of project
-Legend
-Automatically enter box when adding element
-All projects page should not be completely blank when there are no projects, maybe show a message
+  Allow user to update their project from the update project page
+  Make table rows clickable
+  Make checkbox connect to the database (JQuery?) so users can check boxes to make connections
+  Add all checkbox tables to the create_project page
+  Values in update page stop getting mixed around when project is updated
+  Click on an element to make edit box show up
+  Connect lines between elements in tables
+  1 Navigation - Jump between pairs etc, dashboard 
+  2 Editing in dashboard to allow direct editing button e.g next to assessments
+  Add nodes to be clicked instead of the whole box
+  3 Allow Collaboration – levels of permission, share to edit, share to view
+  4 Dotted lines to highlight meaning of linkages.  4 link full line  (dotted for - 3 link, 2 link, 1 link)
+  6 Pop up boxes to show expanded text in dashboard – click ‘comment icon’ to show text? Popup covering the below data? If no, modal
+  5 Flag  for no line at all – e.g. no connections. Vertical bar on edge of box?
+  Colour the tables
+  Only allow update project page to be accessed if the current user is the creator
+  Give all permissions to creator of project
+  Legend
+  Automatically enter box when adding element
+  All projects page should not be completely blank when there are no projects, maybe show a message
+  Change the way a project is clicked to open the overview (button / whole box)
 
 Questions:
 Does a project need to be able to belong to more than one collection?

@@ -859,3 +859,11 @@ def getAccessLevel(user_id, project_id):
     return level
   else:
     return 0
+  
+
+@app.route("/register_email", methods=['GET', 'POST'])
+def register_email():
+    if request.method == 'GET':
+        return '<form action="/register_email" methos="POST"><input name="email><input type="submit"></form>'
+    return 'The email you entered is {}'.formate(request.form['email'])
+    

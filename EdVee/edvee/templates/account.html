@@ -132,7 +132,9 @@
               <h3 class="article-title">{{ collection.desc }}</h3>
           </div>
         </div>
-        <a href="{{ url_for('collection', collection_id=collection.id) }}"><button>View</button></a>
+        <a href="{{ url_for('collection', collection_id=collection.id) }}">
+          <button>View</button>
+        </a>
       </article>
       {% endfor %}
     {% endif %}

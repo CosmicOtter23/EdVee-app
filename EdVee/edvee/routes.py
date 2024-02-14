@@ -2,7 +2,8 @@ import secrets, os
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from edvee import app, db, bcrypt
-from edvee.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, ElementForm2, CollectionForm
+from edvee.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, 
+                         ElementForm2, CollectionForm, RequestResetForm, ResetPasswordForm)
 from edvee.models import User, Project, Element, Connection, Type, Access, Collection
 from flask_login import login_user, current_user, logout_user, login_required
 from math import ceil
@@ -867,3 +868,30 @@ def register_email():
         return '<form action="/register_email" methos="POST"><input name="email><input type="submit"></form>'
     return 'The email you entered is {}'.formate(request.form['email'])
     
+
+def send_reset_email(user):
+  pass
+
+
+@app.route("/reset_password", methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = user.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password', 'info')
+    return render_template('reset_request.html', form=form)
+    
+
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    user = user.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    return render_template('reset_token.html', form=form)

@@ -31,6 +31,7 @@ Things to be included on EdVee app:
   Add back button to project page
   Reset password functionality
   Clicking update from project gives 'Internal Server Error'
+  Chevron doesnt show up on side menu
 
 Done:
   Allow user to update their project from the update project page
@@ -58,6 +59,23 @@ Done:
 Questions:
 Does a project need to be able to belong to more than one collection?
 Would it be better to remove venv2 from the git repository and just use requirements.txt to gain all necessary packages?
+
+1 - Learning Outcomes
+2 - Content
+3 - Learning Activities
+4 - Assessments
+
+1-3
+3-2
+2-4
+4-1
+
+  - VPS name is: vps-cbc88f14.vps.ovh.net 
+  - Domain name: www.edvee.co.uk
+  - IPv4 address: 51.68.199.20
+  - Username:  ubuntu
+  - Password:  8KDfvthd7gdq
+  - Password 2:  yGajH8UfbyBU
 
 
 - VPS name is: vps-cbc88f14.vps.ovh.net 

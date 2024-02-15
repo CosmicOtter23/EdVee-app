@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+
+<br>
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+    </div>
+    <div style="padding-left: 2%; padding-right: 2%;">
+      <button type="button" class="btn btn-danger btn-sm m-1" style="float: right" data-toggle="modal" data-target="#deleteModal">Delete Collection</button>
+      <h2 class="article-title">{{ collection.name }}</h2>
+      <h4 class="article-title">{{ creator.name }}</h5>
+      <h3 class="article-title">{{ collection.desc }}</h3>
+    </div>
+    <div style="padding-left: 2%; padding-right: 2%;">
+      {% if projects.items|length == 0 %}
+          <p>This collection has no projects. </p>
+          <a href="{{ url_for('home') }}">Add projects</a>
+      {% endif %}
+      {% for project in projects.items %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.creator.image_file) }}" alt="">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('account', id=project.creator.id) }}">{{ project.creator.name }}</a>
+              <small class="text-muted">{{ project.date_created.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></h2>
+            <p class="article-content">{{ project.desc }}</p>
+            <a href="{{ url_for('remove_from_collection', project_id=project.id) }}">
+              <button type="button" class="btn btn-danger btn-sm m-1" style="float: right;">Remove from collection</button>
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+      {% for page_num in projects.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+        {% if page_num %}
+          {% if projects.page == page_num %}
+            <a class="btn btn-info mb-4" href="{{ url_for('collection', collection_id=collection.id) }}">{{ page_num }}</a>
+          {% else %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('collection', collection_id=colleciton.id) }}">{{ page_num }}</a>
+          {% endif %}
+        {% else %}
+          ...
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>    
+</article>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Collection?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('delete_collection', collection_id=collection.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -398,3 +398,31 @@ footer {
   font-size: 0.7rem;
   justify-self: right;
 }
+
+.tabs {
+  display: flex;
+  background-color: #ddd;
+}
+
+ /* account tabs */
+.tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background-color: #ccc;
+}
+
+.tab.active {
+  background-color: #5c5c5c;
+  color: #fff;
+}
+
+.tab-content {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ddd;
+}

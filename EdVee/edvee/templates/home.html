@@ -2,6 +2,11 @@
 {% block content %}
 <h1>All Projects</h1>
 
+<br>
+{% if projects.items|length == 0 %}
+  <p>You have no projects.</p>
+  <a href="{{ url_for('project_new') }}">Create a project</a>
+{% endif %}
 {% for project in projects %}
   <article class="media content-section">
     <img class="rounded-circle article-img"
@@ -11,6 +16,9 @@
         <a class="mr-2" href="{{ url_for('account', id=project.creator.id) }}">{{ project.creator.name }}</a>
         <small class="text-muted">{{ project.date_created.strftime('%Y-%m-%d') }}</small>
       </div>
+      <a style="float: right" href="{{ url_for('project', project_id=project.id) }}">
+        <button>View project</button>
+      </a>
       <h2><a class="article-title" href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></h2>
       <p class="article-content">{{ project.desc }}</p>
 

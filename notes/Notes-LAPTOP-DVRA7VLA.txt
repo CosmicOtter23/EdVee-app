@@ -57,6 +57,7 @@ Done:
 
 Questions:
 Does a project need to be able to belong to more than one collection?
+Would it be better to remove venv2 from the git repository and just use requirements.txt to gain all necessary packages?
 
 
 - VPS name is: vps-cbc88f14.vps.ovh.net 

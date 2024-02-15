@@ -2,8 +2,9 @@ import secrets, os
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from edvee import app, db, bcrypt
-from edvee.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, ElementForm2
-from edvee.models import User, Project, Element, Connection, Type, Access
+from edvee.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, 
+                         ElementForm2, CollectionForm, RequestResetForm, ResetPasswordForm)
+from edvee.models import User, Project, Element, Connection, Type, Access, Collection
 from flask_login import login_user, current_user, logout_user, login_required
 from math import ceil
 
@@ -32,34 +33,12 @@ def home():
   
   query = query.filter(Project.id.in_(project_ids))
 
-  for p in query:
-    print("project:", p)
+#   for p in query:
+#     print("project:", p)
 
   projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
 
-  
-  # items_per_page = 5
-  # total_items = query.count()
-  # # total_pages = ceil(total_items / items_per_page)
-  
-  # query = query.limit(items_per_page).offset((page - 1) * items_per_page)
-  
-  # projects = query.all()
-  # result = []
-  # for project in projects:
-  #     result.append({
-  #         'id': project.id,
-  #         'date_created': project.date_created
-  #     })
-  
-  # response = {
-  #     'total_pages': total_pages,
-  #     'current_page': page,
-  #     'projects': result
-  # }
-
   elements = Element.query.all()
-  # print("projects:", projects)
   return render_template('home.html', projects=projects, elements=elements, title='Home')
 
 
@@ -156,7 +135,7 @@ def account(id):
     print("project:", p)
 
   projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
-
+  collections = Collection.query.filter_by(creator_id=id)
   
   elements = Element.query.all()
   connections = Connection.query.all()
@@ -175,7 +154,7 @@ def account(id):
     form.email.data = current_user.email
   image_file = url_for('static', filename='profile_pics/' + user.image_file)
   return render_template('account.html', title='Account', image_file=image_file, form=form, user=user, 
-                         projects=projects, elements=elements, connections=connections)
+                         projects=projects, elements=elements, connections=connections, collections=collections)
 
 
 @app.route("/project/<int:project_id>")
@@ -191,11 +170,13 @@ def project(project_id):
       if (access.user_id == current_user.id and access.project_id == project.id):
         access_level = access.access_level
 
+  collections = Collection.query.filter_by(creator_id=current_user.id).all()
+
   project_url = request.url
   print("access_level:", access_level)
   if (access_level > 0):
     return render_template('project.html', name=project.name, project=project, elements=elements, 
-                          project_url=project_url, access_level=access_level)
+                          project_url=project_url, access_level=access_level, collections=collections)
   else:
     return render_template('no_access.html')
 
@@ -324,6 +305,31 @@ def delete_project(project_id):
   flash('Your project has been deleted', 'success')
   return redirect(url_for('home'))
 
+
+@app.route("/add_to_collection/<int:project_id>", methods=['GET', 'POST'])
+@login_required
+def add_to_collection(project_id):
+  collection_id = request.form.get('selected_collection')
+  print("Collection_id:", collection_id)
+  project = Project.query.filter_by(id=project_id).first()
+  collection = Collection.query.filter_by(id=collection_id).first()
+  project.collection_id = collection.id
+  db.session.commit()
+  print("added", project.name, "to", collection.name)
+
+  return redirect(url_for('project', project_id=project_id))
+
+
+@app.route("/remove_from_collection/<int:project_id>", methods=['GET', 'POST'])
+@login_required
+def remove_from_collection(project_id):
+  project = Project.query.filter_by(id=project_id).first()
+  collection_id = project.collection_id
+  project.collection_id = None
+  db.session.commit()
+  print("removed", project.name)
+
+  return redirect(url_for('collection', collection_id=collection_id))
 
 @app.route("/project_wizard")
 @login_required
@@ -610,6 +616,48 @@ def project_wiz_4(project_id):
                           connections=connections)
   else:
     return render_template('no_access.html')
+  
+
+@app.route("/collection/<int:collection_id>", methods=['GET', 'POST'])
+@login_required
+def collection(collection_id):
+  collection = Collection.query.filter_by(id=collection_id).first()
+  creator = User.query.filter_by(id=current_user.id).first()
+
+  page = request.args.get('page', 1, type=int)
+  
+  projects = Project.query.filter_by(collection_id=collection.id)\
+    .order_by(Project.date_created.desc())\
+    .paginate(page=page, per_page=5)
+
+  return render_template('collection.html', collection=collection, creator=creator, projects=projects)
+  
+
+@app.route("/collection/new", methods=['GET', 'POST'])
+@login_required
+def create_collection():
+  form = CollectionForm()
+  if form.validate_on_submit():
+    collection = Collection(name=form.name.data, desc=form.desc.data, creator_id=current_user.id)
+    db.session.add(collection)
+    db.session.commit()
+    print(collection.id)
+    return redirect(url_for('collection', collection_id=collection.id))
+
+  return render_template('create_collection.html', form=form)
+
+@app.route("/collection/delete/<int:collection_id>", methods=['GET', 'POST'])
+@login_required
+def delete_collection(collection_id):
+  projects = Project.query.filter_by(collection_id=collection_id)
+  for project in projects:
+    project.collection_id = None
+
+  collection = Collection.query.filter_by(id=collection_id).first()
+  db.session.delete(collection)
+  db.session.commit()
+
+  return redirect(url_for('account', id=collection.creator_id))
 
 
 @app.route("/api/recordLine", methods=['POST'])
@@ -812,3 +860,40 @@ def getAccessLevel(user_id, project_id):
     return level
   else:
     return 0
+  
+
+@app.route("/register_email", methods=['GET', 'POST'])
+def register_email():
+    if request.method == 'GET':
+        return '<form action="/register_email" methos="POST"><input name="email><input type="submit"></form>'
+    return 'The email you entered is {}'.formate(request.form['email'])
+    
+
+def send_reset_email(user):
+    return None
+    ###################################################################################################################################
+
+
+@app.route("/reset_password", methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = user.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', form=form)
+    
+
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    user = user.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    return render_template('reset_token.html', form=form)

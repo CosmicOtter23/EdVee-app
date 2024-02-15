@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-section">
+  <h1>Create Collection</h1>
+  <form method="POST" action="">
+    <!-- {{ form.csrf_token }} -->
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">{{ legend }}</legend>
+      <!-- Name -->
+      <div class="form-group">
+        {{ form.name.label(class="form-control-label") }}
+        {% if form.name.errors %}
+          {{ form.name(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.name.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.name(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <!-- desc -->
+      <div class="form-group">
+        {{ form.desc.label(class="form-control-label") }}
+        {% if form.desc.errors %}
+          {{ form.desc(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.desc.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.desc(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+    </fieldset>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock content %}

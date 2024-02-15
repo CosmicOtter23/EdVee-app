@@ -870,7 +870,8 @@ def register_email():
     
 
 def send_reset_email(user):
-  pass
+    return None
+    ###################################################################################################################################
 
 
 @app.route("/reset_password", methods=['GET', 'POST'])
@@ -882,6 +883,7 @@ def reset_request():
         user = user.query.filter_by(email=form.email.data).first()
         send_reset_email(user)
         flash('An email has been sent with instructions to reset your password', 'info')
+        return redirect(url_for('login'))
     return render_template('reset_request.html', form=form)
     
 

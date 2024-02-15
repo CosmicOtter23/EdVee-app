@@ -23,6 +23,7 @@ Error when deleting things
 Fields in the element table are named incorrectly
 Inconsistent buttons
 Side menu doesn't work properly across different screen sizes
+Chevron doesnt show up on side menu
 
 Done:
 Allow user to update their project from the update project page
@@ -63,6 +64,7 @@ Is it better for the boxes to expand to fit the opposite boxes or be the same he
   - IPv4 address: 51.68.199.20
   - Username:  ubuntu
   - Password:  8KDfvthd7gdq
+  - Password 2:  yGajH8UfbyBU
 
 
 

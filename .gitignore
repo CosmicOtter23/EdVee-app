@@ -1,0 +1,11 @@
+venv2/Lib/site-packages/alembic/__pycache__/
+venv2/Lib/site-packages/alembic/autogenerate/__pycache__/
+venv2/Lib/site-packages/alembic/ddl/__pycache__/
+venv2/Lib/site-packages/alembic/operations/__pycache__/
+venv2/Lib/site-packages/alembic/runtime/__pycache__/
+venv2/Lib/site-packages/alembic/script/__pycache__/
+venv2/Lib/site-packages/alembic/util/__pycache__/
+venv2/Lib/site-packages/flask_migrate/__pycache__/
+venv2/Lib/site-packages/mako/__pycache__/
+venv2/Lib/site-packages/mako/ext/__pycache__/
+EdVee/edvee/__pycache__/

@@ -1,7 +1,7 @@
 from datetime import datetime
 from edvee import db, login_manager, app
 from flask_login import UserMixin
-from itsdangerous import URLSafeTimedSerializer as Serialiser
+from itsdangerous import TimedJSONWebSignatureSerializer  as Serialiser
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -18,25 +18,9 @@ class User(db.Model, UserMixin):
     project_accesses = db.relationship('Access', foreign_keys='Access.user_id', backref='access_user')
     collections = db.relationship('Collection', backref='creator')
 
-    # def get_reset_token(self, expires_sec=1800):
-    #     s = Serialiser(app.config['SECRET_KEY'], expires_sec)
-    #     # s = Serialiser(app.config['SECRET_KEY'], 'confirmation')
-    #     return s.dumps({'user.id': self.id}).decode('utf-8')
-    
     def get_reset_token(self, expires_sec=1800):
-        # Convert expires_sec to string
-        expires_sec_str = str(expires_sec)
-
-        # Create an instance of URLSafeTimedSerializer
-        serializer = Serialiser(app.config['SECRET_KEY'])
-
-        # Serialize data into a token
-        token = serializer.dumps({'user.id': self.id}, salt=expires_sec_str)
-
-        # Decode the token to UTF-8
-        # return token.decode('utf-8')
-        # Do not decode token
-        return token
+        s = Serialiser(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user.id': self.id}).decode('utf-8')
     
     @staticmethod
     def verify_reset_token(token):

@@ -21,7 +21,7 @@ app.config['MAIL_PORT'] = 587
 # app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
 # app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
 app.config['MAIL_USERNAME'] = "info.edvee@gmail.com"
-app.config['MAIL_PASSWORD'] = "FlapjackBox45%"
+app.config['MAIL_PASSWORD'] = "wbzf tidd tdvb ngmq"
 app.config['MAIL_USE_TLS'] = True
 mail = Mail(app)
 

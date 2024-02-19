@@ -18,9 +18,11 @@ login_manager.login_message_category = 'info'
 
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
+# app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
+# app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
+app.config['MAIL_USERNAME'] = "info.edvee@gmail.com"
+app.config['MAIL_PASSWORD'] = "wbzf tidd tdvb ngmq"
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
-app.config['MAIL_PASS'] = os.environ.get('EMAIL_PASSWORD')
 mail = Mail(app)
 
 from edvee import routes

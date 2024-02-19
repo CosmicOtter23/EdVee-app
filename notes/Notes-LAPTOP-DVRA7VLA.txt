@@ -31,10 +31,7 @@ Things to be included on EdVee app:
   Add back button to project page
   Reset password functionality
   Clicking update from project gives 'Internal Server Error'
-<<<<<<< HEAD
-=======
   Chevron doesnt show up on side menu
->>>>>>> 22d630e4dec26ed20ef2d98cd45fa530d40ddf22
 
 Done:
   Allow user to update their project from the update project page
@@ -58,14 +55,15 @@ Done:
   Automatically enter box when adding element
   All projects page should not be completely blank when there are no projects, maybe show a message
   Change the way a project is clicked to open the overview (button / whole box)
+  Chevron and words don't show up on side menu
 
 Questions:
-<<<<<<< HEAD
-Is it better for the boxes to expand to fit the opposite boxes or be the same height? (See access test)
-=======
->>>>>>> 22d630e4dec26ed20ef2d98cd45fa530d40ddf22
 Does a project need to be able to belong to more than one collection?
 Would it be better to remove venv2 from the git repository and just use requirements.txt to gain all necessary packages?
+
+Edvee email:
+  info.edvee@gmail.com
+  Recovery email: lewisdwray@gmail.com
 
 1 - Learning Outcomes
 2 - Content
@@ -77,20 +75,9 @@ Would it be better to remove venv2 from the git repository and just use requirem
 2-4
 4-1
 
-  - VPS name is: vps-cbc88f14.vps.ovh.net 
-  - Domain name: www.edvee.co.uk
-  - IPv4 address: 51.68.199.20
-  - Username:  ubuntu
-  - Password:  8KDfvthd7gdq
-  - Password 2:  yGajH8UfbyBU
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 22d630e4dec26ed20ef2d98cd45fa530d40ddf22
-
 - VPS name is: vps-cbc88f14.vps.ovh.net 
 - Domain name: www.edvee.co.uk
 - IPv4 address: 51.68.199.20
 - Username:  ubuntu
 - Password:  8KDfvthd7gdq
+- Password 2:  yGajH8UfbyBU

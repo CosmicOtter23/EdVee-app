@@ -901,7 +901,6 @@ def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     user = User.verify_reset_token(token)
-    flash("User:", user.name)
     if user is None:
         flash('That is an invalid or expired token', 'warning')
         return redirect(url_for('reset_request'))
@@ -911,6 +910,5 @@ def reset_token(token):
         user.password = hashed_password
         db.session.commit()
         flash(f'Your password has been updated.', 'success')
-        # Reaches this point
         return redirect(url_for('home'))
     return render_template('reset_token.html', form=form)

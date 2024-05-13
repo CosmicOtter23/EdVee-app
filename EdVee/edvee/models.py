@@ -1,7 +1,8 @@
 from datetime import datetime
 from edvee import db, login_manager, app
 from flask_login import UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer as Serialiser
+# from itsdangerous import TimedJSONWebSignatureSerializer as Serialiser
+import jwt
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -18,18 +19,23 @@ class User(db.Model, UserMixin):
     project_accesses = db.relationship('Access', foreign_keys='Access.user_id', backref='access_user')
     collections = db.relationship('Collection', backref='creator')
 
-    def get_reset_token(self, expires_sec=1800):
-        s = Serialiser(app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
-    
+    def get_reset_token(self):
+        # s = Serialiser(app.config['SECRET_KEY'], expires_sec)
+        # return s.dumps({'user_id': self.id}).decode('utf-8')
+        encoded = jwt.encode({"user_id": self.id}, "secret", algorithm="HS256")
+        return encoded
+
     @staticmethod
     def verify_reset_token(token):
-        s = Serialiser(app.config['SECRET_KEY'])
-        try:
-            user_id = s.loads(token)['user_id']
-        except:
-            return None
-        return User.query.get(user_id)
+        # s = Serialiser(app.config['SECRET_KEY'])
+        # try:
+        #     user_id = s.loads(token)['user_id']
+        # except:
+        #     return None
+        user_id = jwt.decode(token, "secret", algorithms="HS256")['user_id']
+        # print("user_id:", user_id)
+        # return User.query.get(user_id['user_id'])
+        return db.session.get(User, user_id['user_id'])
 
     def __repr__(self):
         return f"User({self.id}, '{self.name}', '{self.email}')"

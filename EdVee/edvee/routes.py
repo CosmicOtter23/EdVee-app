@@ -10,8 +10,7 @@ from math import ceil
 from time import time
 from flask import jsonify
 from flask_mail import Message
-
-
+# from dotenv import load_dotenv
 
 
 @app.route("/")
@@ -885,6 +884,11 @@ def send_reset_email(user):
 
 @app.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
+    # load_dotenv()
+    # flash(os.environ.get('EMAIL_USER'))
+    # print(os.environ.get('EMAIL_PASSWORD'))
+    # print(os.getenv('EMAIL_PASSWORD'))
+    # print(os.environ)
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RequestResetForm()
@@ -901,7 +905,7 @@ def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     user = User.verify_reset_token(token)
-    flash("User:", user.name)
+    # flash("User:", user.name)
     if user is None:
         flash('That is an invalid or expired token', 'warning')
         return redirect(url_for('reset_request'))

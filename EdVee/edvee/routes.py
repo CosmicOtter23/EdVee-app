@@ -370,18 +370,19 @@ def project_wiz_1(project_id):
 @app.route("/project/new", methods=['GET', 'POST'])
 @login_required
 def project_new():
-  form = ProjectForm()
-  if form.validate_on_submit():
-    project = Project(name=form.name.data, desc=form.desc.data, creator=current_user)
-    db.session.add(project)
-    db.session.commit()
-    print(project)
-    # project_id = Project.query.order_by(Project.id).first()
-    # flash("Project added to db. ID:", project_id)
-    # print("Project added to db. ID:", project_id)
-    return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=1))
+    form = ProjectForm()
+    if form.validate_on_submit():
+        project = Project(name=form.name.data, desc=form.desc.data, creator=current_user)
+        db.session.add(project)
+        db.session.commit()
+        print(project)
+        # project_id = Project.query.order_by(Project.id).first()
+        # flash("Project added to db. ID:", project_id)
+        # print("Project added to db. ID:", project_id)
+        return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=1))
 
-  return render_template('wizard/project_wiz_1.html', form=form)
+#   return render_template('wizard/project_wiz_1.html', form=form)
+    return redirect(url_for('project', project_id=project.id))
 
 
 @app.route("/project_wiz_2A/<int:project_id>/<int:element_type>", methods=['GET', 'POST'])

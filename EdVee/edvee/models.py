@@ -43,7 +43,7 @@ class User(db.Model, UserMixin):
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250), nullable=False)
+    name = db.Column(db.String(250), default="Untitled Project", nullable=False)
     desc = db.Column(db.String(1000), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Test Page</h1>
+
+  {% set project_id = 0 %}
+    
+  <br>
+
+  <div class="tabs">
+    <a href="{{ url_for('project_wiz_1', project_id=project.id) }}"><button class="tab" onclick="open_wizard_tab(event, 'Details')">Details</button></a>
+    <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}"><button class="tab" onclick="open_wizard_tab(event, 'Elements')">Elements</button></a>
+    <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}"><button class="tab" onclick="open_wizard_tab(event, 'Connections')">Connections</button></a>
+    <a href="{{ url_for('project_wiz_4', project_id=project.id) }}"><button class="tab" onclick="open_wizard_tab(event, 'Overview')">Overview</button></a>
+  </div>
+
+  <div id="Details" class="tab-content">
+    <h1>Details</h1>
+    <p>Welcome to the home page.</p>
+  </div>
+  <div id="Elements" class="tab-content" style="display: none;">
+    <h1>Elements</h1>
+    <p>Latest news here.</p>
+  </div>
+  <div id="Connections" class="tab-content" style="display: none;">
+    <h1>Connections</h1>
+    <p>Contact us at email@example.com.</p>
+  </div>
+  <div id="Overview" class="tab-content" style="display: none;">
+    <h1>Overview</h1>
+    <p>Contact us at email@example.com.</p>
+  </div>
+
+  {% block wizard %}{% endblock%}
+
+  
+{% endblock content %}

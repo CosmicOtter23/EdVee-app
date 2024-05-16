@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "project_wizard.html" %}
+{% block wizard %}
 <header>
   <h1>{{ project.name }}</h1>
   {% if element_type == 1 %}
@@ -16,6 +16,16 @@
     <nav>
       <ul>
         <li>
+          {% set index = element_type-1 %}
+          {% if index == 0 %}
+            {% set index = 4 %}
+          {% endif %}
+          <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=index) }}" style="float: right;">
+            <button type="button" class="btn">Previous</button>
+          </a>
+        </li>
+        ...
+        <li>
           <a href="{{ url_for('project_wiz_1', project_id=project.id) }}">
             <button class="btn">Project Details</button>
           </a>
@@ -31,47 +41,57 @@
           </a>
         </li>
         __
-          <li>
-            <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=2) }}">
-              {% if element_type == 2 %}
-                <img src="/static/elements_icon_2.png" style="opacity: 1;" alt="Link to elements (2/4)">
-              {% else %}
-                <img src="/static/elements_icon_2.png" style="opacity: 0.3;" alt="Link to elements (2/4)">
-              {% endif %}
-            </a>
-          </li>
-          __
-          <li>
-            <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=3) }}">
-              {% if element_type == 3 %}
-                <img src="/static/elements_icon_3.png" style="opacity: 1;" alt="Link to elements (3/4)">
-              {% else %}
-                <img src="/static/elements_icon_3.png" style="opacity: 0.3;" alt="Link to elements (4/4)">
-              {% endif %}
-            </a>
-          </li>
-          __
-          <li>
-            <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=4) }}">
-              {% if element_type == 4 %}
-                <img src="/static/elements_icon_4.png" style="opacity: 1;" alt="Link to elements (4/4)">
-              {% else %}
-                <img src="/static/elements_icon_4.png" style="opacity: 0.3;" alt="Link to elements (4/4)">
-              {% endif %}
-            </a>
-          </li>
-          __
-          <li>
-            <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}">
-              <button class="btn">Connections</button>
-            </a>
-          </li>
-          __
-          <li>
-            <a href="{{ url_for('project_wiz_4', project_id=project.id) }}">
-              <button class="btn">Overview</button>
-            </a>
-          </li>
+        <li>
+          <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=2) }}">
+            {% if element_type == 2 %}
+              <img src="/static/elements_icon_2.png" style="opacity: 1;" alt="Link to elements (2/4)">
+            {% else %}
+              <img src="/static/elements_icon_2.png" style="opacity: 0.3;" alt="Link to elements (2/4)">
+            {% endif %}
+          </a>
+        </li>
+        __
+        <li>
+          <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=3) }}">
+            {% if element_type == 3 %}
+              <img src="/static/elements_icon_3.png" style="opacity: 1;" alt="Link to elements (3/4)">
+            {% else %}
+              <img src="/static/elements_icon_3.png" style="opacity: 0.3;" alt="Link to elements (4/4)">
+            {% endif %}
+          </a>
+        </li>
+        __
+        <li>
+          <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=4) }}">
+            {% if element_type == 4 %}
+              <img src="/static/elements_icon_4.png" style="opacity: 1;" alt="Link to elements (4/4)">
+            {% else %}
+              <img src="/static/elements_icon_4.png" style="opacity: 0.3;" alt="Link to elements (4/4)">
+            {% endif %}
+          </a>
+        </li>
+        __
+        <li>
+          <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}">
+            <button class="btn">Connections</button>
+          </a>
+        </li>
+        __
+        <li>
+          <a href="{{ url_for('project_wiz_4', project_id=project.id) }}">
+            <button class="btn">Overview</button>
+          </a>
+        </li>
+        ...
+        <li>
+          {% set index = element_type+1 %}
+          {% if index == 5 %}
+            {% set index = 1 %}
+          {% endif %}
+          <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=index) }}" style="float: right;">
+            <button type="button" class="btn">Next</button>
+          </a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -128,4 +148,4 @@
       <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Pixel perfect - Flaticon</a>
     </div>
   </footer> -->
-{% endblock content %}
+{% endblock wizard %}

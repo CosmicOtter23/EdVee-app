@@ -410,6 +410,7 @@ footer {
   padding: 10px;
   text-align: center;
   cursor: pointer;
+  border-radius: 15px 15px 0 0;
 }
 
 .tab:hover {

@@ -4,141 +4,51 @@
     
   <br>
 
-  <!-- <table id="checkboxTable">
-    <th></th>
-    {% set count = namespace(value=0) %}
-    {% for element in elements %}
-      {% if element.element_type == 2 and element.project_id == project.id %}
-        <th>{{ element.name }}</th>
-        {% set count.value = count.value + 1 %}
-      {% endif %}
-    {% endfor %}
-    {% for element in elements %}
-      <tr>
-        {% if element.element_type == 1 and element.project_id == project.id %}
-          <tr>
-            <th>{{ element.name }}</th>
-            {% for element2 in elements %}
-              {% if element2.element_type == 2 and element2.project_id == project.id %}
-                {% set list = [] %}
-                {% for connection in connections %}
-                  {% if connection.element1 == element.name and connection.element2 == element2.name %}
-                    {% set checked = true %}
-                    {% set _ = list.append(true) %}
-                  {% endif %}
-                {% endfor %}
-                {% set checked = list[-1] if list else None %}
-                <td>
-                  {% if checked == true %}
-                    <input type="checkbox" name="checkbox" value="{{ element.id }},{{ element2.id }}" checked>
-                  {% else %}
-                    <input type="checkbox" name="checkbox" value="{{ element.id }},{{ element2.id }}">
-                  {% endif %}
-                </td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
-      </tr>
-    {% endfor %}
-  </table> -->
-  
-  <br>  
-
-  <!-- <div>
-    {% for connection in connections %}
-      <h1>({{ connection.id }}) Create connection from {{ connection.element1 }} to {{ connection.element2 }}</h1>
-    {% endfor %}
-  </div> -->
-
-  <!-- <head>
-    <title>Dynamic Forms</title>
-    <style>
-      .form-box {
-        border: 1px solid #ccc;
-        margin: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <div id="formContainer">
-    <div class="form-box">
-      <form class="data-form" style="display: block;">
-        <input type="text" name="input1" placeholder="Input 1">
-        <input type="text" name="input2" placeholder="Input 2">
-      </form>
-    </div>
+  <div class="tabs">
+      <button class="tab" onclick="openTab2(event, 'Details')">Details</button>
+      <button class="tab" onclick="openTab2(event, 'Elements')">Elements</button>
+      <button class="tab" onclick="openTab2(event, 'Connections')">Connections</button>
+      <button class="tab" onclick="openTab2(event, 'Overview')">Overview</button>
   </div>
-  <button id="addForm">Add Form</button>
-  <button id="submitAllForms">Submit All Forms</button> -->
 
-
-  <table class="table-bordered">
-    <tr>
-        <th>Row</th>
-        <th>Link</th>
-    </tr>
-    <tr>
-        <td><a href="{{ url_for('update_element', project_id=5, element_id=284) }}">Row 1</a></td>
-        <td><a href="page1.html">Link to Page 1</a></td>
-    </tr>
-    <tr>
-        <td><a href="page2.html">Row 2</a></td>
-        <td><a href="page2.html">Link to Page 2</a></td>
-    </tr>
-    <tr>
-        <td><a href="page3.html">Row 3</a></td>
-        <td><a href="page3.html">Link to Page 3</a></td>
-    </tr>
-  </table>
+  <div id="Details" class="tab-content">
+      <h1>Details</h1>
+      <p>Welcome to the home page.</p>
+  </div>
+  <div id="Elements" class="tab-content" style="display: none;">
+      <h1>Elements</h1>
+      <p>Latest news here.</p>
+  </div>
+  <div id="Connections" class="tab-content" style="display: none;">
+      <h1>Connections</h1>
+      <p>Contact us at email@example.com.</p>
+  </div>
+  <div id="Overview" class="tab-content" style="display: none;">
+      <h1>Overview</h1>
+      <p>Contact us at email@example.com.</p>
+  </div>
 
   <script>
-    // Function to add a new form box
-    function addFormBox() {
-      var formContainer = document.getElementById("formContainer");
-      var newFormBox = document.createElement("div");
-      newFormBox.className = "form-box";
+    function openTab2(evt, tabName) {
+      // Declare all variables
+      var i, tabcontent, tablinks;
 
-      var form = document.createElement("form");
-      form.className = "data-form";
-      form.innerHTML = `
-        <input type="text" name="input1" placeholder="Input 1">
-        <input type="text" name="input2" placeholder="Input 2">
-      `;
-
-      newFormBox.appendChild(form);
-      formContainer.appendChild(newFormBox);
-
-      // Attach event listener to the new form box
-      newFormBox.addEventListener("click", function() {
-        toggleFormVisibility(form);
-      });
-    }
-
-    // Function to toggle form visibility
-    function toggleFormVisibility(form) {
-      if (form.style.display === "none" || form.style.display === "") {
-        form.style.display = "block";
-      } else {
-        form.style.display = "none";
+      // Get all elements with class="tab-content" and hide them
+      tabcontent = document.getElementsByClassName("tab-content");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
       }
-    }
 
-    // Function to submit all forms
-    function submitAllForms() {
-      var forms = document.querySelectorAll(".data-form");
-      forms.forEach(function(form) {
-        // Process each form as needed
-        // You can add code to submit the forms to the server here
-        console.log("Submitting form:", form);
-      });
-    }
+      // Get all elements with class="tab" and remove the class "active"
+      tablinks = document.getElementsByClassName("tab");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
 
-    // Attach event listeners
-    document.getElementById("addForm").addEventListener("click", addFormBox);
-    document.getElementById("submitAllForms").addEventListener("click", submitAllForms);
+      // Show the current tab, and add an "active" class to the button that opened the tab
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
   </script>
 
   

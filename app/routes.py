@@ -289,22 +289,26 @@ def update_project(project_id):
 @app.route("/project/<int:project_id>/delete", methods=['POST'])
 @login_required
 def delete_project(project_id):
-  project = Project.query.get_or_404(project_id)
-  if project.creator != current_user:
-    abort(403)
+    project = Project.query.get_or_404(project_id)
+    if project.creator != current_user:
+        abort(403)
 
-  for connection in Connection.query.filter_by(project_id=project_id):
-    db.session.delete(connection)
-  db.session.commit()
+    for connection in Connection.query.filter_by(project_id=project_id):
+        db.session.delete(connection)
+    db.session.commit()
 
-  for element in Element.query.filter_by(project_id=project_id):
-    db.session.delete(element)
-  db.session.commit()
+    for element in Element.query.filter_by(project_id=project_id):
+        db.session.delete(element)
+    db.session.commit()
 
-  db.session.delete(project)
-  db.session.commit()
-  flash('Your project has been deleted', 'success')
-  return redirect(url_for('home'))
+    for access in Access.query.filter_by(project_id=project_id):
+        db.session.delete(access)
+    db.session.commit()
+
+    db.session.delete(project)
+    db.session.commit()
+    flash('Your project has been deleted', 'success')
+    return redirect(url_for('home'))
 
 
 @app.route("/add_to_collection/<int:project_id>", methods=['GET', 'POST'])
@@ -825,38 +829,7 @@ def search_users(project_id):
 
 @app.route("/test_page", methods=['GET', 'POST'])
 def test_page():
-  if request.method == 'POST':
-    # Get the checkbox matrix data from the form submission
-    checkbox_matrix = request.form.getlist('checkbox')
-    print("checkbox_matrix:", checkbox_matrix)
-    # submitted_connections = {tuple(map(int, value.split(','))) for value in checkbox_matrix}
-    submitted_connections = {tuple(value.split(',')) for value in checkbox_matrix}
-
-    print("submitted_connections:", submitted_connections)
-
-    # Fetch existing records from the database
-    existing_records = Connection.query.all()
-    existing_connections = {(record.element1, record.element2) for record in existing_records}
-
-    print("existing_connections:", existing_connections)
-
-    # Add new connections
-    for row, column in submitted_connections - existing_connections:
-      record = Connection(element1=row, element2=column)
-      db.session.add(record)
-
-    # Remove unchecked connections
-    for row, column in existing_connections - submitted_connections:
-      record_to_delete = Connection.query.filter_by(element1=row, element2=column).first()
-      db.session.delete(record_to_delete)
-
-    db.session.commit()
-      
-  project = Project.query.first()
-  # elements = Element.query.filter_by(project_id=project.id)
-  elements = Element.query.all()
-  connections = Connection.query.order_by(Connection.element1, Connection.element2)
-  return render_template('test_page.html', project=project, elements=elements, connections=connections)
+  return render_template('test_page.html')
 
 
 def getAccessLevel(user_id, project_id):

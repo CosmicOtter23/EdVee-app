@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "project_wizard.html" %}
+{% block wizard %}
   <header>
     <h1>{{ project.name }}</h1>
     <h4 class="article-content">{{ project.desc }}</h4>
@@ -322,4 +322,4 @@
       });
     });
   </script>
-{% endblock content %}
+{% endblock wizard %}

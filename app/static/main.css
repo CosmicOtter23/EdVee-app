@@ -401,7 +401,7 @@ footer {
 
 .tabs {
   display: flex;
-  background-color: #ddd;
+  /* background-color: #ddd; */
 }
 
  /* account tabs */
@@ -426,4 +426,69 @@ footer {
   display: none;
   padding: 20px;
   border: 1px solid #ddd;
+}
+
+.wizard-navbar {
+    display: flex;
+    /* background-color: #dddddd; */
+    width: 100%;
+}
+
+.wizard-navtab {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-radius: 20px;
+    margin: 10px;
+    text-align: center;
+}
+
+.wizard-navtab li {
+    text-align: center;
+}
+
+.wizard-navtab a {
+    display: block;
+    padding: 14px 20px;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+}
+
+.wizard-navtab a:hover {
+    background-color: #575757;
+    color: white;
+}
+
+
+.wiz-navbar {
+    display: grid;
+    background-color: #333;
+}
+
+.wiz-navtab {
+    display: grid;
+    /* grid-template-columns: repeat(4, 1fr); */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-radius: 10px 10px 0px 0px;
+    text-align: center;
+}
+
+.wiz-navtab li {
+    text-align: center;
+}
+
+.wiz-navtab a {
+    display: block;
+    /* padding: 14px 20px; */
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
+.wiz-navtab a:hover {
+    background-color: #575757;
+    text-align: center;
 }

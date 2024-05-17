@@ -1,10 +1,13 @@
-{% extends "project_wizard.html" %}
+
+<br>
+  <h1>{{ project.name }}</h1>
+  <h4 class="article-content">{{ project.desc }}</h4>
+<!-- </header> -->
+
+{% extends "wizard/project_wizard.html" %}
 {% block wizard %}
-  <header>
-    <h1>{{ project.name }}</h1>
-    <h4 class="article-content">{{ project.desc }}</h4>
     
-    <div>
+    <!-- <div>
       <nav>
         <ul>
           <li>
@@ -12,12 +15,12 @@
               <button class="btn">Project Details</button>
             </a>
           </li>
-          <!-- __
+          __
           <li>
             <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}">
               <button class="btn">Elements</button>
             </a>
-          </li> -->
+          </li>
           __
           <li id="elements-button">
             <button class="btn" onclick="OpenElementsNav()">Elements</button>
@@ -88,7 +91,7 @@
           </div>
         </ul>
       </nav>
-    </div>
+    </div> -->
   </header>
 
   <br>
@@ -233,7 +236,7 @@
 
   <footer>
     <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=3) }}" type="button" class="btn btn-secondary" style="float: left;">Previous</a>
-    <a href="{{ url_for('project', project_id=project.id) }}" type="button" class="btn btn-secondary" style="float: right;">Submit</a>
+    <a href="{{ url_for('project', project_id=project.id) }}" type="button" class="btn btn-secondary" style="float: right;">Save</a>
   </footer>
 
   {% if project.creator == current_user %}

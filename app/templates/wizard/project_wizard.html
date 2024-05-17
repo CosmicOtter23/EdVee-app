@@ -1,36 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Test Page</h1>
-
   {% set project_id = 0 %}
-    
-  <br>
 
-  <div class="tabs">
-    <a href="{{ url_for('project_wiz_1', project_id=project.id) }}"><button class="tab" onclick="open_wizard_tab(event, 'Details')">Details</button></a>
-    <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}"><button class="tab" onclick="open_wizard_tab(event, 'Elements')">Elements</button></a>
-    <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}"><button class="tab" onclick="open_wizard_tab(event, 'Connections')">Connections</button></a>
-    <a href="{{ url_for('project_wiz_4', project_id=project.id) }}"><button class="tab" onclick="open_wizard_tab(event, 'Overview')">Overview</button></a>
+  <div class="wizard-navbar">
+    <a href="{{ url_for('project_wiz_1', project_id=project.id) }}"><button class="tab wizard-navtab">Details</button></a>
+    <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}"><button class="tab wizard-navtab">Elements</button></a>
+    <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}"><button class="tab wizard-navtab">Connections</button></a>
+    <a href="{{ url_for('project_wiz_4', project_id=project.id) }}"><button class="tab wizard-navtab">Overview</button></a>
   </div>
+  <!-- <nav class="wizard-navbar">
+      <ul class="wizard-navtabs">
+          <li class="tab wizard-navtab" class="tab wizard-navtab"><a href="{{ url_for('project_wiz_1', project_id=project.id) }}">Details</a></li>
+          <li class="tab wizard-navtab"><a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}">Elements</a></li>
+          <li class="tab wizard-navtab"><a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}">Connections</a></li>
+          <li class="tab wizard-navtab"><a href="{{ url_for('project_wiz_4', project_id=project.id) }}">Overview</a></li>
+      </ul>
+  </nav> -->
+  <nav class="wiz-navbar">
+      <ul class="nav-tabs">
+          <li><a href="{{ url_for('project_wiz_1', project_id=project.id) }}"><button class="wiz-navtab">Details</button></a></li>
+          <li><a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}"><button class="wiz-navtab">Elements</button></a></li>
+          <li><a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}"><button class="wiz-navtab">Connections</button></a></li>
+          <li><a href="{{ url_for('project_wiz_4', project_id=project.id) }}"><button class="wiz-navtab">Overview</button></a></li>
+      </ul>
+  </nav>
 
-  <div id="Details" class="tab-content">
-    <h1>Details</h1>
-    <p>Welcome to the home page.</p>
-  </div>
-  <div id="Elements" class="tab-content" style="display: none;">
-    <h1>Elements</h1>
-    <p>Latest news here.</p>
-  </div>
-  <div id="Connections" class="tab-content" style="display: none;">
-    <h1>Connections</h1>
-    <p>Contact us at email@example.com.</p>
-  </div>
-  <div id="Overview" class="tab-content" style="display: none;">
-    <h1>Overview</h1>
-    <p>Contact us at email@example.com.</p>
-  </div>
+  
 
-  {% block wizard %}{% endblock%}
+  {% block wizard %}{% endblock %}
 
   
 {% endblock content %}

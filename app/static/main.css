@@ -462,22 +462,26 @@ footer {
 
 .wiz-navbar {
     display: grid;
-    background-color: #333;
+    grid-template-columns: repeat(4, 1fr);
+    list-style-type: none;
+    padding: 0;
+    /* background-color: #333; */
 }
 
 .wiz-navtab {
-    display: grid;
+    /* display: grid; */
     /* grid-template-columns: repeat(4, 1fr); */
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 10 0 10 0;
     width: 100%;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 25px 25px 0px 0px;
     text-align: center;
 }
 
 .wiz-navtab li {
     text-align: center;
+    width: 100%;
 }
 
 .wiz-navtab a {
@@ -491,4 +495,9 @@ footer {
 .wiz-navtab a:hover {
     background-color: #575757;
     text-align: center;
+}
+
+.active-tab {
+    background-color: #757575;
+    color: #fff;
 }

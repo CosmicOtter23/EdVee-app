@@ -1,11 +1,9 @@
+<br>
+<h1>{{ project.name }}</h1>
+<h2>Connections ({{ current_index+1 }}/4)</h2>
+  
 {% extends "wizard/project_wizard.html" %}
 {% block wizard %}
-<header>
-  <!-- <h1>Project Wizard - Part 3</h1>
-  <h2>Connections ({{ current_index+1 }}/4)</h2> -->
-  <h1>{{ project.name }}</h1>
-  <h2>Connections ({{ current_index+1 }}/4)</h2>
-  
   <!-- <div>
     <nav>
       <ul>
@@ -89,9 +87,6 @@
       </ul>
     </nav>
   </div> -->
-</header>
-
-<br>
 
 <!-- <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=current_index-1) }}">
   <button type="button" class="btn">Previous</button>

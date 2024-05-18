@@ -1,67 +1,73 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // const modalTriggerElements = document.querySelectorAll('.modal-trigger');
-  const modal = document.querySelector('.element-modal');
-  const closeModalButton = document.getElementById('close-modal');
+    // const modalTriggerElements = document.querySelectorAll('.modal-trigger');
+    const modal = document.querySelector('.element-modal');
+    const closeModalButton = document.getElementById('close-modal');
 
-  // if (modal) {
-  //   modalTriggerElements.forEach(element => {
-  //       element.addEventListener('click', () => {
-  //           modal.style.display = 'block';
-  //       });
-  //   });
-  
-  if (closeModalButton) {
-    closeModalButton.addEventListener('click', () => {
-        modal.style.display = 'none';
+    // if (modal) {
+    //   modalTriggerElements.forEach(element => {
+    //       element.addEventListener('click', () => {
+    //           modal.style.display = 'block';
+    //       });
+    //   });
+    
+    if (closeModalButton) {
+        closeModalButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    }
+
+    // const pdfButton = document.getElementById('pdf-button');
+
+    // if (pdfButton) {
+    //     pdfButton.addEventListener('click', () => { 
+    //     var element = document.getElementById('element-to-print');
+    //     var name = "";
+
+    //     // html2pdf
+    //     name = element.getAttribute("data-value") + " - html2pdf.pdf";
+
+    //     var opt = {
+    //         margin:       0.5,
+    //         filename:     name,
+    //         image:        { type: 'jpeg', quality: 1 },
+    //         html2canvas:  { scale: 1 },
+    //         jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    //     };
+        
+    //     html2pdf().from(element).set(opt).save();
+
+
+    //     // // jspdf
+    //     // name = element.getAttribute("data-value") + " - jspdf.pdf";
+
+    //     // const { jsPDF } = window.jspdf;
+
+    //     // // Create a jsPDF instance
+    //     // const pdf = new jsPDF();
+
+    //     // document.getElementById('element-to-print').color = "red";
+    //     // console.log(document.getElementById('element-to-print'));
+
+    //     // // Convert the HTML element to PDF
+    //     // pdf.html(document.getElementById('element-to-print'), {
+    //     //   callback: function () {
+    //     //     // Download the PDF
+    //     //     pdf.save(name);
+    //     //   }
+    //     // });
+    //     });
+    // }
+
+    const tabs = document.querySelectorAll('.wiz-navtab');
+    const currentPath = window.location.pathname;
+
+    console.log("tabs:", tabs, "\ncurrentPath:", currentPath)
+    
+    tabs.forEach(tab => {
+        if (tab.parentElement.getAttribute('href') === currentPath) {
+            tab.classList.add('active-tab');
+        }
     });
-  }
-
-  // lines.forEach(line => {
-  //   element.appendChild(line);
-  //   console.log("Line done");
-  // });
-
-  const pdfButton = document.getElementById('pdf-button');
-
-  if (pdfButton) {
-    pdfButton.addEventListener('click', () => { 
-      var element = document.getElementById('element-to-print');
-      var name = "";
-
-      // html2pdf
-      name = element.getAttribute("data-value") + " - html2pdf.pdf";
-
-      var opt = {
-        margin:       0.5,
-        filename:     name,
-        image:        { type: 'jpeg', quality: 1 },
-        html2canvas:  { scale: 1 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
-      };
-      
-      html2pdf().from(element).set(opt).save();
-
-
-      // // jspdf
-      // name = element.getAttribute("data-value") + " - jspdf.pdf";
-
-      // const { jsPDF } = window.jspdf;
-
-      // // Create a jsPDF instance
-      // const pdf = new jsPDF();
-
-      // document.getElementById('element-to-print').color = "red";
-      // console.log(document.getElementById('element-to-print'));
-
-      // // Convert the HTML element to PDF
-      // pdf.html(document.getElementById('element-to-print'), {
-      //   callback: function () {
-      //     // Download the PDF
-      //     pdf.save(name);
-      //   }
-      // });
-    });
-  }
 });
 
 function OpenDiv(divToOpen) {
@@ -95,27 +101,6 @@ function openTab(tabName) {
   else {
     hideAllLines();
   }
-}
-
-function open_wizard_tab(evt, tabName) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tab-content" and hide them
-  tabcontent = document.getElementsByClassName("tab-content");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tab" and remove the class "active"
-  tablinks = document.getElementsByClassName("tab");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
 }
 
 function OpenElementsNav() {

@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-  {% set project_id = 0 %}
 
   <!-- <div class="wizard-navbar">
     <a href="{{ url_for('project_wiz_1', project_id=project.id) }}"><button class="tab wizard-navtab">Details</button></a>
@@ -16,6 +15,12 @@
           <li class="tab wizard-navtab"><a href="{{ url_for('project_wiz_4', project_id=project.id) }}">Overview</a></li>
       </ul>
   </nav> -->
+  <header>
+    <h1>{{ project.name }}</h1>
+  </header>
+
+  <br>
+
   <ul class="wiz-navbar">
     <li><a href="{{ url_for('project_wiz_1', project_id=project.id) }}"><button class="wiz-navtab">Details</button></a></li>
     <li><a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}"><button class="wiz-navtab">Elements</button></a></li>

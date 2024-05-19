@@ -58,13 +58,14 @@ document.addEventListener('DOMContentLoaded', function() {
     //     });
     // }
 
+    // Highlight the active tab in the wizard
     const tabs = document.querySelectorAll('.wiz-navtab');
     const currentPath = window.location.pathname;
 
-    console.log("tabs:", tabs, "\ncurrentPath:", currentPath)
+    // console.log("tabs:", tabs, "\ncurrentPath:", currentPath)
     
     tabs.forEach(tab => {
-        if (tab.parentElement.getAttribute('href') === currentPath) {
+        if (tab.parentElement.getAttribute('href').slice(0,-2) === currentPath.slice(0,-2)) {
             tab.classList.add('active-tab');
         }
     });

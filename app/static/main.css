@@ -477,6 +477,7 @@ footer {
     width: 100%;
     border-radius: 25px 25px 0px 0px;
     text-align: center;
+    font-size: x-large;
 }
 
 .wiz-navtab li {
@@ -486,18 +487,24 @@ footer {
 
 .wiz-navtab a {
     display: block;
-    /* padding: 14px 20px; */
     color: white;
     text-decoration: none;
     text-align: center;
 }
 
-.wiz-navtab a:hover {
-    background-color: #575757;
+/* .wiz-navtab a:hover {
+    background-color: #757575;
     text-align: center;
-}
+} */
 
 .active-tab {
     background-color: #757575;
+    /* background-color: #0084ac; */
     color: #fff;
+}
+
+.new-element {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

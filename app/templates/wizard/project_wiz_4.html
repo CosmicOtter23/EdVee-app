@@ -1,96 +1,6 @@
-<br>
-<h1>{{ project.name }}</h1>
-<h4 class="article-content">{{ project.desc }}</h4>
-
 {% extends "wizard/project_wizard.html" %}
 {% block wizard %}
-    
-    <!-- <div>
-      <nav>
-        <ul>
-          <li>
-            <a href="{{ url_for('project_wiz_1', project_id=project.id) }}">
-              <button class="btn">Project Details</button>
-            </a>
-          </li>
-          __
-          <li>
-            <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}">
-              <button class="btn">Elements</button>
-            </a>
-          </li>
-          __
-          <li id="elements-button">
-            <button class="btn" onclick="OpenElementsNav()">Elements</button>
-          </li>
-          <div id="elements-nav" style="display: none;">
-            <ul>
-              <li>
-                <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}">
-                  <img src="/static/elements_icon_1.png" alt="Link to elements (1/4)">
-                </a>
-              </li>
-              __
-              <li>
-                <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=2) }}">
-                  <img src="/static/elements_icon_2.png" alt="Link to elements (2/4)">
-                </a>
-              </li>
-              __
-              <li>
-                <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=3) }}">
-                  <img src="/static/elements_icon_3.png" alt="Link to elements (3/4)">
-                </a>
-              </li>
-              __
-              <li>
-                <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=4) }}">
-                  <img src="/static/elements_icon_4.png" alt="Link to elements (4/4)">
-                </a>
-              </li>
-              __
-              <li>
-                <button class="btn" onclick="CloseDiv('elements-nav'), OpenDiv('elements-button')">X</button>
-              </li>
-            </ul>
-          </div>
-          __
-          <li id="connections-button">
-            <button class="btn" onclick="OpenConnectionsNav()">Connections</button>
-          </li>
-          <div id="connections-nav" style="display: none;">
-            <ul>
-              <li>
-                <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}">
-                    <img src="/static/connections_icon_1.png" alt="Link to connections (1/4)">
-                </a>
-              </li>
-              __
-              <li>
-                <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=1) }}">
-                    <img src="/static/connections_icon_2.png" alt="Link to connections (2/4)">
-                </a>
-              </li>
-              __
-              <li>
-                <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=2) }}">
-                    <img src="/static/connections_icon_3.png" alt="Link to connections (3/4)">
-                </a>
-              </li>
-              __
-              <li>
-                <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=3) }}">
-                    <img src="/static/connections_icon_4.png" alt="Link to connections (4/4)">
-                </a>
-              </li>
-              __
-              <button class="btn" onclick="CloseDiv('connections-nav'), OpenDiv('connections-button')">X</button>
-            </ul>
-          </div>
-        </ul>
-      </nav>
-    </div> -->
-  </header>
+  <h4 class="article-content" style="text-align: center;">{{ project.desc }}</h4>
 
   <article class="media content-section">
     <div class="media-body">
@@ -231,8 +141,8 @@
   </article>
 
   <footer>
-    <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=3) }}" type="button" class="btn btn-secondary" style="float: left;">Previous</a>
-    <a href="{{ url_for('project', project_id=project.id) }}" type="button" class="btn btn-secondary" style="float: right;">Save</a>
+    <!-- <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=3) }}"><button class="btn" style="float: left;">Previous</button></a> -->
+    <a href="{{ url_for('project', project_id=project.id) }}"><button class="btn" style="float: right;">Save</button></a>
   </footer>
 
   {% if project.creator == current_user %}

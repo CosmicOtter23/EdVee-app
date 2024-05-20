@@ -323,6 +323,7 @@ footer {
 .navbar, .container-fluid, .navbar-expand-md, .navbar-collapse, .navbar-nav {
   flex-direction: column;
   align-items: flex-start;
+  padding: 0;
 }
 
 .navbar {
@@ -507,4 +508,16 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.menu-title {
+    background-color: #000;
+    width: 100%;
+    height: 6%;
+    padding: 10%;
+}
+
+.menu-title-text {
+    color: white;
+    font-size: 125%;
 }

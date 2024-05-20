@@ -578,6 +578,7 @@ buttons.forEach(editButton => {
 const navbarToggle = document.getElementById('nav-toggle');
 const navbar = document.getElementById('navbar');
 const content = document.getElementById('content');
+const menu_title = document.getElementById('menu-title');
 const img = document.querySelector('.nav-toggle-img');
 
 navbarToggle.addEventListener('click', () => {
@@ -587,12 +588,14 @@ navbarToggle.addEventListener('click', () => {
     img.src = "/static/chevron-r.png";
     navbarToggle.style.transform = "translateX(2vw)";
     content.style.display = "none";
+    menu_title.style.display = "block";
   }
   else {
     // console.log("Open");
     img.src = "/static/chevron-l.png";
     navbarToggle.style.transform = "translateX(22vw)";
     content.style.display = "block";
+    menu_title.style.display = "none";
   }
 });
 

@@ -66,6 +66,7 @@ class Element(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     connections1 = db.relationship('Connection', foreign_keys='Connection.element1', backref="parent_element1")
     connections2 = db.relationship('Connection', foreign_keys='Connection.element2', backref="parent_element2")
+    index = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
         # return f"Element('{self.id}', '{self.name}', '{self.element_type}', '{self.project_id}')"

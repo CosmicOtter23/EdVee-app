@@ -66,7 +66,7 @@ class ProjectForm(FlaskForm):
 
 
 class ElementForm2(FlaskForm):
-    name = StringField('Name', render_kw={'autofocus': True})
+    name = StringField('Name', render_kw={'autofocus': True}, validators=[DataRequired()])
     desc = TextAreaField('Description')
     id = IntegerField('ID')
     elementNo = HiddenField('Element No')

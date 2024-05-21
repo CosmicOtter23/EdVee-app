@@ -77,8 +77,6 @@
     <h2 style="text-align: center;">Assessments</h2>
   {% endif %}
 
-  <!-- <br> -->
-
   <div id="los-div" class="form-div" style="display: block;">
     {% if elements.count() == 0 %}
       <div id="element-div" class="rounded p-3 text-white element-box">
@@ -94,7 +92,7 @@
           <a href="{{ url_for('delete_element', element_id=element.id) }}">
             <img src="/static/bin.png" class="click-icon" alt="Delete Button">
           </a>
-          <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=2) }}">
+          <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id) }}">
             <img src="/static/edit.png" class="click-icon" alt="Edit Button">
           </a>
         </div>

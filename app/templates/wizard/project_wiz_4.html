@@ -54,7 +54,11 @@
                 <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
               </a>
             </td>
-            <th style="width: 10%;" class="invisibox"></th>
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=4) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
           </tr>
           {% for element in elements %}
             {% if element.element_type == 4 and element.project_id == project.id %}
@@ -80,7 +84,11 @@
       <div class="row justify-content-between">
         <table class="table table-bordered table-orange">
           <tr>
-            <th style="width: 10%;" class="invisibox"></th>
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=2) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
             <td style="width: 10%;">
               <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=2) }}">
                 <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
@@ -118,7 +126,11 @@
                 <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
               </a>
             </td>
-            <th style="width: 10%;" class="invisibox"></th>
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=3) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
           </tr>
           {% for element in elements %}
             {% if element.element_type == 3 and element.project_id == project.id %}

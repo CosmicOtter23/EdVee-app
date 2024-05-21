@@ -182,108 +182,108 @@ def project(project_id):
     return render_template('no_access.html')
 
 
-@app.route("/project/<int:project_id>/update", methods=['GET', 'POST'])
-@login_required
-def update_project(project_id):
-  project = Project.query.get_or_404(project_id)
-  elements = Element.query.all()
-  connections = Connection.query.all()
-  types = Type.query.all()
-  sections = ["los", "content", "las", "assessments"]
-  if project.creator != current_user:
-    # HTTP response for a forbidden route
-    abort(403)
-  form = ProjectForm()
-  if form.validate_on_submit():
-    project.name = form.name.data
-    project.desc = form.desc.data
+# @app.route("/project/<int:project_id>/update", methods=['GET', 'POST'])
+# @login_required
+# def update_project(project_id):
+#   project = Project.query.get_or_404(project_id)
+#   elements = Element.query.all()
+#   connections = Connection.query.all()
+#   types = Type.query.all()
+#   sections = ["los", "content", "las", "assessments"]
+#   if project.creator != current_user:
+#     # HTTP response for a forbidden route
+#     abort(403)
+#   form = ProjectForm()
+#   if form.validate_on_submit():
+#     project.name = form.name.data
+#     project.desc = form.desc.data
 
-    # For loop to determine if the user has added or removed any elements by
-    # evaluating the elements in the box against those stored in the database
-    for i in range(4):
-      stored_items = Element.query.filter_by(element_type=i+1, project_id=project.id).all()
-      print("Stored items:", stored_items)
-      print("sections[i]:", sections[i])
-      current_items = eval(f"form.{sections[i]}.data.split('|')")
-      print("Current items:", current_items)
-      for s_item in stored_items:
-        for c_item in current_items:
-          if (s_item.name == c_item):
-            stored_items.remove(s_item)
-            current_items.remove(c_item)
+#     # For loop to determine if the user has added or removed any elements by
+#     # evaluating the elements in the box against those stored in the database
+#     for i in range(4):
+#       stored_items = Element.query.filter_by(element_type=i+1, project_id=project.id).all()
+#       print("Stored items:", stored_items)
+#       print("sections[i]:", sections[i])
+#       current_items = eval(f"form.{sections[i]}.data.split('|')")
+#       print("Current items:", current_items)
+#       for s_item in stored_items:
+#         for c_item in current_items:
+#           if (s_item.name == c_item):
+#             stored_items.remove(s_item)
+#             current_items.remove(c_item)
 
-      # Runs if current_items has values left in it. This means user has added items
-      for item in current_items:
-        new_element = Element(name=item, desc="", element_type=i+1, project_id=project.id)
-        db.session.add(new_element)
+#       # Runs if current_items has values left in it. This means user has added items
+#       for item in current_items:
+#         new_element = Element(name=item, desc="", element_type=i+1, project_id=project.id)
+#         db.session.add(new_element)
         
-      # Runs if stored_items has values left in it. This means user has removed items
-      for item in stored_items:
-        element_to_remove = Element.query.filter_by(id=item.id).first()
-        db.session.delete(element_to_remove)
+#       # Runs if stored_items has values left in it. This means user has removed items
+#       for item in stored_items:
+#         element_to_remove = Element.query.filter_by(id=item.id).first()
+#         db.session.delete(element_to_remove)
 
-    # Get the checkbox matrix data from the form submission
-    checkbox_matrix = request.form.getlist('checkbox')
-    print("checkbox_matrix:", checkbox_matrix)
-    submitted_connections = {tuple(value.split(',')) for value in checkbox_matrix}
+#     # Get the checkbox matrix data from the form submission
+#     checkbox_matrix = request.form.getlist('checkbox')
+#     print("checkbox_matrix:", checkbox_matrix)
+#     submitted_connections = {tuple(value.split(',')) for value in checkbox_matrix}
 
-    print("submitted_connections:", submitted_connections)
+#     print("submitted_connections:", submitted_connections)
 
-    # Fetch existing records from the database
-    existing_records = Connection.query.all()
-    existing_connections = {(record.element1, record.element2) for record in existing_records}
+#     # Fetch existing records from the database
+#     existing_records = Connection.query.all()
+#     existing_connections = {(record.element1, record.element2) for record in existing_records}
 
-    print("existing_connections:", existing_connections)
+#     print("existing_connections:", existing_connections)
 
-    # Add new connections
-    for row, column in submitted_connections - existing_connections:
-      record = Connection(element1=row, element2=column)
-      db.session.add(record)
+#     # Add new connections
+#     for row, column in submitted_connections - existing_connections:
+#       record = Connection(element1=row, element2=column)
+#       db.session.add(record)
 
-    # Remove unchecked connections
-    for row, column in existing_connections - submitted_connections:
-      record_to_delete = Connection.query.filter_by(element1=row, element2=column).first()
-      db.session.delete(record_to_delete)
+#     # Remove unchecked connections
+#     for row, column in existing_connections - submitted_connections:
+#       record_to_delete = Connection.query.filter_by(element1=row, element2=column).first()
+#       db.session.delete(record_to_delete)
 
-    db.session.commit()
-    flash('Your project has been updated', 'success')
-    return redirect(url_for('project', project_id=project.id))
-  elif request.method == 'GET':
-    form.name.data = project.name
-    form.desc.data = project.desc
+#     db.session.commit()
+#     flash('Your project has been updated', 'success')
+#     return redirect(url_for('project', project_id=project.id))
+#   elif request.method == 'GET':
+#     form.name.data = project.name
+#     form.desc.data = project.desc
 
-    # for i in range(4):
-    #   output = ""
-    #   items = Element.query.filter_by(element_type=i+1, project_id=project.id).all()
-    #   for item in items:
-    #     output += item.name + "|"
-    #   setattr(form, f"{sections[i]}.data", output[:-1])
+#     # for i in range(4):
+#     #   output = ""
+#     #   items = Element.query.filter_by(element_type=i+1, project_id=project.id).all()
+#     #   for item in items:
+#     #     output += item.name + "|"
+#     #   setattr(form, f"{sections[i]}.data", output[:-1])
       
-    output = ""
-    items = Element.query.filter_by(element_type=1, project_id=project.id).all()
-    for item in items:
-      output += item.name + "|"
-    form.los.data = output[:-1]
-    output = ""
-    items = Element.query.filter_by(element_type=2, project_id=project.id).all()
-    for item in items:
-      output += item.name + "|"
-    form.content.data = output[:-1]
-    output = ""
-    items = Element.query.filter_by(element_type=3, project_id=project.id).all()
-    for item in items:
-      output += item.name + "|"
-    form.las.data = output[:-1]
-    output = ""
-    items = Element.query.filter_by(element_type=4, project_id=project.id).all()
-    for item in items:
-      output += item.name + "|"
-    form.assessments.data = output[:-1]
+#     output = ""
+#     items = Element.query.filter_by(element_type=1, project_id=project.id).all()
+#     for item in items:
+#       output += item.name + "|"
+#     form.los.data = output[:-1]
+#     output = ""
+#     items = Element.query.filter_by(element_type=2, project_id=project.id).all()
+#     for item in items:
+#       output += item.name + "|"
+#     form.content.data = output[:-1]
+#     output = ""
+#     items = Element.query.filter_by(element_type=3, project_id=project.id).all()
+#     for item in items:
+#       output += item.name + "|"
+#     form.las.data = output[:-1]
+#     output = ""
+#     items = Element.query.filter_by(element_type=4, project_id=project.id).all()
+#     for item in items:
+#       output += item.name + "|"
+#     form.assessments.data = output[:-1]
 
-  db.session.commit()
-  return render_template('create_project.html', title='Update Project', form=form, 
-                         legend='Update Project', project=project, elements=elements,
-                         connections=connections, types = types)
+#   db.session.commit()
+#   return render_template('create_project.html', title='Update Project', form=form, 
+#                          legend='Update Project', project=project, elements=elements,
+#                          connections=connections, types = types)
 
 
 @app.route("/project/<int:project_id>/delete", methods=['POST'])
@@ -467,77 +467,88 @@ def element_form(project_id, element_type):
 @login_required
 def new_element(project_id, element_type):
   project = Project.query.get_or_404(project_id)
+  current_elements = Element.query.filter_by(project_id=project_id, element_type=element_type)
   form = ElementForm2()
 
   if form.validate_on_submit():
+    next_index = current_elements.count()
     element = Element(name=form.name.data, desc=form.desc.data, 
-                      element_type=element_type, project_id=project_id)    
+                      element_type=element_type, project_id=project_id, index=next_index)    
     db.session.add(element)
     db.session.commit()
     return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=element_type))
 
   access_level = getAccessLevel(current_user.id, project.id)
+
+  previous_page = request.referrer
+
+  print(previous_page)
   
   if (access_level > 1):
-    return render_template('wizard/new_element.html', form=form, project=project, element_type=element_type, previous_page=2)
+    return render_template('wizard/new_element.html', form=form, project=project, element_type=element_type, previous_page=previous_page)
   else:
     return render_template('no_access.html')
 
 
-@app.route("/update_element/<int:project_id>/<int:element_id>/<int:previous_page>", methods=['GET', 'POST'])
+@app.route("/update_element/<int:project_id>/<int:element_id>", methods=['GET', 'POST'])
 @login_required
-def update_element(project_id, element_id, previous_page):
-  project = Project.query.get_or_404(project_id)
-  form = ElementForm2()
-  element = Element.query.filter_by(id=element_id).first()
-  print("element:", element)
+def update_element(project_id, element_id):
+    project = Project.query.get_or_404(project_id)
+    form = ElementForm2()
+    element = Element.query.filter_by(id=element_id).first()
+    print("element:", element)
 
-  if form.validate_on_submit():   
-    element.name = form.name.data
-    element.desc = form.desc.data
-    db.session.commit()
-    print("form:", form.desc.data)
-    print("element:", element.desc)
-    if (previous_page == 2):
-      return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=element.element_type))
-    elif (previous_page == 4):
-      return redirect(url_for('project_wiz_4', project_id=project.id))
-  elif request.method == 'GET':
-    form.name.data = element.name
-    form.desc.data = element.desc
+    previous_page = request.referrer
 
-  access_level = getAccessLevel(current_user.id, project.id)
-  
-  if (access_level > 1):
-    return render_template('wizard/new_element.html', form=form, project=project, element=element, previous_page=previous_page)
-  else:
-    return render_template('no_access.html')
+    if form.validate_on_submit():   
+        element.name = form.name.data
+        element.desc = form.desc.data
+        db.session.commit()
+        print("form:", form.desc.data)
+        print("element:", element.desc)
+        # if (previous_page == 2):
+        #     return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=element.element_type))
+        # elif (previous_page == 4):
+        #     return redirect(url_for('project_wiz_4', project_id=project.id))
+        return redirect(previous_page)
+    elif request.method == 'GET':
+        form.name.data = element.name
+        form.desc.data = element.desc
+
+    access_level = getAccessLevel(current_user.id, project.id)
+    
+    if (access_level > 1):
+        return render_template('wizard/new_element.html', form=form, project=project, element=element, previous_page=previous_page)
+    else:
+        return render_template('no_access.html')
 
 
 @app.route("/delete_element/<int:element_id>", methods=['GET', 'POST'])
 @login_required
 def delete_element(element_id):
-  element = Element.query.filter_by(id=element_id).first()
-  project = Project.query.get_or_404(element.project_id)
-  elements = Element.query.filter_by(project_id=element.project_id, element_type=element.element_type).order_by(Element.id)
-  
-  connections = Connection.query.filter(Connection.element1 == element.id and Connection.element2 == element.id).all()
-  for connection in connections:
-    print(connection)
-    db.session.delete(connection)
-  db.session.commit()
+    print(element_id)
+    element = Element.query.filter_by(id=element_id).first()
+    project = Project.query.get_or_404(element.project_id)
+    
+    connections = Connection.query.filter(Connection.element1 == element.id and Connection.element2 == element.id).all()
+    for connection in connections:
+        print(connection)
+        db.session.delete(connection)
+    db.session.commit()
 
-  db.session.delete(element)
-  db.session.commit()
-  flash('Your element has been deleted', 'success')
+    db.session.delete(element)
+    db.session.commit()
+    flash('Your element has been deleted', 'success')
 
-  access_level = getAccessLevel(current_user.id, project.id)
-  
-  if (access_level > 1):
-    return render_template('wizard/project_wiz_2A.html', project=project,
-                          element_type=element.element_type, elements=elements)
-  else:
-    return render_template('no_access.html')
+    access_level = getAccessLevel(current_user.id, project.id)
+    
+    # elements = Element.query.filter_by(project_id=element.project_id, element_type=element.element_type).order_by(Element.id)
+
+    if (access_level > 1):
+        # return render_template('wizard/project_wiz_2A.html', project=project, element_type=element.element_type, elements=elements)
+        return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=element.element_type))
+    else:
+        return render_template('no_access.html')
 
 
 @app.route("/project_wiz_3/<int:project_id>", methods=['GET', 'POST'])

@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Project Wizard - Page 2A</h1>
+  <!-- <h1>Project Wizard - Page 2A</h1> -->
   {% if element_type == 1 %}
-    <h2>New Element: Learning Outcome</h2>
+    <h2>New Learning Outcome Element</h2>
   {% elif element_type == 2 %}
-    <h2>New Element: Content</h2>
+    <h2>New Content Element</h2>
   {% elif element_type == 3 %}
-    <h2>New Element: Learning Activities</h2>
+    <h2>New Learning Activities Element</h2>
   {% elif element_type == 4 %}
-    <h2>New Element: Assessment</h2>
+    <h2>New Assessment Element</h2>
   {% endif %}
   
   <div id="element-div-copy" class="rounded p-3 text-white element-box">
     {% if element %}
-      <form method="POST" action="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=previous_page) }}">
+      <form method="POST" action="{{ url_for('update_element', project_id=project.id, element_id=element.id) }}">
     {% else %}
-      <form method="POST" action="{{ url_for('new_element', project_id=project.id, element_type=element_type, previous_page=previous_page) }}">
+      <form method="POST" action="{{ url_for('new_element', project_id=project.id, element_type=element_type) }}">
     {% endif %}
       {{ form.hidden_tag() }}  
       <div class="form-group">
@@ -47,7 +47,7 @@
       <input type="hidden" name="hidden_field" value="1">
       <!-- <button type="button" class="btn" onclick="OpenDiv('content-div'), HighlightButton('btn-2')">Next</button> -->
       <input id="submitButton" class="btn" type="submit" value="Save" style="float: right;">
-      {% if previous_page == 4 %}
+      <!-- {% if previous_page == 4 %}
         <a href="{{ url_for('project_wiz_4', project_id=project.id) }}" 
           class="btn" type="button">Back</a>
       {% elif previous_page == 2 %}
@@ -58,7 +58,8 @@
           <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=element_type) }}" 
             class="btn" type="button">Back</a>
         {% endif %}
-      {% endif %}
+      {% endif %} -->
+        <a href="{{ previous_page }}" class="btn" type="button">Back</a>
     </form>
   </div>
   

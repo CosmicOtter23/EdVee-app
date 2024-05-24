@@ -401,7 +401,7 @@ def project_new():
 def project_wiz_2A(project_id, element_type):
   project = Project.query.get_or_404(project_id)
   # form = ElementForm2()
-  elements = Element.query.filter_by(project_id=project_id, element_type=element_type)
+  elements = Element.query.filter_by(project_id=project_id, element_type=element_type).order_by(Element.index)
   print("elements:", elements)
 
   if (element_type == 5):
@@ -855,6 +855,29 @@ def getAccessLevel(user_id, project_id):
   else:
     return 0
   
+
+@app.route("/update_index/<int:element_id>/<int:update_by>", methods=['GET', 'POST'])
+def update_index(element_id, update_by):
+    # the function doesn't like update_by being -1, so it's given as 0 then set to -1
+    if update_by == 0:
+        update_by = -1
+
+    element1 = Element.query.filter_by(id=element_id).first()
+    element2 = Element.query.filter_by(
+        project_id=element1.project_id, 
+        element_type=element1.element_type, 
+        index=element1.index+update_by
+        ).first()
+    
+    if (element2):
+        element1.index += update_by
+        element2.index -= update_by
+    else:
+        print("Second element not found")
+
+    db.session.commit()
+
+    return redirect(url_for('project_wiz_2A', project_id=element1.project_id, element_type=element1.element_type))
 
 @app.route("/register_email", methods=['GET', 'POST'])
 def register_email():

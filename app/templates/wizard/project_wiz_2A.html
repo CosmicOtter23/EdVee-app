@@ -95,6 +95,18 @@
           <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id) }}">
             <img src="/static/edit.png" class="click-icon" alt="Edit Button">
           </a>
+          <div class="index-arrows">
+            {% if  not loop.first %}
+              <a href="{{ url_for('update_index', element_id=element.id, update_by=0) }}">
+                Move up
+              </a>
+            {% endif %}
+            {% if not loop.last %}
+              <a href="{{ url_for('update_index', element_id=element.id, update_by=1) }}">
+                Move down
+              </a>
+            {% endif %}
+          </div>
         </div>
       {% endfor %}
     {% endif %}

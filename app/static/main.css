@@ -157,6 +157,15 @@ tr:nth-child(even) {
   box-shadow: none;
 }
 
+.new-element-box {
+  /* background-color: rgb(var(--purple));  */
+  color: black !important;
+  border-style: solid;
+  border-color: black;
+  margin: 1%;
+  display: block;
+}
+
 .element-box {
   /* background-color: rgb(var(--purple));  */
   color: black !important;
@@ -164,6 +173,8 @@ tr:nth-child(even) {
   border-color: black;
   margin: 1%;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .click-icon {
@@ -171,6 +182,42 @@ tr:nth-child(even) {
   float: right;
   display: inline;
   margin-left: 2%;
+  border-style: solid;
+}
+
+.element-icons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  /* gap: 5px; */
+  float: right;
+  width: 15%;
+}
+
+.icon {
+  width: 75%;
+  /* border-style: solid;
+  border-color: black;
+  border-radius: 5px; */
+}
+
+.icon-up {
+  grid-row-start: 1;
+  grid-row-end: 1;
+}
+
+.icon-down {
+  grid-row-start: 2;
+  grid-row-end: 2;
+}
+
+.icon-edit {
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.icon-delete {
+  grid-row-start: 1;
+  grid-row-end: 3;
 }
 
 .table-icon {
@@ -430,94 +477,94 @@ footer {
 }
 
 .wizard-navbar {
-    display: flex;
-    /* background-color: #dddddd; */
-    width: 100%;
+  display: flex;
+  /* background-color: #dddddd; */
+  width: 100%;
 }
 
 .wizard-navtab {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-radius: 20px;
-    margin: 10px;
-    text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-radius: 20px;
+  margin: 10px;
+  text-align: center;
 }
 
 .wizard-navtab li {
-    text-align: center;
+  text-align: center;
 }
 
 .wizard-navtab a {
-    display: block;
-    padding: 14px 20px;
-    color: black;
-    text-decoration: none;
-    text-align: center;
+  display: block;
+  padding: 14px 20px;
+  color: black;
+  text-decoration: none;
+  text-align: center;
 }
 
 .wizard-navtab a:hover {
-    background-color: #575757;
-    color: white;
+  background-color: #575757;
+  color: white;
 }
 
 
 .wiz-navbar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    list-style-type: none;
-    padding: 0;
-    /* background-color: #333; */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  list-style-type: none;
+  padding: 0;
+  /* background-color: #333; */
 }
 
 .wiz-navtab {
-    /* display: grid; */
-    /* grid-template-columns: repeat(4, 1fr); */
-    list-style: none;
-    margin: 0;
-    padding: 10 0 10 0;
-    width: 100%;
-    border-radius: 25px 25px 0px 0px;
-    text-align: center;
-    font-size: x-large;
+  /* display: grid; */
+  /* grid-template-columns: repeat(4, 1fr); */
+  list-style: none;
+  margin: 0;
+  padding: 10 0 10 0;
+  width: 100%;
+  border-radius: 25px 25px 0px 0px;
+  text-align: center;
+  font-size: x-large;
 }
 
 .wiz-navtab li {
-    text-align: center;
-    width: 100%;
+  text-align: center;
+  width: 100%;
 }
 
 .wiz-navtab a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    text-align: center;
+  display: block;
+  color: white;
+  text-decoration: none;
+  text-align: center;
 }
 
 /* .wiz-navtab a:hover {
-    background-color: #757575;
-    text-align: center;
+  background-color: #757575;
+  text-align: center;
 } */
 
 .active-tab {
-    background-color: #757575;
-    /* background-color: #0084ac; */
-    color: #fff;
+  background-color: #757575;
+  /* background-color: #0084ac; */
+  color: #fff;
 }
 
 .new-element {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .menu-title {
-    background-color: #000;
-    width: 100%;
-    height: 6%;
-    padding: 10%;
+  background-color: #000;
+  width: 100%;
+  height: 6%;
+  padding: 10%;
 }
 
 .menu-title-text {
-    color: white;
-    font-size: 125%;
+  color: white;
+  font-size: 125%;
 }

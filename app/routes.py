@@ -536,6 +536,11 @@ def delete_element(element_id):
         db.session.delete(connection)
     db.session.commit()
 
+    elements_in_type = Element.query.filter_by(project_id=element.project_id, element_type=element.element_type).all()
+    for element_in_type in elements_in_type:
+        if (element_in_type.index > element.index):
+            element_in_type.index -= 1
+
     db.session.delete(element)
     db.session.commit()
     flash('Your element has been deleted', 'success')

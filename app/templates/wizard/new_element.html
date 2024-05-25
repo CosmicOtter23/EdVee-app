@@ -11,7 +11,7 @@
     <h2>New Assessment Element</h2>
   {% endif %}
   
-  <div id="element-div-copy" class="rounded p-3 text-white element-box">
+  <div id="element-div-copy" class="rounded p-3 text-white new-element-box">
     {% if element %}
       <form method="POST" action="{{ url_for('update_element', project_id=project.id, element_id=element.id) }}">
     {% else %}

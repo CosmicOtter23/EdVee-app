@@ -90,20 +90,20 @@
             <p class="text-muted desc-text" style="display: inline;">- {{ element.desc }}</p>
           {% endif %} -->
           <div class="element-icons">
-            <a href="{{ url_for('delete_element', element_id=element.id) }}" class="icon-delete">
-              <img src="/static/bin.png" alt="Delete Button" class="icon">
+            <a href="{{ url_for('delete_element', element_id=element.id) }}" class="icon icon-delete">
+              <img src="/static/bin.png" alt="Delete Button" style="width: 75%;">
             </a>
-            <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id) }}" class="icon-edit">
-              <img src="/static/edit.png" alt="Edit Button" class="icon">
+            <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id) }}" class="icon icon-edit">
+              <img src="/static/edit.png" alt="Edit Button" style="width: 75%;">
             </a>
             {% if not loop.first %}
-              <a href="{{ url_for('update_index', element_id=element.id, update_by=0) }}" class="icon-up">
-                <img src="/static/chevron-u.png" alt="Move Up Button" class="icon">
+              <a href="{{ url_for('update_index', element_id=element.id, update_by=0) }}" class="icon icon-up">
+                <img src="/static/chevron-u.png" alt="Move Up Button" style="width: 75%;">
               </a>
             {% endif %}
             {% if not loop.last %}
-              <a href="{{ url_for('update_index', element_id=element.id, update_by=1) }}" class="icon-down">
-                <img src="/static/chevron-d.png" alt="Move Down Button" class="icon">
+              <a href="{{ url_for('update_index', element_id=element.id, update_by=1) }}" class="icon icon-down">
+                <img src="/static/chevron-d.png" alt="Move Down Button" style="width: 75%;">
               </a>
             {% endif %}
           </div>
@@ -116,11 +116,13 @@
     </a>
   </div>
 
-    <!-- <footer>
-      <div style="float: right; margin: 5%;">
-        <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Freepik - Flaticon</a>
-        <br>
-        <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Pixel perfect - Flaticon</a>
-      </div>
-    </footer> -->
+  <br>
+
+  <!-- <footer>
+    <div style="float: right; margin: 5%;">
+      <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Freepik - Flaticon</a>
+      <br>
+      <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Pixel perfect - Flaticon</a>
+    </div>
+  </footer> -->
 {% endblock wizard %}

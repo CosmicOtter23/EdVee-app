@@ -268,14 +268,18 @@ async function removeLine(box1Id, box2Id) {
 
 // Returns the colour of the lines needed between these two categories
 function colourPicker(type1, type2) {
-  if (type1 == 1 && type2 == 4 || type1 == 4 && type2 == 1) // LOS -> ASM, purple
-    return "#9B2BF3";
-  else if (type1 == 2 && type2 == 4 || type1 == 4 && type2 == 2) // CON -> ASM, green
-    return "#64C255";
-  else if (type1 == 2 && type2 == 3 || type1 == 3 && type2 == 2) // CON -> LAS, blue
-    return "#179DE3";
-  else if (type1 == 1 && type2 == 3 || type1 == 3 && type2 == 1) // LOS -> ASM, orange
-    return "#FF796F";
+  if (type1 == 1 && type2 == 4 || type1 == 4 && type2 == 1) // LOS -> ASM, purple | blue
+    // return "#9B2BF3";
+    return "#0A10EA";
+  else if (type1 == 2 && type2 == 4 || type1 == 4 && type2 == 2) // CON -> ASM, green | orange
+    // return "#179DE3";
+    return "#EA8E0A";
+  else if (type1 == 2 && type2 == 3 || type1 == 3 && type2 == 2) // CON -> LAS, blue | green
+    // return "#64C255";
+    return "#24C20E";
+  else if (type1 == 1 && type2 == 3 || type1 == 3 && type2 == 1) // LOS -> LAS, orange | red
+    // return "#FF796F";
+    return "#E50E0E";
   else
     return null;
 }

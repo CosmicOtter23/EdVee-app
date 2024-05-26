@@ -35,4 +35,7 @@
     <br>
     <input class="btn" type="submit" value="Save" style="float: right;">
   </form>
+  <a href="{{ url_for('home') }}"><button class="btn" type="none">All Projects</button></a>
+  <a href="{{ url_for('about') }}"><button class="btn" type="none">Home</button></a>
+  <a href="{{ url_for('logout') }}"><button class="btn" type="none">Logout</button></a>
 {% endblock wizard %}

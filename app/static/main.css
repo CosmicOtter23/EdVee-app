@@ -177,13 +177,13 @@ tr:nth-child(even) {
   justify-content: space-between;
 }
 
-.click-icon {
+/* .click-icon {
   width: 3%;
   float: right;
   display: inline;
   margin-left: 2%;
   border-style: solid;
-}
+} */
 
 .element-icons {
   display: grid;
@@ -193,11 +193,10 @@ tr:nth-child(even) {
   width: 15%;
 }
 
-.icon {
-  width: 75%;
-  /* border-style: solid;
-  border-color: black;
-  border-radius: 5px; */
+.icon :hover {
+  border-style: solid;
+  border-color: white;
+  border-radius: 10px;
 }
 
 .icon-up {

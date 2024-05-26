@@ -39,7 +39,8 @@ def home():
 
   projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
 
-  elements = Element.query.all()
+#   elements = Element.query.all()
+  elements = Element.query.order_by(Element.index)
   return render_template('home.html', projects=projects, elements=elements, title='Home')
 
 
@@ -138,7 +139,7 @@ def account(id):
   projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
   collections = Collection.query.filter_by(creator_id=id)
   
-  elements = Element.query.all()
+  elements = Element.query.order_by(Element.index)
   connections = Connection.query.all()
   form = UpdateAccountForm()
   if form.validate_on_submit():
@@ -161,7 +162,7 @@ def account(id):
 @app.route("/project/<int:project_id>")
 def project(project_id):
   project = Project.query.get_or_404(project_id)
-  elements = Element.query.all()
+  elements = Element.query.order_by(Element.index)
   accesses = Access.query.filter_by(project_id=project.id)
   access_level = 0
   if (current_user.id == project.creator_id):
@@ -339,36 +340,37 @@ def remove_from_collection(project_id):
 @app.route("/project_wizard")
 @login_required
 def project_wizard():
-  form = ProjectForm()
-  return render_template('project_wizard.html', form=form)
+    form = ProjectForm()
+    return render_template('project_wizard.html', form=form)
 
 
 @app.route("/project_wiz_1/<int:project_id>", methods=['GET', 'POST'])
 @login_required
 def project_wiz_1(project_id):
-  form = ProjectForm()
-  project = Project.query.get_or_404(project_id)
-  if form.validate_on_submit():
-    # project = Project(name=form.name.data, desc=form.desc.data, creator=current_user)
-    project.name = form.name.data
-    project.desc = form.desc.data
-    db.session.add(project)
-    db.session.commit()
-    print(project)
-    # project_id = Project.query.order_by(Project.id).first()
-    # flash("Project added to db. ID:", project_id)
-    # print("Project added to db. ID:", project_id)
-    return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=1))
-  elif request.method == 'GET':
-    form.name.data = project.name
-    form.desc.data = project.desc
+    form = ProjectForm()
+    project = Project.query.get_or_404(project_id)
+    if form.validate_on_submit():
+        # project = Project(name=form.name.data, desc=form.desc.data, creator=current_user)
+        project.name = form.name.data
+        project.desc = form.desc.data
+        db.session.add(project)
+        db.session.commit()
+        print(project)
+        # project_id = Project.query.order_by(Project.id).first()
+        # flash("Project added to db. ID:", project_id)
+        # print("Project added to db. ID:", project_id)
+        # return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=1))
+        return redirect(url_for('project_wiz_4', project_id=project.id))
+    elif request.method == 'GET':
+        form.name.data = project.name
+        form.desc.data = project.desc
 
-  access_level = getAccessLevel(current_user.id, project.id)
-  
-  if (access_level > 1):
-    return render_template('wizard/project_wiz_1.html', form=form, project=project)
-  else:
-    return render_template('no_access.html')
+    access_level = getAccessLevel(current_user.id, project.id)
+    
+    if (access_level > 1):
+        return render_template('wizard/project_wiz_1.html', form=form, project=project)
+    else:
+        return render_template('no_access.html')
 
 
 @app.route("/project/new", methods=['GET', 'POST'])
@@ -467,7 +469,7 @@ def element_form(project_id, element_type):
 @login_required
 def new_element(project_id, element_type):
   project = Project.query.get_or_404(project_id)
-  current_elements = Element.query.filter_by(project_id=project_id, element_type=element_type)
+  current_elements = Element.query.filter_by(project_id=project_id, element_type=element_type).order_by(Element.index)
   form = ElementForm2()
 
   if form.validate_on_submit():
@@ -560,7 +562,7 @@ def delete_element(element_id):
 @login_required
 def project_wiz_3(project_id):
   project = Project.query.get_or_404(project_id)
-  elements = Element.query.filter_by(project_id=project_id)
+  elements = Element.query.filter_by(project_id=project_id).order_by(Element.index)
   connections = Connection.query.filter_by()
   element_1s = []
   element_2s = []
@@ -573,7 +575,7 @@ def project_wiz_3(project_id):
           element_1s.append(element_1)
           element_2s.append(element_2)
           
-  elements = Element.query.all()
+  elements = Element.query.order_by(Element.index)
 
   access_level = getAccessLevel(current_user.id, project.id)
   
@@ -588,7 +590,7 @@ def project_wiz_3(project_id):
 @login_required
 def project_wiz_3A(project_id, current_index):
   project = Project.query.get_or_404(project_id)
-  elements = Element.query.filter_by(project_id=project_id)
+  elements = Element.query.filter_by(project_id=project_id).order_by(Element.index)
   connections = Connection.query.filter_by(project_id=project_id)
   types = ["Learning Outcomes", "Content", "Learning Activities", "Assessments"]
 #   indexes = [[1,3], [3,2], [2,4], [4,1]]
@@ -614,7 +616,7 @@ def project_wiz_3A(project_id, current_index):
 def project_wiz_4(project_id):
     form = ElementForm2()
     project = Project.query.get_or_404(project_id)
-    elements = Element.query.filter_by(project_id=project_id)
+    elements = Element.query.filter_by(project_id=project_id).order_by(Element.index)
     connections = Connection.query.filter_by()
     element_1s = []
     element_2s = []
@@ -637,7 +639,7 @@ def project_wiz_4(project_id):
                 print("element found!", element.id)
         db.session.commit()
             
-    elements = Element.query.all()
+    elements = Element.query.order_by(Element.index)
 
     access_level = getAccessLevel(current_user.id, project.id)
     
@@ -762,7 +764,7 @@ def get_connections():
 
 @app.route("/get_elements", methods=['GET'])
 def get_elements():
-  elements = Element.query.all()
+  elements = Element.query.order_by(Element.index)
   # Convert SQLAlchemy model objects to dictionaries
   elements_dict = [connection.__dict__ for connection in elements]
   
@@ -883,6 +885,26 @@ def update_index(element_id, update_by):
     db.session.commit()
 
     return redirect(url_for('project_wiz_2A', project_id=element1.project_id, element_type=element1.element_type))
+
+
+@app.route("/duplicate_project/<int:element_id>", methods=['GET', 'POST'])
+def duplicate_project(project_id):
+    project = Project.query.filter_by(id=project_id).first()
+    elements = Element.query.filter_by(project_id=project_id).order_by(Element.index)
+    connections = Connection.query.filter_by(project_id=project_id).all()
+
+    # Instead of adding new element with each iteration, add all elements to a list, then add connections and map the old elements to the new ones
+
+    for element in elements:
+        new_element = Element(name=element.name, desc=element.desc, element_type=element.element_type, project_id=project_id)
+        db.session.add(new_element)
+        for connection in connections:
+            if (connection.element1 == element.id):
+                new_connection = Connection(element1=new_element.id, element2=connection.element2)
+                db.session.add(new_connection)
+
+    new_project = Project(name=project.name, desc=project.desc, creator_id=current_user.id)
+
 
 @app.route("/register_email", methods=['GET', 'POST'])
 def register_email():

@@ -498,7 +498,7 @@ def update_element(project_id, element_id):
     project = Project.query.get_or_404(project_id)
     form = ElementForm2()
     element = Element.query.filter_by(id=element_id).first()
-    print("element:", element)
+    # print("element:", element)
 
     previous_page = request.referrer
 
@@ -841,10 +841,6 @@ def search_users(project_id):
                           usersWithAccess=usersWithAccess)
 
 
-# @app.route("/no_access", methods=['GET', 'POST'])
-# def no_access():
-
-
 @app.route("/test_page", methods=['GET', 'POST'])
 def test_page():
   return render_template('test_page.html')
@@ -887,23 +883,39 @@ def update_index(element_id, update_by):
     return redirect(url_for('project_wiz_2A', project_id=element1.project_id, element_type=element1.element_type))
 
 
-@app.route("/duplicate_project/<int:element_id>", methods=['GET', 'POST'])
+@app.route("/duplicate_project/<int:project_id>", methods=['GET', 'POST'])
 def duplicate_project(project_id):
     project = Project.query.filter_by(id=project_id).first()
     elements = Element.query.filter_by(project_id=project_id).order_by(Element.index)
     connections = Connection.query.filter_by(project_id=project_id).all()
 
-    # Instead of adding new element with each iteration, add all elements to a list, then add connections and map the old elements to the new ones
+    new_name = project.name + " copy"
 
+    new_project = Project(name=new_name, desc=project.desc, creator_id=current_user.id)
+    db.session.add(new_project)
+
+    old_element_list = []
+    new_element_list = []
     for element in elements:
-        new_element = Element(name=element.name, desc=element.desc, element_type=element.element_type, project_id=project_id)
+        index = Element.query.filter_by(project_id=new_project.id, element_type=element.element_type).count()
+        new_element = Element(name=element.name, desc=element.desc, element_type=element.element_type, project_id=new_project.id, index=index)
+        old_element_list.append(element)
+        new_element_list.append(new_element)
         db.session.add(new_element)
-        for connection in connections:
-            if (connection.element1 == element.id):
-                new_connection = Connection(element1=new_element.id, element2=connection.element2)
-                db.session.add(new_connection)
 
-    new_project = Project(name=project.name, desc=project.desc, creator_id=current_user.id)
+    for connection in connections:
+        element1 = Element.query.filter_by(id=connection.element1).first()
+        index1 = old_element_list.index(element1)
+        element2 = Element.query.filter_by(id=connection.element2).first()
+        index2 = old_element_list.index(element2)
+
+        new_connection = Connection(project_id=new_project.id, element1=new_element_list[index1].id, element2=new_element_list[index2].id)
+        
+        db.session.add(new_connection)
+
+    db.session.commit()
+
+    return redirect(url_for('project_wiz_4', project_id=new_project.id))
 
 
 @app.route("/register_email", methods=['GET', 'POST'])

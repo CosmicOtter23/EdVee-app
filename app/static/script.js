@@ -69,6 +69,19 @@ document.addEventListener('DOMContentLoaded', function() {
             tab.classList.add('active-tab');
         }
     });
+});	   
+
+html2canvas(this.ImageCanvas, {
+    onclone: function (element) {
+        var svgElements = element.body.getElementsByClassName("printable-area")[0].getElementsByTagName("svg");
+        Array.from(svgElements).forEach(function (svgElement) {
+            var bBox = svgElement.getBBox();
+            svgElement.setAttribute("width", bBox.width);
+            svgElement.setAttribute("height", bBox.height);
+        });
+    },
+}).then(function (canvas) {
+    document.body.appendChild(canvas);
 });
 
 pdf_button = document.getElementById('pdf-button')
@@ -80,9 +93,8 @@ if (pdf_button) {
           margin:       1,
           filename:     'page.pdf',
           image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2 },
-          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-          svg2pdf:      svg2pdf
+          html2canvas:  { scale: 2.4 },
+          jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' },
         };
     
         html2pdf().from(element).set(opt).save();

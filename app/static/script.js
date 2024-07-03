@@ -71,18 +71,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });	   
 
-html2canvas(this.ImageCanvas, {
-    onclone: function (element) {
-        var svgElements = element.body.getElementsByClassName("printable-area")[0].getElementsByTagName("svg");
-        Array.from(svgElements).forEach(function (svgElement) {
-            var bBox = svgElement.getBBox();
-            svgElement.setAttribute("width", bBox.width);
-            svgElement.setAttribute("height", bBox.height);
-        });
-    },
-}).then(function (canvas) {
-    document.body.appendChild(canvas);
-});
+// html2canvas(this.ImageCanvas, {
+//     onclone: function (element) {
+//         var svgElements = element.body.getElementsByClassName("printable-area")[0].getElementsByTagName("svg");
+//         Array.from(svgElements).forEach(function (svgElement) {
+//             var bBox = svgElement.getBBox();
+//             svgElement.setAttribute("width", bBox.width);
+//             svgElement.setAttribute("height", bBox.height);
+//         });
+//     },
+// }).then(function (canvas) {
+//     document.body.appendChild(canvas);
+// });
 
 pdf_button = document.getElementById('pdf-button')
 if (pdf_button) {

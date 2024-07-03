@@ -8,7 +8,7 @@
         <a class="mr-2" href="{{ url_for('account', id=project.creator.id) }}">{{ project.creator.name }}</a>
         <small class="text-muted">{{ project.date_created.strftime('%Y-%m-%d') }}</small>
         <div>
-          <button id="pdf-button" type="button" class="btn btn-secondary btn-sm m-1">Download PDF</button>
+          <!-- <button id="pdf-button" type="button" class="btn btn-secondary btn-sm m-1">Download PDF</button> -->
           {% if access_level >= 2 %}
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('project_wiz_4', project_id=project.id) }}">Edit</a>
             {% if access_level == 3 %}

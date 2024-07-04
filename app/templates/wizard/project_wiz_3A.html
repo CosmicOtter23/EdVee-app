@@ -1,0 +1,120 @@
+{% extends "wizard/project_wizard.html" %}
+{% block wizard %}
+
+<nav>
+  <ul style="justify-content: center;">
+    <li>
+      {% set index = current_index-1 %}
+      {% if index == -1 %}
+        {% set index = 3 %}
+      {% endif %}
+      <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=index) }}">
+        <button type="button" class="btn">Previous</button>
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=0) }}">
+        {% if current_index == 0 %}
+          <img src="/static/connections_icon_1.png" style="opacity: 1;" alt="Link to connections (1/4)">
+        {% else %}
+          <img src="/static/connections_icon_1.png" style="opacity: 0.3;" alt="Link to connections (1/4)">
+        {% endif %}
+      </a>
+    </li>
+    __
+    <li>
+      <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=1) }}">
+        {% if current_index == 1 %}
+          <img src="/static/connections_icon_2.png" style="opacity: 1;" alt="Link to connections (2/4)">
+        {% else %}
+          <img src="/static/connections_icon_2.png" style="opacity: 0.3;" alt="Link to connections (2/4)">
+        {% endif %}
+      </a>
+    </li>
+    __
+    <li>
+      <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=2) }}">
+        {% if current_index == 2 %}
+          <img src="/static/connections_icon_3.png" style="opacity: 1;" alt="Link to connections (3/4)">
+        {% else %}
+          <img src="/static/connections_icon_3.png" style="opacity: 0.3;" alt="Link to connections (4/4)">
+        {% endif %}
+      </a>
+    </li>
+    __
+    <li>
+      <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=3) }}">
+        {% if current_index == 3 %}
+          <img src="/static/connections_icon_4.png" style="opacity: 1;" alt="Link to connections (4/4)">
+        {% else %}
+          <img src="/static/connections_icon_4.png" style="opacity: 0.3;" alt="Link to connections (4/4)">
+        {% endif %}
+      </a>
+    </li>
+    <li>
+      {% set index = current_index+1 %}
+      {% if index == 4 %}
+        {% set index = 0 %}
+      {% endif %}
+      <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=index) }}" style="float: right;">
+        <button type="button" class="btn">Next</button>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<br>
+
+{% set element_types = [indexes[current_index]][0] %}
+
+<div id="los-div" class="form-div" style="display: block;">
+  <div style="background-color: white; padding: 10px" class="row justify-content-between">
+    {% if current_index == 0 or current_index == 3 %}
+      <table class="table table-bordered table-pink">
+    {% elif current_index == 1 or current_index == 2 %}
+      <table class="table table-bordered table-orange">
+    {% endif %}
+      <tr>
+        <th>{{ types[indexes[current_index][0]-1] }}</th>
+        <th class="invisibox"></th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == element_types[0] and element.project_id == project.id %}
+          <tr>
+            <td>{{ element.name }}</td>
+            <td class="invisibox"><button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button></td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+    {% if current_index == 0 or current_index == 1 %}
+      <table class="table table-bordered table-green">
+    {% elif current_index == 2 or current_index == 3 %}
+      <table class="table table-bordered table-blue">
+    {% endif %}
+      <tr>
+        <th class="invisibox"></th>
+        <th>{{ types[indexes[current_index][1]-1] }}</th>
+      </tr>
+      {% for element in elements %}
+        {% if element.element_type == element_types[1] and element.project_id == project.id %}
+          <tr>
+            <td class="invisibox"><button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button></td>
+            <td>{{ element.name }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // console.log("DOM content loaded!");
+    fillLines('{{ element_types[0] }}', '{{ element_types[1] }}');
+  });
+</script>
+
+{% endblock wizard %}
+
+<!-- Alter file to operate in a single div that changes -->

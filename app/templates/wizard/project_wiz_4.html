@@ -1,0 +1,252 @@
+{% extends "wizard/project_wizard.html" %}
+{% block wizard %}
+  <h4 class="article-content" style="text-align: center;">{{ project.desc }}</h4>
+
+  <article class="media content-section">
+    <div class="media-body">
+      <!-- <h2 class="article-title">{{ project.name }}</h2>
+      <p class="article-content">{{ project.desc }}</p> -->
+
+      <div class="row justify-content-between">
+        <!-- <svg width="500" height="500"><line x1="50" y1="50" x2="350" y2="350" stroke="black"/></svg> -->
+
+        <table class="table table-bordered table-pink">
+          <tr>
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=1) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
+            <td style="width: 10%;">
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}">
+                <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
+            <th style="width: 70%;">Learning Outcomes</th>
+            <th class="invisibox"></th>
+          </tr>
+          {% for element in elements %}
+            {% if element.element_type == 1 and element.project_id == project.id %}
+              <tr>
+                <td>
+                  <img id="modal-button" src="/static/comment.png" class="click-icon table-icon comment-icon"
+                    data-value="{{ element.name }}|{{ element.desc }}" alt="Show {{ element.name }} Button">
+                </td>
+                <td>
+                  <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=4) }}">
+                    <img src="/static/edit.png" class="click-icon table-icon" alt="Edit {{ element.name }} Button">
+                  </a>
+                </td>
+                <td style="width: 80%;">{{ element.name }}</td>
+                <td class="invisibox">
+                  <button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+        <table class="table table-bordered table-blue">
+          <tr>
+            <th style="width: 10%;" class="invisibox"></th>
+            <th style="width: 70%;">Assessments</th>
+            <td>
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=4) }}">
+                <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=4) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
+          </tr>
+          {% for element in elements %}
+            {% if element.element_type == 4 and element.project_id == project.id %}
+              <tr>
+                <td class="invisibox">
+                  <button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button>
+                </td>
+                <td>{{ element.name }}</td>
+                <td>
+                  <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=4) }}">
+                    <img src="/static/edit.png" class="click-icon table-icon" alt="Edit {{ element.name }} Button">
+                  </a>
+                </td>
+                <td>
+                  <img id="modal-button" src="/static/comment.png" class="click-icon table-icon comment-icon"
+                    data-value="{{ element.name }}|{{ element.desc }}" alt="Show {{ element.name }} Button">
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+      </div>
+      <div class="row justify-content-between">
+        <table class="table table-bordered table-orange">
+          <tr>
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=2) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
+            <td style="width: 10%;">
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=2) }}">
+                <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
+            <th style="width: 70%;">Content</th>
+            <th class="invisibox"></th>
+          </tr>
+          {% for element in elements %}
+            {% if element.element_type == 2 and element.project_id == project.id %}
+              <tr>
+                <td>
+                  <img id="modal-button" src="/static/comment.png" class="click-icon table-icon comment-icon"
+                    data-value="{{ element.name }}|{{ element.desc }}" alt="Show {{ element.name }} Button">
+                </td>
+                <td>
+                  <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=4) }}">
+                    <img src="/static/edit.png" class="click-icon table-icon" alt="Edit {{ element.name }} Button">
+                  </a>
+                </td>
+                <td style="width: 80%;">{{ element.name }}</td>
+                <td class="invisibox">
+                  <button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+        <table class="table table-bordered table-green">
+          <tr>
+            <th style="width: 10%;" class="invisibox"></th>
+            <th style="width: 70%;">Learning Activities</th>
+            <td>
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=3) }}">
+                <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=3) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td>
+          </tr>
+          {% for element in elements %}
+            {% if element.element_type == 3 and element.project_id == project.id %}
+              <tr>
+                <td class="invisibox">
+                  <button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button>
+                </td>
+                <td>{{ element.name }}</td>
+                <td>
+                  <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=4) }}">
+                    <img src="/static/edit.png" class="click-icon table-icon" alt="Edit {{ element.name }} Button">
+                  </a>
+                </td>
+                <td>
+                  <img id="modal-button" src="/static/comment.png" class="click-icon table-icon comment-icon"
+                    data-value="{{ element.name }}|{{ element.desc }}" alt="Show {{ element.name }} Button">
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </article>
+
+  <footer>
+    <!-- <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=3) }}"><button class="btn" style="float: left;">Previous</button></a> -->
+    <a href="{{ url_for('project', project_id=project.id) }}"><button class="btn" style="float: right;">Finalise</button></a>
+  </footer>
+
+  {% if project.creator == current_user %}
+  <!-- <div class="media-body">
+    <div class="article-content">
+      <h4 style="color: green;">✔ Elements in each section</h4>
+      <h4 style="color: red;">X No connections</h4>
+      <h4 style="color: red;">X No full cycles</h4>
+    </div>
+  </div> -->
+  {% endif %}
+
+  
+  <!-- <div class="modal element-modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-heading">Modal Content</h2>
+        </div>
+        <div class="modal-footer">
+          <p>This is the content of the modal.</p>
+          <button id="close-modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <div class="modal fade" id="descModal" tabindex="-1" role="dialog" aria-labelledby="DescModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="descModalLabel">Share Project:</h5>
+          <textarea readonly cols="30" rows="1"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  
+  <div class="modal element-modal" id="descModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form method="POST" action="">
+          {{ form.hidden_tag() }}  
+          <div id="header" class="modal-header">
+            <!-- <input type="hidden" class="form-id" name="hiddenValue"> -->
+            <h2 style="margin: 2%;"></h2>
+            <hr>
+            <h6 style="margin: 2%; text-align: justify;"></h6>
+          </div>
+          <div id="footer" class="modal-footer">
+            <button type="button" class="btn" id="close-modal" style="float: left;">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // console.log("DOM content loaded!");
+      fillLines(1, 3);
+      fillLines(3, 2);
+      fillLines(2, 4);
+      fillLines(4, 1);
+
+      let modalButtons = Array.from(document.querySelectorAll('.comment-icon'));
+      let modal = document.getElementById("descModal");
+      modalButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+          console.log(button);
+          console.log(button.getAttribute('data-value'));
+          modal.style.display = "block";
+          const title = document.querySelector('.modal .modal-dialog .modal-content h2');
+          const desc = document.querySelector('.modal .modal-dialog .modal-content h6');
+          title.innerHTML = button.getAttribute('data-value').split("|")[0];
+          if (button.getAttribute('data-value').split("|")[1] == "") {
+            desc.innerHTML = "No description";
+          }
+          else {
+            desc.innerHTML = button.getAttribute('data-value').split("|")[1];
+          }
+        });
+      });
+    });
+  </script>
+{% endblock wizard %}
+
+<!-- <a href="https://www.flaticon.com/free-icons/plus" title="plus icons">Plus icons created by Freepik - Flaticon</a> -->

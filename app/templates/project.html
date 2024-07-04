@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block content %}
+  <br>
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.creator.image_file) }}" alt="">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="{{ url_for('account', id=project.creator.id) }}">{{ project.creator.name }}</a>
+        <small class="text-muted">{{ project.date_created.strftime('%Y-%m-%d') }}</small>
+        <div>
+          <!-- <button id="pdf-button" type="button" class="btn btn-secondary btn-sm m-1">Download PDF</button> -->
+          {% if access_level >= 2 %}
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('project_wiz_4', project_id=project.id) }}">Edit</a>
+            {% if access_level == 3 %}
+              <button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal" data-target="#shareModal">Share</button>
+              <button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal" data-target="#collectionModal">Add to collection</button>
+              <button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal" data-target="#duplicateModal">Duplicate project</button>
+              <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+            {% endif %}
+          {% endif %}
+          <div id="legend" style="float: right">
+            <table class="legend-table">
+              <tr>
+                <th class="legend-text"><svg width="10" height="10"><line x1="0" y1="10" x2="10" y2="0" stroke="black"/></svg></th>
+                <th class="legend-text">Fully connected elements</th>
+              </tr>
+              <tr>
+                <th class="legend-text"><svg width="10" height="10"><line x1="0" y1="10" x2="10" y2="0" stroke="black" stroke-dasharray="3,2"/></svg></th>
+                <th class="legend-text">Disconnected elements</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="element-to-print" class="printable-area" data-value="{{ project.name }}" style="padding-left: 2%; padding-right: 2%;">
+        <h2 class="article-title">{{ project.name }}</h2>
+        <p class="article-content">{{ project.desc }}</p>
+
+        <div class="row justify-content-between">
+          <!-- <svg width="500" height="500"><line x1="50" y1="50" x2="350" y2="350" stroke="black"/></svg> -->
+
+          <table class="table table-bordered table-pink">
+            <tr>
+              <th>Learning Outcomes</th>
+              <th class="invisibox"></th>
+            </tr>
+            {% for element in elements %}
+              {% if element.element_type == 1 and element.project_id == project.id %}
+                <tr>
+                  <td>{{ element.name }}</td>
+                  <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </table>
+          <table class="table table-bordered table-blue">
+            <tr>
+              <th class="invisibox"></th>
+              <th>Assessments</th>
+            </tr>
+            {% for element in elements %}
+              {% if element.element_type == 4 and element.project_id == project.id %}
+                <tr>
+                  <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
+                  <td>{{ element.name }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </table>
+        </div>
+        <div class="row justify-content-between">
+          <table class="table table-bordered table-orange">
+            <tr>
+              <th>Content</th>
+              <th class="invisibox"></th>
+            </tr>
+            {% for element in elements %}
+              {% if element.element_type == 2 and element.project_id == project.id %}
+                <tr>
+                  <td>{{ element.name }}</td>
+                  <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </table>
+          <table class="table table-bordered table-green">
+            <tr>
+              <th class="invisibox"></th>
+              <th>Learning Activities</th>
+            </tr>
+            {% for element in elements %}
+              {% if element.element_type == 3 and element.project_id == project.id %}
+                <tr>
+                  <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
+                  <td>{{ element.name }}</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>    
+  </article>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Project?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <form action="{{ url_for('delete_project', project_id=project.id) }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="collectionModal" tabindex="-1" role="dialog" aria-labelledby="CollectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="CollectionModalLabel">Add to Collection:</h5>
+        </div>
+        <div class="modal-footer">
+          <form action="{{ url_for('add_to_collection', project_id=project.id) }}" method="post">
+            <select id="dropdown" name="selected_collection">
+              {% if collections|length == 0 %}
+                <option value="0">No collections available</option>
+              {% else %}
+                {% for collection in collections %}
+                  <option value="{{ collection.id }}">{{ collection.name }}</option>
+                {% endfor %}
+              {% endif %}
+            </select>
+            <button type="submit">Submit</button>
+          </form>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="duplicateModal" tabindex="-1" role="dialog" aria-labelledby="DuplicateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="CollectionModalLabel">Duplicate this project?</h5>
+        </div>
+        <div class="modal-footer">
+          <a href="{{ url_for('duplicate_project', project_id=project.id) }}"><button type="submit" class="btn">Duplicate</button></a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="ShareModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="shareModalLabel">Share Project:</h5>
+          <textarea readonly cols="30" rows="1">{{ project_url }}</textarea>
+        </div>
+        <div class="modal-footer">
+          <a href="{{ url_for('search_users', project_id=project.id) }}">
+            <button type="button" class="btn">Give access...</button>
+          </a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOM content loaded!");
+    fillLines(1, 3);
+    fillLines(3, 2);
+    fillLines(2, 4);
+    fillLines(4, 1);
+  });
+</script>
+{% endblock content %}

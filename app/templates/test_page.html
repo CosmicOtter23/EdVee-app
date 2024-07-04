@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Test Page</h1>
+    
+  <br>
+
+  <div class="tabs">
+      <button class="tab" onclick="openTab2(event, 'Details')">Details</button>
+      <button class="tab" onclick="openTab2(event, 'Elements')">Elements</button>
+      <button class="tab" onclick="openTab2(event, 'Connections')">Connections</button>
+      <button class="tab" onclick="openTab2(event, 'Overview')">Overview</button>
+  </div>
+
+  <div id="Details" class="tab-content">
+      <h1>Details</h1>
+      <p>Welcome to the home page.</p>
+  </div>
+  <div id="Elements" class="tab-content" style="display: none;">
+      <h1>Elements</h1>
+      <p>Latest news here.</p>
+  </div>
+  <div id="Connections" class="tab-content" style="display: none;">
+      <h1>Connections</h1>
+      <p>Contact us at email@example.com.</p>
+  </div>
+  <div id="Overview" class="tab-content" style="display: none;">
+      <h1>Overview</h1>
+      <p>Contact us at email@example.com.</p>
+  </div>
+
+  <script>
+    function openTab2(evt, tabName) {
+      // Declare all variables
+      var i, tabcontent, tablinks;
+
+      // Get all elements with class="tab-content" and hide them
+      tabcontent = document.getElementsByClassName("tab-content");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      // Get all elements with class="tab" and remove the class "active"
+      tablinks = document.getElementsByClassName("tab");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      // Show the current tab, and add an "active" class to the button that opened the tab
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+  </script>
+
+  
+{% endblock content %}

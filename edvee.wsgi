@@ -7,4 +7,4 @@ sys.path.insert(0, '/var/www/EdVee-app')
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
  
 # Import and run the Flask app
-from EdVee.edvee import app as application
+from app import app as application

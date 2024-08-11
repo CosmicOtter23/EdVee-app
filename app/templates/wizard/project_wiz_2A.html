@@ -83,32 +83,36 @@
         <h4>No elements of this type</h4>
       </div>
     {% else %}
-      {% for element in elements %}
-        <div id="element-div" class="rounded p-3 text-white element-box">
-          <h5 style="display: inline;">{{ element.name }}</h5>
-          <!-- {% if element.desc %}
-            <p class="text-muted desc-text" style="display: inline;">- {{ element.desc }}</p>
-          {% endif %} -->
-          <div class="element-icons">
-            <a href="{{ url_for('delete_element', element_id=element.id) }}" class="icon icon-delete">
-              <img src="/static/bin.png" alt="Delete Button" style="width: 75%;">
-            </a>
-            <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id) }}" class="icon icon-edit">
-              <img src="/static/edit.png" alt="Edit Button" style="width: 75%;">
-            </a>
-            {% if not loop.first %}
-              <a href="{{ url_for('update_index', element_id=element.id, update_by=0) }}" class="icon icon-up">
-                <img src="/static/chevron-u.png" alt="Move Up Button" style="width: 75%;">
+      <div class="scroll-box">
+        <br>
+        {% for element in elements %}
+          <div id="element-div" class="rounded p-3 text-white element-box">
+            <h5 style="display: inline;">{{ element.name }}</h5>
+            <!-- {% if element.desc %}
+              <p class="text-muted desc-text" style="display: inline;">- {{ element.desc }}</p>
+            {% endif %} -->
+            <div class="element-icons">
+              {% if not loop.first %}
+                <a href="{{ url_for('update_index', element_id=element.id, update_by=0) }}" class="icon icon-up">
+                  <img src="/static/chevron-u.png" alt="Move Up Button" style="width: 75%;">
+                </a>
+              {% endif %}
+              {% if not loop.last %}
+                <a href="{{ url_for('update_index', element_id=element.id, update_by=1) }}" class="icon icon-down">
+                  <img src="/static/chevron-d.png" alt="Move Down Button" style="width: 75%;">
+                </a>
+              {% endif %}
+              <a href="{{ url_for('delete_element', element_id=element.id) }}" class="icon icon-delete">
+                <img src="/static/bin.png" alt="Delete Button" style="width: 75%;">
               </a>
-            {% endif %}
-            {% if not loop.last %}
-              <a href="{{ url_for('update_index', element_id=element.id, update_by=1) }}" class="icon icon-down">
-                <img src="/static/chevron-d.png" alt="Move Down Button" style="width: 75%;">
+              <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id) }}" class="icon icon-edit">
+                <img src="/static/edit.png" alt="Edit Button" style="width: 75%;">
               </a>
-            {% endif %}
+            </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+        <br>
+      </div>
     {% endif %}
 
     <a href="{{ url_for('new_element', project_id=project.id, element_type=element_type) }}" class="new-element">

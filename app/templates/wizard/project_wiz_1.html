@@ -6,7 +6,7 @@
     {{ form.hidden_tag() }}
     <div id="details-div" class="form-div" style="display: block;">
       <div style="margin: 5%;" class="form-group">
-        Project {{ form.name.label(class="form-control-label") }}
+        Course {{ form.name.label(class="form-control-label") }}
         {% if form.name.errors %}
           {{ form.name(class="form-control form-control-lg is-invalid") }}
           <div class="invalid-feedback">
@@ -19,7 +19,7 @@
         {% endif %}
       </div>
       <div style="margin: 5%;" class="form-group">
-        Project {{ form.desc.label(class="form-control-label") }}
+        Course {{ form.desc.label(class="form-control-label") }}
         {% if form.desc.errors %}
           {{ form.desc(class="form-control form-control-lg is-invalid") }}
           <div class="invalid-feedback">
@@ -35,7 +35,7 @@
     <br>
     <input class="btn" type="submit" value="Save" style="float: right;">
   </form>
-  <a href="{{ url_for('home') }}"><button class="btn" type="none">All Projects</button></a>
-  <a href="{{ url_for('about') }}"><button class="btn" type="none">Home</button></a>
+  <a href="{{ url_for('all_projects') }}"><button class="btn" type="none">All Courses</button></a>
+  <a href="{{ url_for('home') }}"><button class="btn" type="none">Home</button></a>
   <a href="{{ url_for('logout') }}"><button class="btn" type="none">Logout</button></a>
 {% endblock wizard %}

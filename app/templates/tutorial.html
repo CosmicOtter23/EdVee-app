@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Tutorial</h1>
+
+<div class="media content-section container py-4">
+  <div class="row">
+    <div class="body home-text">
+      <p>The video below details how to design an EdVee model. Go to 
+        <a href="{{ url_for('project_new') }}">New Project</a> to create your own
+      </p>
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/3h42ijAawyc?si=ua9B2CPZ0AKzOhIL"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        </iframe>
+      </div>
+    </div> 
+  </div>
+</div>
+{% endblock content %}
+

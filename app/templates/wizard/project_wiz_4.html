@@ -2,7 +2,7 @@
 {% block wizard %}
   <h4 class="article-content" style="text-align: center;">{{ project.desc }}</h4>
 
-  <article class="media content-section">
+  <article class="media content-section-resp">
     <div class="media-body">
       <!-- <h2 class="article-title">{{ project.name }}</h2>
       <p class="article-content">{{ project.desc }}</p> -->
@@ -14,7 +14,7 @@
           <tr>
             <td style="width: 10%;">
               <a href="{{ url_for('new_element', project_id=project.id, element_type=1) }}">
-                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Add new element Button">
               </a>
             </td>
             <td style="width: 10%;">

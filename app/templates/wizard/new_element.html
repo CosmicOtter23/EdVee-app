@@ -45,34 +45,8 @@
         {% endif %}
       </div>
       <input type="hidden" name="hidden_field" value="1">
-      <!-- <button type="button" class="btn" onclick="OpenDiv('content-div'), HighlightButton('btn-2')">Next</button> -->
       <input id="submitButton" class="btn" type="submit" value="Save" style="float: right;">
-      <!-- {% if previous_page == 4 %}
-        <a href="{{ url_for('project_wiz_4', project_id=project.id) }}" 
-          class="btn" type="button">Back</a>
-      {% elif previous_page == 2 %}
-        {% if element %}
-        <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=element.element_type) }}" 
-          class="btn" type="button">Back</a>
-        {% else %}
-          <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=element_type) }}" 
-            class="btn" type="button">Back</a>
-        {% endif %}
-      {% endif %} -->
-        <a href="{{ previous_page }}" class="btn" type="button">Back</a>
+      <a href="{{ previous_page }}"><button class="btn" type="button">Cancel</button></a>
     </form>
   </div>
-  
-  <!-- <script>
-    document.getElementById('backButton').addEventListener('click', function() {
-      // Go back in history
-      console.log("Going back")
-      window.history.back();
-    });
-    document.getElementById('submitButton').addEventListener('click', function() {
-      window.history.back();
-    });
-  </script> -->
-  
-  <!-- <button id="submitAllForms" type="button" class="btn">Submit Form</button> -->
 {% endblock content %}

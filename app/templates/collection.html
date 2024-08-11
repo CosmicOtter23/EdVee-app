@@ -15,7 +15,7 @@
     <div style="padding-left: 2%; padding-right: 2%;">
       {% if projects.items|length == 0 %}
           <p>This collection has no projects. </p>
-          <a href="{{ url_for('home') }}">Add projects</a>
+          <a href="{{ url_for('all_projects') }}">Add projects</a>
       {% endif %}
       {% for project in projects.items %}
         <article class="media content-section">

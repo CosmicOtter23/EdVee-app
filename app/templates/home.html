@@ -1,113 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>All Projects</h1>
+<h1>Home</h1>
 
-<br>
-{% if projects.items|length == 0 %}
-  <p>You have no projects.</p>
-  <a href="{{ url_for('project_new') }}">Create a project</a>
-{% endif %}
-{% for project in projects %}
-  <article class="media content-section">
-    <img class="rounded-circle article-img"
-      src="{{ url_for('static', filename='profile_pics/' + project.creator.image_file) }}" alt="">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="{{ url_for('account', id=project.creator.id) }}">{{ project.creator.name }}</a>
-        <small class="text-muted">{{ project.date_created.strftime('%Y-%m-%d') }}</small>
-      </div>
-      <a style="float: right" href="{{ url_for('project', project_id=project.id) }}">
-        <button class="btn">View project</button>
-      </a>
-      <!-- <a style="float: right" href="{{ url_for('project', project_id=project.id) }}">
-        <button class="btn">View project</button>
-      </a> -->
-      <h2><a class="article-title" href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></h2>
-      <p class="article-content">{{ project.desc }}</p>
+<div class="media content-section container py-4">
+  <div class="row">
+    <div class="body home-text">
+      <p>Welcome to EdVee.  Whether you are an experienced educator, curriculum developer, or new to curriculum design, 
+        EdVee has been created to make the process of designing modules and courses seamless and effective.</p>
 
-      <div class="row justify-content-between">
-        <table class="table table-bordered table-pink">
-          <tr>
-            <th>Learning Outcomes</th>
-            <th class="invisibox"></th>
-          </tr>
-          {% for element in elements %}
-            {% if element.element_type == 1 and element.project_id == project.id %}
-              <tr>
-                <td>{{ element.name }}</td>
-                <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
-              </tr>
-            {% endif %}
-          {% endfor %}
-        </table>
-        <table class="table table-bordered table-blue">
-          <tr>
-            <th class="invisibox"></th>
-            <th>Assessments</th>
-          </tr>
-          {% for element in elements %}
-            {% if element.element_type == 4 and element.project_id == project.id %}
-              <tr>
-                <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
-                <td>{{ element.name }}</td>
-              </tr>
-            {% endif %}
-          {% endfor %}
-        </table>
+      <p>EdVee is offered here as an open-source application with a unique interface.  One of the standout features is 
+        the ability to generate models which visualise the underlying pedagogical structure of a course.  This feature 
+        allows designers to 'see' the pedagogical alignment between learning outcomes, assessment, content and learning 
+        activities.  </p>
+
+      <p>The EdVee digital interface enables the designer to quickly review and edit a design to fully deliver on 
+        intended learning outcomes.  </p>
+
+      <p>Digital EdVee designs can be duplicated to allow iteration, collaboration and evaluation of multiple ideas
+        and then shared online for review.</p>
+
+      <p>Please watch this explanation of the value of EdVee:</p>
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/ejN50FPJhyA?si=D7auAlYGgd1YmkeM"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        </iframe>
+        <a href="https://dantrowsdale.co.uk/edvee-design-tool-course-prototype-and-diagnostic-tool/">
+          https://dantrowsdale.co.uk/edvee-design-tool-course-prototype-and-diagnostic-tool/
+        </a>
       </div>
-      <div class="row justify-content-between">
-        <table class="table table-bordered table-orange">
-          <tr>
-            <th>Content</th>
-            <th class="invisibox"></th>
-          </tr>
-          {% for element in elements %}
-            {% if element.element_type == 2 and element.project_id == project.id %}
-              <tr>
-                <td>{{ element.name }}</td>
-                <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
-              </tr>
-            {% endif %}
-          {% endfor %}
-        </table>
-        <table class="table table-bordered table-green">
-          <tr>
-            <th class="invisibox"></th>
-            <th>Learning Activities</th>
-          </tr>
-          {% for element in elements %}
-            {% if element.element_type == 3 and element.project_id == project.id %}
-              <tr>
-                <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
-                <td>{{ element.name }}</td>
-              </tr>
-            {% endif %}
-          {% endfor %}
-        </table>
-      </div>
+
+      <br>
+
+      <!-- <p>Start designing your educational future with EdVee now! On the menu select Login to create a new user 
+        account for free! <a href="{{ url_for('login') }}">Login</a></p> -->
+      <p>Start designing your educational future with EdVee now! On the menu select <a href="{{ url_for('register') }}">Register</a> to create a new user 
+        account for free!</p>
+
+      <!-- <p>To see an example of EdVee and a tutorial on how to use EdVee please see 'Tutorial' on the menu. 
+        <a href="{{ url_for('tutorial') }}">Tutorial</a></p> -->
+
+      {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('register') }}">
+          <button class="btn">Create Account</button>
+        </a>
+      {% else %}
+        <a href="{{ url_for('project_new') }}">
+          <button class="btn">Create Project</button>
+        </a>
+      {% endif %}
     </div>
-  </article>
-{% endfor %}
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOM content loaded!");
-    fillLines(1, 3);
-    fillLines(3, 2);
-    fillLines(2, 4);
-    fillLines(4, 1);
-  });
-</script>
-
-{% for page_num in projects.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
-  {% if page_num %}
-    {% if projects.page == page_num %}
-      <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
-    {% else %}
-      <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
-    {% endif %}
-  {% else %}
-    ...
-  {% endif %}
-{% endfor %}
+  </div>
+</div>
 {% endblock content %}

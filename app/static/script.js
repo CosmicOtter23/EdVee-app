@@ -254,28 +254,50 @@ boxes.forEach(box => {
 
 // Draws a line between box1 and box2 in the specified colour
 function drawLine(box1, box2, colour, solid) {
-  // console.log("box1:", box1, "\nbox2:", box2, "\ncolour:", colour, "\nsolid:", solid, )
-  if (window.location.pathname.includes("project_wiz_3A")) {
-    solid = true;
-  }
-  if (solid) {
-    new LeaderLine(box1, box2, {color: colour, size: 2, path: 'straight', endPlug: 'behind', dropShadow: {dx: 0, dy: 0, blur: 0.5}});
-  }
-  else {
-    new LeaderLine(box1, box2, {color: colour, size: 2, path: 'straight', endPlug: 'behind', dash: {len: 4, gap: 6, animation: true}});
-  }
+    con = document.getElementById('line-container');
+    // console.log("container:", con)
+    // console.log("box1:", box1, "\nbox2:", box2, "\ncolour:", colour, "\nsolid:", solid, )
+    // If on the connections page, draw a solid line, else dashed
+    if (window.location.pathname.includes("project_wiz_3A")) {
+        solid = true;
+    }
+    if (solid) {
+        const line = new LeaderLine(LeaderLine.pointAnchor(box1, { x: '50%', y: '50%' }), LeaderLine.pointAnchor(box2, { x: '50%', y: '50%' }), {
+            color: colour, 
+            size: 2, 
+            path: 'straight', 
+            endPlug: 'behind', 
+            dropShadow: {dx: 0, dy: 0, blur: 0.5}, 
+            container: con
+        });
 
-  // console.log("line:", line)
+        // line.path.style.zIndex = -1;
+    }
+    else {
+        const line = new LeaderLine(LeaderLine.pointAnchor(box1, { x: '50%', y: '50%' }), LeaderLine.pointAnchor(box2, { x: '50%', y: '50%' }), {
+            color: colour, 
+            size: 2, 
+            path: 'straight', 
+            endPlug: 'behind', 
+            dash: {len: 4, gap: 6, animation: true}, 
+            container: con
+        });
 
-  // var element = document.getElementById('element-to-print');
-  // element.appendChild(line);
+        // line.path.style.zIndex = -1;
+    }
 
-  box1.classList.remove("red-border");
-  box2.classList.remove("red-border");
-  box1.classList.add("black-border");
-  box2.classList.add("black-border");
-  // , dropShadow: {dx: 0, dy: 0, blur: 1}
-  // console.log(`Line drawn ${box1.id} -> ${box2.id}`);
+
+    // console.log("line:", line)
+
+    // var element = document.getElementById('element-to-print');
+    // element.appendChild(line);
+
+    box1.classList.remove("red-border");
+    box2.classList.remove("red-border");
+    box1.classList.add("black-border");
+    box2.classList.add("black-border");
+    // , dropShadow: {dx: 0, dy: 0, blur: 1}
+    // console.log(`Line drawn ${box1.id} -> ${box2.id}`);
 }
 
 async function removeLine(box1Id, box2Id) {  

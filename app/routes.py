@@ -1,22 +1,26 @@
 import secrets, os
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request, abort
+from flask import render_template, url_for, flash, redirect, request, abort, session
+from flask_login import login_user, current_user, logout_user, login_required
+from flask import jsonify
+from flask_mail import Message
+from flask_session import Session
 from app import app, db, bcrypt, mail
 from app.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, 
                          ElementForm2, CollectionForm, RequestResetForm, ResetPasswordForm)
 from app.models import User, Project, Element, Connection, Type, Access, Collection
-from flask_login import login_user, current_user, logout_user, login_required
 from math import ceil
 from time import time
-from flask import jsonify
-from flask_mail import Message
 # from dotenv import load_dotenv
 
 
-@app.route("/")
-@app.route("/home")
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
+
+
+@app.route("/all_projects")
 @login_required
-def home():
+def all_projects():
   query = db.session.query(Project)
 
   accesses = Access.query.filter_by(user_id=current_user.id)
@@ -41,23 +45,24 @@ def home():
 
 #   elements = Element.query.all()
   elements = Element.query.order_by(Element.index)
-  return render_template('home.html', projects=projects, elements=elements, title='Home')
+  return render_template('all_projects.html', projects=projects, elements=elements, title='Home')
 
 
-@app.route("/about")
-def about():
+@app.route("/")
+@app.route("/home")
+def home():
   
   if request.is_json:
     seconds = time()
     return jsonify({'seconds': seconds})
 
-  return render_template('about.html', title='About')
+  return render_template('home.html', title='About')
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
   if current_user.is_authenticated:
-    return redirect(url_for('home'))
+    return redirect(url_for('all_projects'))
   form = RegistrationForm()
   if form.validate_on_submit():
     hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -72,14 +77,14 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('all_projects'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('all_projects'))
         else:
             flash('Login unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -88,7 +93,7 @@ def login():
 @app.route("/logout")
 def logout():
   logout_user()
-  return redirect(url_for('home'))
+  return redirect(url_for('all_projects'))
 
 
 def save_picture(form_picture):
@@ -309,7 +314,7 @@ def delete_project(project_id):
     db.session.delete(project)
     db.session.commit()
     flash('Your project has been deleted', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('all_projects'))
 
 
 @app.route("/add_to_collection/<int:project_id>", methods=['GET', 'POST'])
@@ -377,7 +382,7 @@ def project_wiz_1(project_id):
 @login_required
 def project_new():
     form = ElementForm2()
-    project = Project(name="Untitled Project", desc="", creator=current_user)
+    project = Project(name="Untitled Course", desc="", creator=current_user)
     db.session.add(project)
     db.session.commit()
     print("Date created:", project.date_created)
@@ -472,19 +477,30 @@ def new_element(project_id, element_type):
   current_elements = Element.query.filter_by(project_id=project_id, element_type=element_type).order_by(Element.index)
   form = ElementForm2()
 
-  if form.validate_on_submit():
-    next_index = current_elements.count()
-    element = Element(name=form.name.data, desc=form.desc.data, 
-                      element_type=element_type, project_id=project_id, index=next_index)    
-    db.session.add(element)
-    db.session.commit()
-    return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=element_type))
-
   access_level = getAccessLevel(current_user.id, project.id)
 
   previous_page = request.referrer
 
-  print(previous_page)
+#   print(previous_page)
+
+  if form.validate_on_submit():
+    next_index = current_elements.count()
+    element = Element(name=form.name.data, desc=form.desc.data, 
+                      element_type=element_type, project_id=project_id, index=next_index)
+    db.session.add(element)
+    db.session.commit()
+        
+    navigation_history = session.get('navigation_history', [])
+    print("navigation_history:", navigation_history)
+    # previous_page = navigation_history[-2] if len(navigation_history) >= 2 else url_for('project_wiz_4', project.id)
+    previous_page = url_for('project_wiz_4', project_id=project.id)
+    for url in navigation_history:
+        if ("new_element" not in url):
+            print("Previous page set to:", url)
+            previous_page = url
+
+    print("About to redirect to:", previous_page)
+    return redirect(previous_page)
   
   if (access_level > 1):
     return render_template('wizard/new_element.html', form=form, project=project, element_type=element_type, previous_page=previous_page)
@@ -506,12 +522,23 @@ def update_element(project_id, element_id):
         element.name = form.name.data
         element.desc = form.desc.data
         db.session.commit()
-        print("form:", form.desc.data)
-        print("element:", element.desc)
+        # print("form:", form.desc.data)
+        # print("element:", element.desc)
         # if (previous_page == 2):
         #     return redirect(url_for('project_wiz_2A', project_id=project.id, element_type=element.element_type))
         # elif (previous_page == 4):
         #     return redirect(url_for('project_wiz_4', project_id=project.id))
+        
+        navigation_history = session.get('navigation_history', [])
+        print("navigation_history:", navigation_history)
+        # previous_page = navigation_history[-2] if len(navigation_history) >= 2 else url_for('project_wiz_4', project.id)
+        previous_page = url_for('project_wiz_4', project_id=project.id)
+        for url in navigation_history:
+            if ("update_element" not in url):
+                print("Previous page set to:", url)
+                previous_page = url
+
+        print("About to redirect to:", previous_page)
         return redirect(previous_page)
     elif request.method == 'GET':
         form.name.data = element.name
@@ -690,6 +717,11 @@ def delete_collection(collection_id):
   db.session.commit()
 
   return redirect(url_for('account', id=collection.creator_id))
+
+
+@app.route("/tutorial", methods=['GET'])
+def tutorial():
+   return render_template('tutorial.html')
 
 
 @app.route("/api/recordLine", methods=['POST'])
@@ -945,7 +977,7 @@ def reset_request():
     # print(os.getenv('EMAIL_PASSWORD'))
     # print(os.environ)
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('all_projects'))
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -958,7 +990,7 @@ def reset_request():
 @app.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('all_projects'))
     user = User.verify_reset_token(token)
     # flash("User:", user.name)
     if user is None:
@@ -970,5 +1002,20 @@ def reset_token(token):
         user.password = hashed_password
         db.session.commit()
         flash(f'Your password has been updated.', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('all_projects'))
     return render_template('reset_token.html', form=form)
+
+
+@app.before_request
+def track_navigation_history():
+    if 'navigation_history' not in session:
+        session['navigation_history'] = []
+    
+    # Only add the current page if it's not the same as the last page
+    if request.endpoint != 'static' and "get_" not in request.url:  # Ignore static files and get routes
+        if not session['navigation_history'] or session['navigation_history'][-1] != request.url:
+            session['navigation_history'].append(request.url)
+    
+    # Limit the history length to, say, 3
+    while len(session['navigation_history']) > 3:
+        session['navigation_history'].pop(0)

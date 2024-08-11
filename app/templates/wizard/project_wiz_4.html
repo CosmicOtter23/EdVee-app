@@ -11,24 +11,27 @@
         <!-- <svg width="500" height="500"><line x1="50" y1="50" x2="350" y2="350" stroke="black"/></svg> -->
 
         <table class="table table-bordered table-pink">
-          <tr>
+          <tr style="height: 10%;">
+            <!-- <td style="width: 10%;">
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}">
+                <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
+              </a>
+            </td> -->
+            <th style="width: 90%;">
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}" 
+              style="display: block; width: 100%; height: 100%; color: black">Learning Outcomes</a>
+            </th>
             <td style="width: 10%;">
               <a href="{{ url_for('new_element', project_id=project.id, element_type=1) }}">
                 <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Add new element Button">
               </a>
             </td>
-            <td style="width: 10%;">
-              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=1) }}">
-                <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
-              </a>
-            </td>
-            <th style="width: 70%;">Learning Outcomes</th>
-            <th class="invisibox"></th>
+            <!-- <th class="invisibox"></th> -->
           </tr>
           {% for element in elements %}
             {% if element.element_type == 1 and element.project_id == project.id %}
               <tr>
-                <td>
+                <!-- <td>
                   <img id="modal-button" src="/static/comment.png" class="click-icon table-icon comment-icon"
                     data-value="{{ element.name }}|{{ element.desc }}" alt="Show {{ element.name }} Button">
                 </td>
@@ -36,8 +39,9 @@
                   <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=4) }}">
                     <img src="/static/edit.png" class="click-icon table-icon" alt="Edit {{ element.name }} Button">
                   </a>
-                </td>
-                <td style="width: 80%;">{{ element.name }}</td>
+                </td> -->
+                <!-- <td class="invisibox"></td> -->
+                <td style="width: 90%;">{{ element.name }}</td>
                 <td class="invisibox">
                   <button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button>
                 </td>
@@ -46,19 +50,22 @@
           {% endfor %}
         </table>
         <table class="table table-bordered table-blue">
-          <tr>
-            <th style="width: 10%;" class="invisibox"></th>
-            <th style="width: 70%;">Assessments</th>
-            <td>
+          <tr style="height: 10%;">
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=4) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Add Assessment Button">
+              </a>
+            </td>
+            <!-- <th style="width: 10%;" class="invisibox"></th> -->
+            <th style="width: 90%;">
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=4) }}"
+              style="display: block; width: 100%; height: 100%; color: black">Assessments</a>
+            </th>
+            <!-- <td>
               <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=4) }}">
                 <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
               </a>
-            </td>
-            <td style="width: 10%;">
-              <a href="{{ url_for('new_element', project_id=project.id, element_type=4) }}">
-                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
-              </a>
-            </td>
+            </td> -->
           </tr>
           {% for element in elements %}
             {% if element.element_type == 4 and element.project_id == project.id %}
@@ -67,7 +74,7 @@
                   <button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button>
                 </td>
                 <td>{{ element.name }}</td>
-                <td>
+                <!-- <td>
                   <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=4) }}">
                     <img src="/static/edit.png" class="click-icon table-icon" alt="Edit {{ element.name }} Button">
                   </a>
@@ -75,7 +82,7 @@
                 <td>
                   <img id="modal-button" src="/static/comment.png" class="click-icon table-icon comment-icon"
                     data-value="{{ element.name }}|{{ element.desc }}" alt="Show {{ element.name }} Button">
-                </td>
+                </td> -->
               </tr>
             {% endif %}
           {% endfor %}
@@ -83,24 +90,26 @@
       </div>
       <div class="row justify-content-between">
         <table class="table table-bordered table-orange">
-          <tr>
-            <td style="width: 10%;">
-              <a href="{{ url_for('new_element', project_id=project.id, element_type=2) }}">
-                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
-              </a>
-            </td>
-            <td style="width: 10%;">
+          <tr style="height: 10%;">
+            <!-- <td style="width: 10%;">
               <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=2) }}">
                 <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
               </a>
+            </td> -->
+            <th style="width: 90%;">
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=2) }}"
+              style="display: block; width: 100%; height: 100%; color: black">Content</a></th>
+            <!-- <th class="invisibox"></th> -->
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=2) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="New Content Button">
+              </a>
             </td>
-            <th style="width: 70%;">Content</th>
-            <th class="invisibox"></th>
           </tr>
           {% for element in elements %}
             {% if element.element_type == 2 and element.project_id == project.id %}
               <tr>
-                <td>
+                <!-- <td>
                   <img id="modal-button" src="/static/comment.png" class="click-icon table-icon comment-icon"
                     data-value="{{ element.name }}|{{ element.desc }}" alt="Show {{ element.name }} Button">
                 </td>
@@ -108,7 +117,7 @@
                   <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=4) }}">
                     <img src="/static/edit.png" class="click-icon table-icon" alt="Edit {{ element.name }} Button">
                   </a>
-                </td>
+                </td> -->
                 <td style="width: 80%;">{{ element.name }}</td>
                 <td class="invisibox">
                   <button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button>
@@ -118,19 +127,22 @@
           {% endfor %}
         </table>
         <table class="table table-bordered table-green">
-          <tr>
-            <th style="width: 10%;" class="invisibox"></th>
-            <th style="width: 70%;">Learning Activities</th>
-            <td>
+          <tr style="height: 10%;">
+            <!-- <th style="width: 10%;" class="invisibox"></th> -->
+            <td style="width: 10%;">
+              <a href="{{ url_for('new_element', project_id=project.id, element_type=3) }}">
+                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Add Learning Activity Button">
+              </a>
+            </td>
+            <th style="width: 90%;">
+              <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=3) }}"
+              style="display: block; width: 100%; height: 100%; color: black">Learning Activities</a>
+            </th>
+            <!-- <td>
               <a href="{{ url_for('project_wiz_2A', project_id=project.id, element_type=3) }}">
                 <img src="/static/edit.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
               </a>
-            </td>
-            <td style="width: 10%;">
-              <a href="{{ url_for('new_element', project_id=project.id, element_type=3) }}">
-                <img src="/static/plus-icon.png" class="click-icon table-icon" alt="Edit Learning Outcomes Button">
-              </a>
-            </td>
+            </td> -->
           </tr>
           {% for element in elements %}
             {% if element.element_type == 3 and element.project_id == project.id %}
@@ -139,7 +151,7 @@
                   <button class="table-node line-draw" id="{{ element.id }}|{{ element.element_type }}"></button>
                 </td>
                 <td>{{ element.name }}</td>
-                <td>
+                <!-- <td>
                   <a href="{{ url_for('update_element', project_id=project.id, element_id=element.id, previous_page=4) }}">
                     <img src="/static/edit.png" class="click-icon table-icon" alt="Edit {{ element.name }} Button">
                   </a>
@@ -147,7 +159,7 @@
                 <td>
                   <img id="modal-button" src="/static/comment.png" class="click-icon table-icon comment-icon"
                     data-value="{{ element.name }}|{{ element.desc }}" alt="Show {{ element.name }} Button">
-                </td>
+                </td> -->
               </tr>
             {% endif %}
           {% endfor %}

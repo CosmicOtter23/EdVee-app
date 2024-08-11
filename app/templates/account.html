@@ -6,6 +6,7 @@
     <div class="media-body">
       <h2 class="account-heading">{{ user.name }}</h2>
       <p class="text-secondary">{{ user.email }}</p>
+      <button class="btn btn-secondary" onclick="ToggleNonAlignmentLines()">Toggle non-alignment lines</button>
     </div>
   </div>
 
@@ -17,18 +18,18 @@
 
   {% if user == current_user %}
     <div class="tabs">
-      <div class="tab active" onclick="openTab('user-projects')">User Projects</div>
+      <div class="tab active" onclick="openTab('user-projects')">User Courses ({{ projects.total }})</div>
       <div class="tab" onclick="openTab('user-collections')">User Collections</div>
       <div class="tab" onclick="openTab('user-details')">User Details</div>
     </div>
   {% endif %}
   
   <div id="user-projects" class="tab-content" style="display: block;">
-    <legend class="border-bottom mb-4">Projects by {{ user.name }} ({{ projects.total }})</legend>
+    <!-- <legend class="border-bottom mb-4">Courses by {{ user.name }} ({{ projects.total }})</legend> -->
     <!-- <h1 class="mb-3">Projects by {{ user.name }} ({{ projects.total }})</h1> -->
     {% if projects.items|length == 0 %}
-      <p>You have no projects.</p>
-      <a href="{{ url_for('project_new') }}">Create a project</a>
+      <p>You have no courses.</p>
+      <a href="{{ url_for('project_new') }}">Create a Course</a>
     {% endif %}
     {% for project in projects.items %}
     <article class="media content-section-resp">
@@ -40,7 +41,7 @@
           <small class="text-muted">{{ project.date_created.strftime('%Y-%m-%d') }}</small>
         </div>
         <a style="float: right" href="{{ url_for('project', project_id=project.id) }}">
-          <button class="btn">View project</button>
+          <button class="btn">View course</button>
         </a>
         <!-- <a style="float: right" href="{{ url_for('project', project_id=project.id) }}">
           <button class="btn">View project</button>

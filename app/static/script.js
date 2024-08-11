@@ -183,6 +183,21 @@ function OpenElementModal(name, desc, idNo) {
   }
 }
 
+function ToggleNonAlignmentLines() {
+    if (localStorage.getItem('alwaysSolid') == 'true') {
+        localStorage.setItem('alwaysSolid', 'false');
+    }
+    else {
+        localStorage.setItem('alwaysSolid', 'true');
+    }
+    
+    console.log(localStorage.getItem('alwaysSolid'));
+
+    reloadPage()
+    // alwaysSolid = !alwaysSolid
+    // console.log(alwaysSolid)
+}
+
 // Lines
 
 let boxes = Array.from(document.querySelectorAll('.line-draw'));
@@ -261,7 +276,7 @@ function drawLine(box1, box2, colour, solid) {
     if (window.location.pathname.includes("project_wiz_3A")) {
         solid = true;
     }
-    if (solid) {
+    if (solid || localStorage.getItem('alwaysSolid') == 'true') {
         const line = new LeaderLine(LeaderLine.pointAnchor(box1, { x: '50%', y: '50%' }), LeaderLine.pointAnchor(box2, { x: '50%', y: '50%' }), {
             color: colour, 
             size: 2, 

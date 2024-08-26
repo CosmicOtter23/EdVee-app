@@ -18,7 +18,7 @@
               <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
             {% endif %}
           {% endif %}
-          <div id="legend" style="float: right">
+          <div id="alignment-legend" style="float: right">
             <table class="legend-table">
               <tr>
                 <th class="legend-text"><svg width="10" height="10"><line x1="0" y1="10" x2="10" y2="0" stroke="black"/></svg></th>
@@ -37,32 +37,30 @@
         <p class="article-content">{{ project.desc }}</p>
 
         <div class="row justify-content-between">
-          <!-- <svg width="500" height="500"><line x1="50" y1="50" x2="350" y2="350" stroke="black"/></svg> -->
-
           <table class="table table-bordered table-pink">
             <tr>
               <th>Learning Outcomes</th>
-              <th class="invisibox"></th>
+              <!-- <th class="invisibox"></th> -->
             </tr>
             {% for element in elements %}
               {% if element.element_type == 1 and element.project_id == project.id %}
                 <tr>
-                  <td>{{ element.name }}</td>
-                  <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
+                  <td id="{{ element.id }}|{{ element.element_type }}">{{ element.name }}</td>
+                  <!-- <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td> -->
                 </tr>
               {% endif %}
             {% endfor %}
           </table>
           <table class="table table-bordered table-blue">
             <tr>
-              <th class="invisibox"></th>
+              <!-- <th class="invisibox"></th> -->
               <th>Assessments</th>
             </tr>
             {% for element in elements %}
               {% if element.element_type == 4 and element.project_id == project.id %}
                 <tr>
-                  <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
-                  <td>{{ element.name }}</td>
+                  <!-- <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td> -->
+                  <td id="{{ element.id }}|{{ element.element_type }}">{{ element.name }}</td>
                 </tr>
               {% endif %}
             {% endfor %}
@@ -72,27 +70,27 @@
           <table class="table table-bordered table-orange">
             <tr>
               <th>Content</th>
-              <th class="invisibox"></th>
+              <!-- <th class="invisibox"></th> -->
             </tr>
             {% for element in elements %}
               {% if element.element_type == 2 and element.project_id == project.id %}
                 <tr>
-                  <td>{{ element.name }}</td>
-                  <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
+                  <td id="{{ element.id }}|{{ element.element_type }}">{{ element.name }}</td>
+                  <!-- <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td> -->
                 </tr>
               {% endif %}
             {% endfor %}
           </table>
           <table class="table table-bordered table-green">
             <tr>
-              <th class="invisibox"></th>
+              <!-- <th class="invisibox"></th> -->
               <th>Learning Activities</th>
             </tr>
             {% for element in elements %}
               {% if element.element_type == 3 and element.project_id == project.id %}
                 <tr>
-                  <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td>
-                  <td>{{ element.name }}</td>
+                  <!-- <td class="invisibox"><button class="table-node" id="{{ element.id }}|{{ element.element_type }}"></button></td> -->
+                  <td id="{{ element.id }}|{{ element.element_type }}">{{ element.name }}</td>
                 </tr>
               {% endif %}
             {% endfor %}

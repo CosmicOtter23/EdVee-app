@@ -277,26 +277,29 @@ function drawLine(box1, box2, colour, solid) {
         solid = true;
     }
     if (solid || localStorage.getItem('alwaysSolid') == 'true') {
-        const line = new LeaderLine(LeaderLine.pointAnchor(box1, { x: '50%', y: '50%' }), LeaderLine.pointAnchor(box2, { x: '50%', y: '50%' }), {
-            color: colour, 
-            size: 2, 
-            path: 'straight', 
-            endPlug: 'behind', 
-            dropShadow: {dx: 0, dy: 0, blur: 0.5}, 
-            container: con
-        });
+        // const line = new LeaderLine(LeaderLine.pointAnchor(box1, { x: '50%', y: '50%' }), LeaderLine.pointAnchor(box2), {
+        //     color: colour, 
+        //     size: 2, 
+        //     path: 'straight', 
+        //     endPlug: 'behind', 
+        //     dropShadow: {dx: 0, dy: 0, blur: 0.5}, 
+        //     container: con
+        // });
+        new LeaderLine(box1, box2, {color: colour, size: 2, path: 'straight', endPlug: 'behind', dropShadow: {dx: 0, dy: 0, blur: 0.5}});
 
         // line.path.style.zIndex = -1;
     }
     else {
-        const line = new LeaderLine(LeaderLine.pointAnchor(box1, { x: '50%', y: '50%' }), LeaderLine.pointAnchor(box2, { x: '50%', y: '50%' }), {
-            color: colour, 
-            size: 2, 
-            path: 'straight', 
-            endPlug: 'behind', 
-            dash: {len: 4, gap: 6, animation: true}, 
-            container: con
-        });
+        // const line = new LeaderLine(LeaderLine.pointAnchor(box1, { x: '50%', y: '50%' }), LeaderLine.pointAnchor(box2, { x: '50%', y: '50%' }), {
+        //     color: colour, 
+        //     size: 2, 
+        //     path: 'straight', 
+        //     endPlug: 'behind', 
+        //     dash: {len: 4, gap: 6, animation: true}, 
+        //     container: con
+        // });
+        new LeaderLine(box1, box2, {color: colour, size: 2, path: 'straight', endPlug: 'behind', dash: {len: 4, gap: 6, animation: true}});
+
 
         // line.path.style.zIndex = -1;
     }
@@ -669,6 +672,17 @@ navbarToggle.addEventListener('click', () => {
     menu_title.style.display = "none";
   }
 });
+
+// Display alignment legend if enabled
+if (document.getElementById('alignment-legend')) {
+    if (localStorage.getItem('alwaysSolid') === 'false') {
+        // Enable the div by removing the 'disabled' class or making it visible
+        document.getElementById('alignment-legend').style.display = 'block';
+    } else {
+        // Optionally, hide the div if the variable is not true
+        document.getElementById('alignment-legend').style.display = 'none';
+    }
+}
 
 function reloadPage() {
   location.reload();

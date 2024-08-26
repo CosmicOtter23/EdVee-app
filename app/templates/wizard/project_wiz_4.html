@@ -169,6 +169,18 @@
   </article>
 
   <footer>
+    <div id="alignment-legend" style="float: left">
+      <table class="legend-table">
+        <tr>
+          <th class="legend-text"><svg width="10" height="10"><line x1="0" y1="10" x2="10" y2="0" stroke="black"/></svg></th>
+          <th class="legend-text">Fully connected elements</th>
+        </tr>
+        <tr>
+          <th class="legend-text"><svg width="10" height="10"><line x1="0" y1="10" x2="10" y2="0" stroke="black" stroke-dasharray="3,2"/></svg></th>
+          <th class="legend-text">Disconnected elements</th>
+        </tr>
+      </table>
+    </div>
     <!-- <a href="{{ url_for('project_wiz_3A', project_id=project.id, current_index=3) }}"><button class="btn" style="float: left;">Previous</button></a> -->
     <a href="{{ url_for('project', project_id=project.id) }}"><button class="btn" style="float: right;">Finalise</button></a>
   </footer>

@@ -13,11 +13,11 @@
       <h3 class="article-title">{{ collection.desc }}</h3>
     </div>
     <div style="padding-left: 2%; padding-right: 2%;">
-      {% if projects.items|length == 0 %}
-          <p>This collection has no projects. </p>
-          <a href="{{ url_for('all_projects') }}">Add projects</a>
+      {% if projects.total == 0 %}
+          <p>This collection has no courses. </p>
+          <a href="{{ url_for('all_projects') }}">View all courses</a>
       {% endif %}
-      {% for project in projects.items %}
+      {% for project in projects["items"] %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.creator.image_file) }}" alt="">
           <div class="media-body">
@@ -27,7 +27,7 @@
             </div>
             <h2><a class="article-title" href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></h2>
             <p class="article-content">{{ project.desc }}</p>
-            <a href="{{ url_for('remove_from_collection', project_id=project.id) }}">
+            <a href="{{ url_for('remove_from_collection', project_id=project.id, collection_id=collection.id ) }}">
               <button type="button" class="btn btn-danger btn-sm m-1" style="float: right;">Remove from collection</button>
             </a>
           </div>

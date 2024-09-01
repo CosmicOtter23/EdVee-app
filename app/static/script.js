@@ -658,18 +658,12 @@ const img = document.querySelector('.nav-toggle-img');
 navbarToggle.addEventListener('click', () => {
   navbar.classList.toggle('collapsed');
   if (navbar.classList.contains("collapsed")) {
-    // console.log("Collapsed");
-    img.src = "/static/chevron-r.png";
-    navbarToggle.style.transform = "translateX(2vw)";
+    navbarToggle.style.transform = "translateX(0.5vw)";
     content.style.display = "none";
-    menu_title.style.display = "block";
   }
   else {
-    // console.log("Open");
-    img.src = "/static/chevron-l.png";
-    navbarToggle.style.transform = "translateX(22vw)";
+    navbarToggle.style.transform = "translateX(20.5vw)";
     content.style.display = "block";
-    menu_title.style.display = "none";
   }
 });
 

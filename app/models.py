@@ -48,7 +48,10 @@ class Project(db.Model):
     desc = db.Column(db.String(1000), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=func.now())
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'))
+    # collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'))
+    collection_projects = db.relationship('CollectionProject', 
+                                          foreign_keys='CollectionProject.project_id', 
+                                          backref='project_of_collection')
     elements = db.relationship('Element', foreign_keys='Element.project_id', backref='parent_project')
     connections = db.relationship('Connection', foreign_keys='Connection.project_id', backref='parent_project')
     project_accesses = db.relationship('Access', foreign_keys='Access.project_id', backref='access_project')
@@ -108,7 +111,19 @@ class Collection(db.Model):
     name = db.Column(db.String, nullable=False)
     desc = db.Column(db.String)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    projects = db.relationship('Project', foreign_keys='Project.collection_id', backref='collection')
+    # projects = db.relationship('Project', foreign_keys='Project.collection_id', backref='collection')
+    collection_projects = db.relationship('CollectionProject', 
+                                          foreign_keys='CollectionProject.collection_id', 
+                                          backref='collection_of_project')
 
     def __repr__(self):
         return f"ElementType('{self.id}', '{self.name}', '{self.creator_id}')"
+
+
+class CollectionProject(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+
+    def __repr__(self):
+        return f"CollectionProject('{self.id}', '{self.collection_id}', '{self.project_id}')"

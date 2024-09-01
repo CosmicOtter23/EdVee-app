@@ -8,7 +8,7 @@ from flask_session import Session
 from app import app, db, bcrypt, mail
 from app.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, 
                          ElementForm2, CollectionForm, RequestResetForm, ResetPasswordForm)
-from app.models import User, Project, Element, Connection, Type, Access, Collection
+from app.models import User, Project, Element, Connection, Type, Access, Collection, CollectionProject
 from math import ceil
 from time import time
 # from dotenv import load_dotenv
@@ -112,56 +112,59 @@ def save_picture(form_picture):
 @app.route("/account/<int:id>", methods=['GET', 'POST'])
 @login_required
 def account(id):
-  # user = current_user
-  user = User.query.filter_by(id=id).first_or_404()
-  page = request.args.get('page', 1, type=int)
-  
-  # projects = Project.query.filter_by(creator=user)\
-  #   .order_by(Project.date_created.desc())\
-  #   .paginate(page=page, per_page=5)
+    # user = current_user
+    user = User.query.filter_by(id=id).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    
+    # projects = Project.query.filter_by(creator=user)\
+    #   .order_by(Project.date_created.desc())\
+    #   .paginate(page=page, per_page=5)
 
-  query = db.session.query(Project)
-  query = query.filter_by(creator_id=id)
+    query = db.session.query(Project)
+    query = query.filter_by(creator_id=id)
 
-  accesses = Access.query.filter_by(user_id=current_user.id)
-  project_ids = []
-  for project in query:
-    if (project.creator_id == current_user.id):
-      project_ids.append(project.id)
-    else:
-      for access in accesses:
-        # print("access:", access.project_id, "\nproject:", project)
-        if (project.id == access.project_id):
-          project_ids.append(project.id)
-  
-  page = int(request.args.get('page', 1))
-  
-  query = query.filter(Project.id.in_(project_ids))
+    accesses = Access.query.filter_by(user_id=current_user.id)
+    project_ids = []
+    for project in query:
+        if (project.creator_id == current_user.id):
+            project_ids.append(project.id)
+        else:
+            for access in accesses:
+                # print("access:", access.project_id, "\nproject:", project)
+                if (project.id == access.project_id):
+                    project_ids.append(project.id)
+    
+    page = int(request.args.get('page', 1))
+    
+    query = query.filter(Project.id.in_(project_ids))
 
-  for p in query:
-    print("project:", p)
+    #   for p in query:
+    #     print("project:", p)
 
-  projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
-  collections = Collection.query.filter_by(creator_id=id)
-  
-  elements = Element.query.order_by(Element.index)
-  connections = Connection.query.all()
-  form = UpdateAccountForm()
-  if form.validate_on_submit():
-    if form.picture.data:
-      picture_file = save_picture(form.picture.data)
-      current_user.image_file = picture_file
-    current_user.name = form.name.data
-    current_user.email = form.email.data
-    db.session.commit()
-    flash('Your account has been updated', 'success')
-    return redirect(url_for('account', id=current_user.id))
-  elif request.method == 'GET':
-    form.name.data = current_user.name
-    form.email.data = current_user.email
-  image_file = url_for('static', filename='profile_pics/' + user.image_file)
-  return render_template('account.html', title='Account', image_file=image_file, form=form, user=user, 
-                         projects=projects, elements=elements, connections=connections, collections=collections)
+    projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
+    collections = Collection.query.filter_by(creator_id=current_user.id).all()
+
+    #   print("collections:", collections)
+    #   print("current_user.id:", current_user.id)
+    
+    elements = Element.query.order_by(Element.index)
+    connections = Connection.query.all()
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+            current_user.name = form.name.data
+            current_user.email = form.email.data
+            db.session.commit()
+            flash('Your account has been updated', 'success')
+            return redirect(url_for('account', id=current_user.id))
+    elif request.method == 'GET':
+        form.name.data = current_user.name
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
+    return render_template('account.html', title='Account', image_file=image_file, form=form, user=user, 
+                            projects=projects, elements=elements, connections=connections, collections=collections)
 
 
 @app.route("/project/<int:project_id>")
@@ -186,110 +189,6 @@ def project(project_id):
                           project_url=project_url, access_level=access_level, collections=collections)
   else:
     return render_template('no_access.html')
-
-
-# @app.route("/project/<int:project_id>/update", methods=['GET', 'POST'])
-# @login_required
-# def update_project(project_id):
-#   project = Project.query.get_or_404(project_id)
-#   elements = Element.query.all()
-#   connections = Connection.query.all()
-#   types = Type.query.all()
-#   sections = ["los", "content", "las", "assessments"]
-#   if project.creator != current_user:
-#     # HTTP response for a forbidden route
-#     abort(403)
-#   form = ProjectForm()
-#   if form.validate_on_submit():
-#     project.name = form.name.data
-#     project.desc = form.desc.data
-
-#     # For loop to determine if the user has added or removed any elements by
-#     # evaluating the elements in the box against those stored in the database
-#     for i in range(4):
-#       stored_items = Element.query.filter_by(element_type=i+1, project_id=project.id).all()
-#       print("Stored items:", stored_items)
-#       print("sections[i]:", sections[i])
-#       current_items = eval(f"form.{sections[i]}.data.split('|')")
-#       print("Current items:", current_items)
-#       for s_item in stored_items:
-#         for c_item in current_items:
-#           if (s_item.name == c_item):
-#             stored_items.remove(s_item)
-#             current_items.remove(c_item)
-
-#       # Runs if current_items has values left in it. This means user has added items
-#       for item in current_items:
-#         new_element = Element(name=item, desc="", element_type=i+1, project_id=project.id)
-#         db.session.add(new_element)
-        
-#       # Runs if stored_items has values left in it. This means user has removed items
-#       for item in stored_items:
-#         element_to_remove = Element.query.filter_by(id=item.id).first()
-#         db.session.delete(element_to_remove)
-
-#     # Get the checkbox matrix data from the form submission
-#     checkbox_matrix = request.form.getlist('checkbox')
-#     print("checkbox_matrix:", checkbox_matrix)
-#     submitted_connections = {tuple(value.split(',')) for value in checkbox_matrix}
-
-#     print("submitted_connections:", submitted_connections)
-
-#     # Fetch existing records from the database
-#     existing_records = Connection.query.all()
-#     existing_connections = {(record.element1, record.element2) for record in existing_records}
-
-#     print("existing_connections:", existing_connections)
-
-#     # Add new connections
-#     for row, column in submitted_connections - existing_connections:
-#       record = Connection(element1=row, element2=column)
-#       db.session.add(record)
-
-#     # Remove unchecked connections
-#     for row, column in existing_connections - submitted_connections:
-#       record_to_delete = Connection.query.filter_by(element1=row, element2=column).first()
-#       db.session.delete(record_to_delete)
-
-#     db.session.commit()
-#     flash('Your project has been updated', 'success')
-#     return redirect(url_for('project', project_id=project.id))
-#   elif request.method == 'GET':
-#     form.name.data = project.name
-#     form.desc.data = project.desc
-
-#     # for i in range(4):
-#     #   output = ""
-#     #   items = Element.query.filter_by(element_type=i+1, project_id=project.id).all()
-#     #   for item in items:
-#     #     output += item.name + "|"
-#     #   setattr(form, f"{sections[i]}.data", output[:-1])
-      
-#     output = ""
-#     items = Element.query.filter_by(element_type=1, project_id=project.id).all()
-#     for item in items:
-#       output += item.name + "|"
-#     form.los.data = output[:-1]
-#     output = ""
-#     items = Element.query.filter_by(element_type=2, project_id=project.id).all()
-#     for item in items:
-#       output += item.name + "|"
-#     form.content.data = output[:-1]
-#     output = ""
-#     items = Element.query.filter_by(element_type=3, project_id=project.id).all()
-#     for item in items:
-#       output += item.name + "|"
-#     form.las.data = output[:-1]
-#     output = ""
-#     items = Element.query.filter_by(element_type=4, project_id=project.id).all()
-#     for item in items:
-#       output += item.name + "|"
-#     form.assessments.data = output[:-1]
-
-#   db.session.commit()
-#   return render_template('create_project.html', title='Update Project', form=form, 
-#                          legend='Update Project', project=project, elements=elements,
-#                          connections=connections, types = types)
 
 
 @app.route("/project/<int:project_id>/delete", methods=['POST'])
@@ -320,27 +219,29 @@ def delete_project(project_id):
 @app.route("/add_to_collection/<int:project_id>", methods=['GET', 'POST'])
 @login_required
 def add_to_collection(project_id):
-  collection_id = request.form.get('selected_collection')
-  print("Collection_id:", collection_id)
-  project = Project.query.filter_by(id=project_id).first()
-  collection = Collection.query.filter_by(id=collection_id).first()
-  project.collection_id = collection.id
-  db.session.commit()
-  print("added", project.name, "to", collection.name)
+    collection_id = request.form.get('selected_collection')
+    # print("Collection_id:", collection_id)
+    collection_project = CollectionProject(collection_id=collection_id, project_id=project_id)
+    # print(collection_project)
+    db.session.add(collection_project)
+    db.session.commit()
 
-  return redirect(url_for('project', project_id=project_id))
+    return redirect(url_for('project', project_id=project_id))
 
 
-@app.route("/remove_from_collection/<int:project_id>", methods=['GET', 'POST'])
+@app.route("/remove_from_collection/<int:project_id>/<int:collection_id>", methods=['GET', 'POST'])
 @login_required
-def remove_from_collection(project_id):
-  project = Project.query.filter_by(id=project_id).first()
-  collection_id = project.collection_id
-  project.collection_id = None
-  db.session.commit()
-  print("removed", project.name)
+def remove_from_collection(project_id, collection_id):
+    project = Project.query.filter_by(id=project_id).first()
+    #   collection_id = project.collection_id
+    #   project.collection_id = None
+    collection_project = CollectionProject.query.filter_by(project_id=project_id, collection_id=collection_id).first()
+    print("collection_project:", collection_project)
+    db.session.delete(collection_project)
+    db.session.commit()
+    print("removed", project.name)
 
-  return redirect(url_for('collection', collection_id=collection_id))
+    return redirect(url_for('collection', collection_id=collection_id))
 
 @app.route("/project_wizard")
 @login_required
@@ -680,16 +581,24 @@ def project_wiz_4(project_id):
 @app.route("/collection/<int:collection_id>", methods=['GET', 'POST'])
 @login_required
 def collection(collection_id):
-  collection = Collection.query.filter_by(id=collection_id).first()
-  creator = User.query.filter_by(id=current_user.id).first()
+    collection = Collection.query.filter_by(id=collection_id).first()
+    creator = User.query.filter_by(id=current_user.id).first()
 
-  page = request.args.get('page', 1, type=int)
+    project_ids = []
+    
+    print(collection.collection_projects)
+
+    for project in collection.collection_projects:
+        project_ids.append(project.project_id)
+        print("Project:", project.id)
+
+    page = request.args.get('page', 1, type=int)
   
-  projects = Project.query.filter_by(collection_id=collection.id)\
-    .order_by(Project.date_created.desc())\
-    .paginate(page=page, per_page=5)
+    query = db.session.query(Project)
+    query = query.filter(Project.id.in_(project_ids))
 
-  return render_template('collection.html', collection=collection, creator=creator, projects=projects)
+    projects = query.order_by(Project.date_created.desc()).paginate(page=page, per_page=5)
+    return render_template('collection.html', collection=collection, creator=creator, projects=projects)
   
 
 @app.route("/collection/new", methods=['GET', 'POST'])
@@ -708,15 +617,15 @@ def create_collection():
 @app.route("/collection/delete/<int:collection_id>", methods=['GET', 'POST'])
 @login_required
 def delete_collection(collection_id):
-  projects = Project.query.filter_by(collection_id=collection_id)
-  for project in projects:
-    project.collection_id = None
+    collection = Collection.query.filter_by(id=collection_id).first()
+    collection_projects = CollectionProject.query.filter_by(collection_id=collection_id)
 
-  collection = Collection.query.filter_by(id=collection_id).first()
-  db.session.delete(collection)
-  db.session.commit()
+    for item in collection_projects:
+        db.session.delete(item)
+    db.session.delete(collection)
+    db.session.commit()
 
-  return redirect(url_for('account', id=collection.creator_id))
+    return redirect(url_for('account', id=collection.creator_id))
 
 
 @app.route("/tutorial", methods=['GET'])

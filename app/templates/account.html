@@ -127,7 +127,7 @@
   
   <div id="user-collections" class="tab-content" style="display: none;">
     <legend>User Collections</legend>
-    {% if collections.items|length == 0 %}
+    {% if collections|length == 0 %}
       <p>You have no collections. </p>
       <a href="{{ url_for('create_collection') }}">Add collection</a></p>
     {% else %}
